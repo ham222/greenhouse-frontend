@@ -1,61 +1,51 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleToggle = () => {
+    setOpen(!open);
   };
 
   return (
     <nav>
-      <div className="w-auto bg-gray-100 h-16 flex justify-between flex-wrap items-center shadow-md">
-        <div className="flex items-center flex-shrink-0 ml-5">
-          <BurgerMenuButton
-            open={open}
-            setOpen={handleOpen}
-            setClose={handleClose}
-          />
+      <div className="w-auto bg-gray-100 h-16 flex justify-between  flex-wrap items-center shadow-md">
+        <div className="md:hidden flex items-center ml-5">
+          <BurgerMenuButton open={open} onToggle={handleToggle} />
         </div>
-        <div className="text-xl font-bold m-2">Your Greenhouse</div>
+        <div className="text-xl ml-5 font-bold m-2">Your Greenhouse</div>
+        <div className="max-md:hidden flex-grow w-max">
+          <Toolbar />
+        </div>
         <div className="mr-5">
           <img alt="user icon" src="placeholder-user.png" />
         </div>
       </div>
-      <Drawer open={open} />
+      <div className="md:hidden">
+        <Drawer open={open} />
+      </div>
     </nav>
   );
 }
 
-function BurgerMenuButton(props) {
-  let icon = props.open ? "cross-button.svg" : "burger-bar.png";
-
-  const toggle = () => {
-    if (props.open) {
-      props.setClose();
-    } else {
-      props.setOpen();
-    }
-  };
+function BurgerMenuButton({ open, onToggle }) {
+  let icon = open ? "cross-button.svg" : "burger-bar.png";
 
   return (
-    <div onClick={toggle}>
+    <div className="cursor-pointer" onClick={onToggle}>
       <img className="w-8" alt="menu" src={icon} />
     </div>
   );
 }
 
-function Drawer(props) {
+function Drawer({ open }) {
   return (
     <div>
-      {props.open ? (
+      {open ? (
         <div className="w-auto overflow-hidden shadow-md bg-gray-100 p-2">
-          <DrawerItem link="/">Status</DrawerItem>
-          <DrawerItem link="/timeline">Timeline</DrawerItem>
+          <DrawerItem link={"/"}>Status</DrawerItem>
+          <DrawerItem link={"/timeline"}>Timeline</DrawerItem>
         </div>
       ) : (
         ""
@@ -64,10 +54,30 @@ function Drawer(props) {
   );
 }
 
-function DrawerItem(props) {
+function DrawerItem({ children, link }) {
   return (
-    <div className="w-auto hover:bg-gray-200 duration-200 text-lg font rounded-lg px-2 py-1 m-3">
-      {props.children}
+    <div
+      to={link}
+      className="w-auto hover:bg-gray-200 duration-200 text-lg rounded-lg px-2 py-1 m-3"
+    >
+      <Link to={link}>{children}</Link>
+    </div>
+  );
+}
+
+function Toolbar() {
+  return (
+    <div className="flex justify-start flex-nowrap">
+      <ToolbarItem link={"/"}>Status</ToolbarItem>
+      <ToolbarItem link={"/timeline"}>Timeline</ToolbarItem>
+    </div>
+  );
+}
+
+function ToolbarItem({ children, link }) {
+  return (
+    <div className="ml-8 hover:bg-gray-200 px-3 py-1 cursor-pointer rounded-md duration-200">
+      <Link to={link}>{children}</Link>
     </div>
   );
 }
