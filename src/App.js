@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Status from "./Status";
+import Status from "./components/containers/Status/Status";
 import Timeline from "./Timeline";
 
 function App() {
