@@ -4,8 +4,12 @@ import ChartIcon from "./ChartIcon";
 import Dropdown from "../UI/Dropdown";
 import capitalize from "../../utils/capitalize";
 
-
-export default function LineChart({ measurements, bgColor, accentColor, icon }) {
+export default function LineChart({
+  measurements,
+  bgColor,
+  accentColor,
+  icon,
+}) {
   const series = [
     {
       name: capitalize(measurements[0].type),
@@ -41,7 +45,7 @@ export default function LineChart({ measurements, bgColor, accentColor, icon }) 
       colors: "#555555",
       width: "3",
     },
-    
+
     xaxis: {
       categories: measurements.map(({ date }) => date),
     },
@@ -65,7 +69,7 @@ export default function LineChart({ measurements, bgColor, accentColor, icon }) 
         </div>
       </div>
       <div>
-        <Chart options={options} series={series} height={150}/>
+        <Chart options={options} series={series} height={150} />
       </div>
     </div>
   );
