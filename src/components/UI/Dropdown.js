@@ -6,11 +6,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export default function ChartDropdown() {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5  px-3 py-2 text-sm  text-gray-900 hover:bg-gray-50">
+        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5  px-3 py-2 text-sm rounded-md text-gray-900 hover:bg-white hover:bg-opacity-30">
           Interval
           <AiOutlineDown
             className="-mr-1 h-5 w-5 text-gray-400"
