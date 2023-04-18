@@ -18,7 +18,6 @@ export default function LineChart({
   ];
   const options = {
     chart: {
-      height: 200,
       fontFamily: "Sora",
       type: "line",
       zoom: {
@@ -68,8 +67,8 @@ export default function LineChart({
           <Dropdown />
         </div>
       </div>
-      <div>
-        <Chart options={options} series={series} height={150} />
+      <div className="xs:h-40 md:h-80">
+        <Chart options={options} series={series} height={"100%"} />
       </div>
     </div>
   );
