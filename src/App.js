@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Status from "./Status";
-import Timeline from "./Timeline";
+import Timeline from "./components/Timeline/Timeline";
 
 function App() {
   return (
