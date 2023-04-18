@@ -1,4 +1,4 @@
-import CurrentValBox from "./components/CurrentValBox";
+import CurrentValBox from "./CurrentValBox";
 
 export default function Status() {
   return (
