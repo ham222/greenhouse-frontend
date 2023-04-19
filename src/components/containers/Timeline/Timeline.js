@@ -1,8 +1,7 @@
 import LineChart from "./LineChart";
-import { Measurement } from "../../domain/Measurement";
+import { Measurement } from "../../../domain/Measurement";
 import { WiThermometer } from "react-icons/wi";
 import { BsWater } from "react-icons/bs";
-
 
 export default function Timeline() {
   const measurements = [
@@ -26,27 +25,32 @@ export default function Timeline() {
 
   console.log(measurements);
 
-  return (<>
-    <LineChart
-      measurements={measurements}
-      bgColor={"#ffefde"}
-      accentColor={"#FFDCB6"}
-      icon={<div className="font-semibold">CO<sub>2</sub></div>}
-    />
+  return (
+    <>
+      <LineChart
+        measurements={measurements}
+        bgColor={"#ffefde"}
+        accentColor={"#FFDCB6"}
+        icon={
+          <div className="font-semibold">
+            CO<sub>2</sub>
+          </div>
+        }
+      />
 
-    <LineChart
-      measurements={measurements}
-      bgColor={"#feffde"}
-      accentColor={"#f4f5bd"}
-      icon={<WiThermometer className="w-full h-full"/>}
-    />
+      <LineChart
+        measurements={measurements}
+        bgColor={"#feffde"}
+        accentColor={"#f4f5bd"}
+        icon={<WiThermometer className="w-full h-full" />}
+      />
 
-    <LineChart
-      measurements={measurements}
-      bgColor={"#e6f5fb"}
-      accentColor={"#b0d7e7"}
-      icon={<BsWater className="w-full h-full"/>}
-    />
+      <LineChart
+        measurements={measurements}
+        bgColor={"#e6f5fb"}
+        accentColor={"#b0d7e7"}
+        icon={<BsWater className="w-full h-full" />}
+      />
     </>
   );
 }

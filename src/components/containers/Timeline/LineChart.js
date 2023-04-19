@@ -1,8 +1,8 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import ChartIcon from "./ChartIcon";
-import Dropdown from "../UI/Dropdown";
-import capitalize from "../../utils/capitalize";
+import Dropdown from "../../UI/Dropdown";
+import capitalize from "../../../utils/capitalize";
 
 export default function LineChart({
   measurements,
