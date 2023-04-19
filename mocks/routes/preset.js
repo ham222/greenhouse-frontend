@@ -69,7 +69,7 @@ module.exports = [
             type: "middleware", // variant of type "middleware"
             options: {
               middleware: (req, res) => {
-                    presets.push(req.body.preset)
+                    presets.push(req.body)
                     res.status(201)
                     res.send(presets)
               },
