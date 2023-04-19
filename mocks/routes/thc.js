@@ -38,7 +38,7 @@ module.exports = [
         options: {
           middleware: (req, res) => {
             const query = req.query 
-            if (query.current==true) {
+            if (query.hasOwnProperty("current")) {
               //Temperature with latest timestamp
               const toReturn = temperatures.reduce((prev, current) => {
                 return prev.timestamp > current.timestamp ? prev : current
