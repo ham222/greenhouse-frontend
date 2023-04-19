@@ -48,7 +48,7 @@ module.exports = [
             type: "middleware", // variant of type "middleware"
             options: {
               middleware: (req, res) => {
-                    schedule = req.body.schedule
+                    schedule = req.body
                     res.status(201)
                     res.send(schedule)
               },
