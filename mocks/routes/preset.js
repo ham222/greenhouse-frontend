@@ -138,7 +138,7 @@ module.exports = [
               middleware: (req, res) => {
                 presets.forEach(p => {
                     if (p.id == req.params.id) {
-                        p = req.params.preset
+                        p = req.body
                         res.status(200)
                         res.send(p)
                     }
