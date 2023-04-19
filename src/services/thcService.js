@@ -1,21 +1,19 @@
 import axios from "axios";
 
-export default class thcService {
-  async getTemperature() {
+export default async function getTemperature() {
     let temperatureList;
     try {
-      const response = await axios.get(`http://localhost:3100/api/temperature`);
-      if (response.status !== 200) return [];
+        const response = await axios.get(
+            `http://localhost:3100/api/temperature?current`
+        );
+        if (response.status !== 200) return [];
 
-      temperatureList = response.data[0];
+        temperatureList = response.data;
+
+        console.log(response.data);
     } catch (error) {
-      console.error(error);
-      return [];
+        console.error(error);
+        return [];
     }
-    console.log(temperatureList);
     return temperatureList;
-  }
-
-  // getHumidity
-  // getCo2
 }
