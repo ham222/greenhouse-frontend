@@ -72,7 +72,7 @@ module.exports = [
         options: {
           middleware: (req, res) => {
             const query = req.query 
-            if (query.current==true) {
+            if (query.hasOwnProperty("current")) {
               //Humidity with latest timestamp
               const toReturn = co2s.reduce((prev, current) => {
                 return prev.timestamp > current.timestamp ? prev : current
