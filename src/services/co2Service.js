@@ -3,9 +3,7 @@ import axios from "axios";
 export default async function getCo2() {
   let temperatureList;
   try {
-    const response = await axios.get(
-      `https://10.154.200.45:7071/Co2?current=true`
-    );
+    const response = await axios.get(`http://localhost:3100/api/co2?current`);
     if (response.status !== 200) return [];
 
     temperatureList = response.data;
