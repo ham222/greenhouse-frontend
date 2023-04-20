@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import thcService from "../../../services/thcService";
 import { BsArrowUp } from "react-icons/bs";
 let CurrentValBox = ({ temperature, co2, humidity, datetime }) => {
   return (
