@@ -21,7 +21,9 @@ let CurrentValBox = ({ temperature, co2, humidity, datetime }) => {
               <h5>Humidity</h5>
             </div>
             <div className="flex flex-col ml-[10%]">
-              <h2 className="text-[1.2rem] font-bold">{co2}%</h2>
+              <h2 className="text-[1.2rem] font-bold">
+                {co2} <sub> ppm</sub>
+              </h2>
               <h5>
                 CO<sub>2</sub>
               </h5>
