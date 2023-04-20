@@ -4,7 +4,7 @@ export default async function getTemperature() {
   let temperatureList;
   try {
     const response = await axios.get(
-      `http://localhost:3100/api/humidity?current`
+      `https://10.154.200.45:7071/Humidity?current=true`
     );
     if (response.status !== 200) return [];
 

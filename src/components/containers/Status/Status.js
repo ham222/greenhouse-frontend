@@ -14,20 +14,20 @@ export default function Status() {
     let mounted = true;
     getTemperature().then((currentTemperature) => {
       if (mounted) {
-        setTemperature(currentTemperature.value);
+        setTemperature(currentTemperature[0].value);
       }
     });
 
     getHumidity().then((currentHumidity) => {
       if (mounted) {
-        setHumidity(currentHumidity.value);
+        setHumidity(currentHumidity[0].value);
       }
     });
 
     getCo2().then((currentCo2) => {
       if (mounted) {
-        setCo2(currentCo2.value);
-        setDate(currentCo2.timestamp);
+        setCo2(currentCo2[0].value);
+        setDate(currentCo2[0].date);
       }
     });
 
