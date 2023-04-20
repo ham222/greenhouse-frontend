@@ -8,7 +8,7 @@ export default function Status() {
   const [temperature, setTemperature] = useState(null);
   const [humidity, setHumidity] = useState(null);
   const [co2, setCo2] = useState(null);
-  // const [date, setDate] = useState(null);
+  const [date, setDate] = useState(null);
 
   useEffect(() => {
     let mounted = true;
@@ -27,7 +27,7 @@ export default function Status() {
     getCo2().then((currentCo2) => {
       if (mounted) {
         setCo2(currentCo2.value);
-        // setDate(currentCo2.timestamp);
+        setDate(currentCo2.timestamp);
       }
     });
 
@@ -44,7 +44,7 @@ export default function Status() {
     <>
       <CurrentValBox
         temperature={temperature}
-        datetime={new Date().toLocaleTimeString()}
+        datetime={new Date(date).toLocaleString()}
         humidity={humidity}
         co2={co2}
       ></CurrentValBox>
