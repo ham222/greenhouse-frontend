@@ -1,5 +1,8 @@
 export class Measurement {
-  constructor(value, type, date) {
+  value: number;
+  type: string;
+  date: Date;
+  constructor(value: number, type: string, date: Date) {
     this.value = value;
     this.type = type;
     this.date = date;
