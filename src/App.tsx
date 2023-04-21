@@ -9,8 +9,8 @@ function App() {
       <div className="App">
         <Navbar />
         <Routes>
-          <Route exact path="/" element={<Status />} />
-          <Route exact path="/timeline" element={<Timeline />} />
+          <Route path="/" element={<Status />} />
+          <Route path="/timeline" element={<Timeline />} />
         </Routes>
       </div>
     </>

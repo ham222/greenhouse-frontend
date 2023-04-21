@@ -3,7 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineDown } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-function classNames(...classes) {
+function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -33,7 +33,8 @@ export default function ChartDropdown() {
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
-                <Link to={"/"}
+                <Link
+                  to={"/"}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm"
@@ -45,7 +46,8 @@ export default function ChartDropdown() {
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <Link to={"/"}
+                <Link
+                  to={"/"}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm"
@@ -57,7 +59,8 @@ export default function ChartDropdown() {
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <Link to={"/"}
+                <Link
+                  to={"/"}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm"

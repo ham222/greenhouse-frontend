@@ -1,22 +1,29 @@
-import React from "react";
 import Chart from "react-apexcharts";
 import ChartIcon from "./ChartIcon";
 import Dropdown from "../../UI/Dropdown";
 import capitalize from "../../../utils/capitalize";
+import { Measurement } from "../../../domain/Measurement";
 
+interface LineChartProps {
+  measurements: Measurement[];
+  bgColor: string;
+  accentColor: string;
+  icon: JSX.Element;
+}
 export default function LineChart({
   measurements,
   bgColor,
   accentColor,
   icon,
-}) {
+}: LineChartProps) {
   const series = [
     {
       name: capitalize(measurements[0].type),
       data: measurements.map(({ value }) => value),
     },
   ];
-  const options = {
+
+  const options: ApexCharts.ApexOptions = {
     chart: {
       fontFamily: "Sora",
       type: "line",
@@ -41,16 +48,14 @@ export default function LineChart({
     },
     stroke: {
       curve: "smooth",
-      colors: "#555555",
-      width: "3",
+      colors: ["#555555"],
+      width: 3,
     },
-
     xaxis: {
-      categories: measurements.map(({ date }) => date),
+      categories: measurements.map(({ date }) => date.getHours() + "h"),
     },
     yaxis: {},
   };
-
   return (
     <div
       style={{ backgroundColor: bgColor }}

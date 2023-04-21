@@ -43,10 +43,10 @@ export default function Status() {
   return (
     <>
       <CurrentValBox
-        temperature={temperature}
-        datetime={new Date(date).toLocaleString()}
-        humidity={humidity}
-        co2={co2}
+        temperature={temperature ?? ""}
+        datetime={new Date(date ?? "").toLocaleString()}
+        humidity={humidity ?? ""}
+        co2={co2 ?? ""}
       ></CurrentValBox>
     </>
   );

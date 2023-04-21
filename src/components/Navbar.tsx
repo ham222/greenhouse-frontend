@@ -28,8 +28,12 @@ export default function Navbar() {
     </nav>
   );
 }
+interface BurgerMenuButtonProps {
+  open: boolean;
+  onToggle: () => void;
+}
 
-function BurgerMenuButton({ open, onToggle }) {
+function BurgerMenuButton({ open, onToggle }: BurgerMenuButtonProps) {
   let icon = open ? "cross-button.svg" : "burger-bar.png";
 
   return (
@@ -38,8 +42,10 @@ function BurgerMenuButton({ open, onToggle }) {
     </div>
   );
 }
-
-function Drawer({ open }) {
+interface DrawerProps {
+  open: boolean;
+}
+function Drawer({ open }: DrawerProps) {
   return (
     <div>
       {open ? (
@@ -53,13 +59,16 @@ function Drawer({ open }) {
     </div>
   );
 }
+interface DrawerItemProps {
+  link: string;
+}
 
-function DrawerItem({ children, link }) {
+function DrawerItem({
+  children,
+  link,
+}: React.PropsWithChildren<DrawerItemProps>) {
   return (
-    <div
-      to={link}
-      className="w-auto hover:bg-gray-200 duration-200 text-lg rounded-lg px-2 py-1 m-3"
-    >
+    <div className="w-auto hover:bg-gray-200 duration-200 text-lg rounded-lg px-2 py-1 m-3">
       <Link to={link}>{children}</Link>
     </div>
   );
@@ -73,8 +82,13 @@ function Toolbar() {
     </div>
   );
 }
-
-function ToolbarItem({ children, link }) {
+interface ToolbarItemProps {
+  link: string;
+}
+function ToolbarItem({
+  children,
+  link,
+}: React.PropsWithChildren<ToolbarItemProps>) {
   return (
     <div className="ml-8 hover:bg-gray-200 px-3 py-1 cursor-pointer rounded-md duration-200">
       <Link to={link}>{children}</Link>

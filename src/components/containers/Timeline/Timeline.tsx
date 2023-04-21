@@ -18,13 +18,6 @@ export default function Timeline() {
     new Measurement(35, "temperature", new Date("2023-04-18T18:00:00")),
   ];
 
-  measurements.map((m) => {
-    m.date = m.date.getHours() + "h";
-    return m;
-  });
-
-  console.log(measurements);
-
   return (
     <>
       <LineChart
