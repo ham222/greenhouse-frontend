@@ -1,5 +1,5 @@
 import LineChart from "./LineChart";
-import { Measurement } from "../../../domain/Measurement";
+import { Measurement } from "src/domain/Measurement";
 import { WiThermometer } from "react-icons/wi";
 import { BsWater } from "react-icons/bs";
 
