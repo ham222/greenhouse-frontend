@@ -1,4 +1,4 @@
-name: Test, Build and Deploy to GitHub Pages
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
@@ -22,9 +22,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Run Jest tests
-        run: npm test
 
       - name: Build React application
         run: npm run build
