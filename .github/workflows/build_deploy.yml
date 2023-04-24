@@ -2,6 +2,10 @@ name: Build and Deploy to GitHub Pages
 
 on:
   workflow_call:
+    inputs:
+      gh_pages_token:
+        required: true
+        type: string
 
 jobs:
   build_and_deploy:
@@ -24,5 +28,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GH_PAGES_TOKEN }}
+          github_token: ${{ inputs.gh_pages_token }}
           publish_dir: ./build
