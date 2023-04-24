@@ -18,5 +18,6 @@ jobs:
     needs: [cypress_test, jest_test]
     name: Build and deploy to Github Pages
     uses: ./.github/workflows/build_deploy.yml
-    with:
+    secrets:
       gh_pages_token: ${{ secrets.GH_PAGES_TOKEN }}
+    
