@@ -4,7 +4,9 @@ on:
     branches:
       - "*"
       - "!gh-pages"
-      - "!main"
+  pull_request:
+    branches:
+      - main
 jobs:
   cypress_test:
     runs-on: ubuntu-latest
