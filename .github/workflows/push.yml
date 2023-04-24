@@ -1,9 +1,9 @@
-name: Workflow experimenting
+name: Test, Build and Deploy Main
 on:
   push:
     branches:
-      - "feat-34-setup-cypress"
-
+    - "*"
+    - "!main"
 jobs:
   cypress_test:
     name: Cypress Test
