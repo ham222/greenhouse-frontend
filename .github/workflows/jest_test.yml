@@ -1,6 +1,7 @@
 name: Test with Jest
 
 on:
+  workflow_call:
   push:
     branches:
       - "*"

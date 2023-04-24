@@ -1,5 +1,6 @@
 name: Test with Cypress
 on:
+  workflow_call:
   push:
     branches:
       - "*"

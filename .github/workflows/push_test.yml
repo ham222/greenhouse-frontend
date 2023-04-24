@@ -1,0 +1,13 @@
+name: Workflow experimenting
+on:
+  push:
+    branches:
+      - "feat-34-setup-cypress"
+
+jobs:
+  cypress_test:
+    name: Cypress Test
+    uses: ./.github/workflows/cypress_test.yml
+  jest_test:
+    name: Jest Test
+    uses: ./.github/workflows/jest_test.yml
