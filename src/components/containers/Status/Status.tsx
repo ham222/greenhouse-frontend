@@ -1,8 +1,10 @@
 import CurrentValBox from "./CurrentValBox";
 import { useEffect, useState } from "react";
-import getTemperature from "../../../services/thcService";
-import getHumidity from "../../../services/humidityService";
-import getCo2 from "../../../services/co2Service";
+import {
+  getTemperature,
+  getHumidity,
+  getCo2,
+} from "../../../services/thcService";
 
 export default function Status() {
   const [temperature, setTemperature] = useState(null);
