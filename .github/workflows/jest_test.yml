@@ -2,13 +2,6 @@ name: Test with Jest
 
 on:
   workflow_call:
-  push:
-    branches:
-      - "*"
-      - "!gh-pages"
-  pull_request:
-    branches:
-      - main
 
 jobs:
   test_with_jest:

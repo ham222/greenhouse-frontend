@@ -1,13 +1,6 @@
 name: Test with Cypress
 on:
   workflow_call:
-  push:
-    branches:
-      - "*"
-      - "!gh-pages"
-  pull_request:
-    branches:
-      - main
 jobs:
   cypress_test:
     runs-on: ubuntu-latest
