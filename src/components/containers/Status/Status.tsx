@@ -12,20 +12,20 @@ export default function Status() {
     const measurementService = new MeasurementService();
     measurementService.getTemperature().then((currentTemperature) => {
       if (mounted) {
-        setTemperature(currentTemperature.value);
+        setTemperature(currentTemperature[0].value);
       }
     });
 
     measurementService.getHumidity().then((currentHumidity) => {
       if (mounted) {
-        setHumidity(currentHumidity.value);
+        setHumidity(currentHumidity[0].value);
       }
     });
 
     measurementService.getCo2().then((currentCo2) => {
       if (mounted) {
-        setCo2(currentCo2.value);
-        setDate(currentCo2.timestamp);
+        setCo2(currentCo2[0].value);
+        setDate(currentCo2[0].timestamp);
       }
     });
 
