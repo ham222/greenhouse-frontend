@@ -14,7 +14,7 @@ class MeasurementService {
     let temperatureList;
 
     try {
-      var url = `http://localhost:3100/api/temperature`;
+      let url = `http://localhost:3100/api/temperature`;
       if (current) {
         url += "?current";
       } else {
@@ -55,7 +55,7 @@ class MeasurementService {
   ): Promise<Measurement[]> {
     let temperatureList;
     try {
-      var url = `http://localhost:3100/api/humidity`;
+      let url = `http://localhost:3100/api/humidity`;
       if (current) {
         url += "?current";
       } else {
@@ -97,7 +97,7 @@ class MeasurementService {
   ): Promise<Measurement[]> {
     let temperatureList;
     try {
-      var url = `http://localhost:3100/api/co2`;
+      let url = `http://localhost:3100/api/co2`;
       if (current) {
         url += "?current";
       } else {
