@@ -1,0 +1,23 @@
+name: Test, Build and Deploy Main
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  cypress_test:
+    name: Cypress Test
+    uses: ./.github/workflows/cypress_test.yml
+  jest_test:
+    name: Jest Test
+    uses: ./.github/workflows/jest_test.yml
+  build_and_deploy:
+    needs: [cypress_test, jest_test]
+    name: Build and deploy to Github Pages
+    uses: ./.github/workflows/build_deploy.yml
+    secrets:
+      gh_pages_token: ${{ secrets.GH_PAGES_TOKEN }}
+    

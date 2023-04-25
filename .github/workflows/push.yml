@@ -1,0 +1,13 @@
+name: Test pushed commits
+on:
+  push:
+    branches:
+    - "*"
+    - "!main"
+jobs:
+  cypress_test:
+    name: Cypress Test
+    uses: ./.github/workflows/cypress_test.yml
+  jest_test:
+    name: Jest Test
+    uses: ./.github/workflows/jest_test.yml

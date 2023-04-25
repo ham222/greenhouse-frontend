@@ -1,0 +1,15 @@
+name: Test with Cypress
+on:
+  workflow_call:
+jobs:
+  cypress_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitCode
+        uses: actions/checkout@v3
+
+      - name: Run Cypress Test
+        uses: cypress-io/github-action@v4
+        with:
+          command: npx cypress run
+          browser: chrome
