@@ -6,19 +6,21 @@ import { Measurement } from "src/domain/Measurement";
 
 interface LineChartProps {
   measurements: Measurement[];
+  type: string;
   bgColor: string;
   accentColor: string;
   icon: JSX.Element;
 }
 export default function LineChart({
   measurements,
+  type,
   bgColor,
   accentColor,
   icon,
 }: LineChartProps) {
   const series = [
     {
-      name: capitalize(measurements[0].type),
+      name: capitalize(type),
       data: measurements.map(({ value }) => value),
     },
   ];
@@ -66,7 +68,7 @@ export default function LineChart({
           <ChartIcon bgColor={accentColor} icon={icon} />
         </div>
         <div className="flex-grow font-sora ml-2 text-xl font-semibold">
-          {capitalize(measurements[0].type)}
+          {capitalize(type)}
         </div>
         <div>
           <Dropdown />
