@@ -54,7 +54,9 @@ export default function LineChart({
       width: 3,
     },
     xaxis: {
-      categories: measurements.map(({ date }) => date.getHours() + "h"),
+      categories: measurements.map(
+        ({ timestamp }) => new Date(timestamp).getHours() + "h"
+      ),
     },
     yaxis: {},
   };
