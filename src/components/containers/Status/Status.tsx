@@ -1,33 +1,31 @@
 import CurrentValBox from "./CurrentValBox";
 import { useEffect, useState } from "react";
-import getTemperature from "../../../services/thcService";
-import getHumidity from "../../../services/humidityService";
-import getCo2 from "../../../services/co2Service";
+import MeasurementService from "src/services/MeasurementService";
 
 export default function Status() {
-  const [temperature, setTemperature] = useState(null);
-  const [humidity, setHumidity] = useState(null);
-  const [co2, setCo2] = useState(null);
-  const [date, setDate] = useState(null);
-
+  const [temperature, setTemperature] = useState<number | null>(null);
+  const [humidity, setHumidity] = useState<number | null>(null);
+  const [co2, setCo2] = useState<number | null>(null);
+  const [date, setDate] = useState<number | null>(null);
   useEffect(() => {
     let mounted = true;
-    getTemperature().then((currentTemperature) => {
+    const measurementService = new MeasurementService();
+    measurementService.getCurrentTemperature().then((currentTemperature) => {
       if (mounted) {
-        setTemperature(currentTemperature.value);
+        setTemperature(currentTemperature[0].value);
       }
     });
 
-    getHumidity().then((currentHumidity) => {
+    measurementService.getCurrentHumidity().then((currentHumidity) => {
       if (mounted) {
-        setHumidity(currentHumidity.value);
+        setHumidity(currentHumidity[0].value);
       }
     });
 
-    getCo2().then((currentCo2) => {
+    measurementService.getCurrentCo2().then((currentCo2) => {
       if (mounted) {
-        setCo2(currentCo2.value);
-        setDate(currentCo2.timestamp);
+        setCo2(currentCo2[0].value);
+        setDate(currentCo2[0].timestamp);
       }
     });
 
@@ -43,10 +41,10 @@ export default function Status() {
   return (
     <>
       <CurrentValBox
-        temperature={temperature ?? ""}
+        temperature={temperature?.toString() ?? ""}
         datetime={new Date(date ?? "").toLocaleString()}
-        humidity={humidity ?? ""}
-        co2={co2 ?? ""}
+        humidity={humidity?.toString() ?? ""}
+        co2={co2?.toString() ?? ""}
       ></CurrentValBox>
     </>
   );

@@ -1,10 +1,10 @@
 export class Measurement {
   value: number;
   type: string;
-  date: Date;
-  constructor(value: number, type: string, date: Date) {
+  timestamp: number;
+  constructor(value: number, type: string, timestamp: number) {
     this.value = value;
     this.type = type;
-    this.date = date;
+    this.timestamp = timestamp;
   }
 }

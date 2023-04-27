@@ -1,24 +1,26 @@
 import Chart from "react-apexcharts";
 import ChartIcon from "./ChartIcon";
-import Dropdown from "../../UI/Dropdown";
-import capitalize from "../../../utils/capitalize";
-import { Measurement } from "../../../domain/Measurement";
+import Dropdown from "src/components/UI/Dropdown";
+import capitalize from "src/utils/capitalize";
+import { Measurement } from "src/domain/Measurement";
 
 interface LineChartProps {
   measurements: Measurement[];
+  type: string;
   bgColor: string;
   accentColor: string;
   icon: JSX.Element;
 }
 export default function LineChart({
   measurements,
+  type,
   bgColor,
   accentColor,
   icon,
 }: LineChartProps) {
   const series = [
     {
-      name: capitalize(measurements[0].type),
+      name: capitalize(type),
       data: measurements.map(({ value }) => value),
     },
   ];
@@ -52,7 +54,9 @@ export default function LineChart({
       width: 3,
     },
     xaxis: {
-      categories: measurements.map(({ date }) => date.getHours() + "h"),
+      categories: measurements.map(
+        ({ timestamp }) => new Date(timestamp).getHours() + "h"
+      ),
     },
     yaxis: {},
   };
@@ -66,7 +70,7 @@ export default function LineChart({
           <ChartIcon bgColor={accentColor} icon={icon} />
         </div>
         <div className="flex-grow font-sora ml-2 text-xl font-semibold">
-          {capitalize(measurements[0].type)}
+          {capitalize(type)}
         </div>
         <div>
           <Dropdown />

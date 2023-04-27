@@ -1,27 +1,50 @@
 import LineChart from "./LineChart";
-import { Measurement } from "../../../domain/Measurement";
+import { Measurement } from "src/domain/Measurement";
 import { WiThermometer } from "react-icons/wi";
 import { BsWater } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import MeasurementService from "src/services/MeasurementService";
 
 export default function Timeline() {
-  const measurements = [
-    new Measurement(72, "temperature", new Date("2023-04-18T08:00:00")),
-    new Measurement(68, "temperature", new Date("2023-04-18T09:00:00")),
-    new Measurement(70, "temperature", new Date("2023-04-18T10:00:00")),
-    new Measurement(71, "temperature", new Date("2023-04-18T11:00:00")),
-    new Measurement(73, "temperature", new Date("2023-04-18T12:00:00")),
-    new Measurement(70, "temperature", new Date("2023-04-18T13:00:00")),
-    new Measurement(75, "temperature", new Date("2023-04-18T14:00:00")),
-    new Measurement(72, "temperature", new Date("2023-04-18T15:00:00")),
-    new Measurement(72, "temperature", new Date("2023-04-18T16:00:00")),
-    new Measurement(30, "temperature", new Date("2023-04-18T17:00:00")),
-    new Measurement(35, "temperature", new Date("2023-04-18T18:00:00")),
-  ];
+  const [temperature, setTemperature] = useState<Measurement[]>([]);
+  const [humidity, setHumidity] = useState<Measurement[]>([]);
+  const [co2, setCo2] = useState<Measurement[]>([]);
 
+  useEffect(() => {
+    const now = new Date().getTime() - 21_600_000;
+    let mounted = true;
+    const measurementService = new MeasurementService();
+    measurementService.getTemperature(now).then((currentTemperature) => {
+      if (mounted) {
+        setTemperature(currentTemperature);
+      }
+    });
+
+    measurementService.getHumidity(now).then((currentHumidity) => {
+      if (mounted) {
+        setHumidity(currentHumidity);
+      }
+    });
+
+    measurementService.getCo2(now).then((currentCo2) => {
+      if (mounted) {
+        setCo2(currentCo2);
+      }
+    });
+
+    // productsAndServices.getProductsAndServicesLatest().then((e) => {
+    //   setAll(e);
+    // });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
   return (
     <>
       <LineChart
-        measurements={measurements}
+        measurements={co2}
+        type="co2"
         bgColor={"#ffefde"}
         accentColor={"#FFDCB6"}
         icon={
@@ -32,14 +55,16 @@ export default function Timeline() {
       />
 
       <LineChart
-        measurements={measurements}
+        measurements={temperature}
+        type="temperature"
         bgColor={"#feffde"}
         accentColor={"#f4f5bd"}
         icon={<WiThermometer className="w-full h-full" />}
       />
 
       <LineChart
-        measurements={measurements}
+        measurements={humidity}
+        type="humidity"
         bgColor={"#e6f5fb"}
         accentColor={"#b0d7e7"}
         icon={<BsWater className="w-full h-full" />}
