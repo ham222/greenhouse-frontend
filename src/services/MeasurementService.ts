@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Measurement } from "src/domain/Measurement";
+import Measurement from "src/domain/Measurement";
 
 export async function getCurrentTemperature(): Promise<Measurement[]> {
   let temperatureList;

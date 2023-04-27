@@ -2,7 +2,7 @@ import Chart from "react-apexcharts";
 import ChartIcon from "./ChartIcon";
 import Dropdown from "src/components/UI/Dropdown";
 import capitalize from "src/utils/capitalize";
-import { Measurement } from "src/domain/Measurement";
+import Measurement from "src/domain/Measurement";
 
 interface LineChartProps {
   measurements: Measurement[];

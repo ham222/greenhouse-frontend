@@ -1,4 +1,4 @@
-export class Measurement {
+export default class Measurement {
   value: number;
   type: string;
   timestamp: number;
