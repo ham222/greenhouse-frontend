@@ -1,9 +1,9 @@
 import LineChart from "./LineChart";
-import { Measurement } from "src/domain/Measurement";
+import Measurement from "src/domain/Measurement";
 import { WiThermometer } from "react-icons/wi";
 import { BsWater } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import MeasurementService from "src/services/MeasurementService";
+import * as measurementService from "src/services/MeasurementService";
 
 export default function Timeline() {
   const [temperature, setTemperature] = useState<Measurement[]>([]);
@@ -13,7 +13,6 @@ export default function Timeline() {
   useEffect(() => {
     const now = new Date().getTime() - 21_600_000;
     let mounted = true;
-    const measurementService = new MeasurementService();
     measurementService.getTemperature(now).then((currentTemperature) => {
       if (mounted) {
         setTemperature(currentTemperature);
