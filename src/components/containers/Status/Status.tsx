@@ -1,6 +1,6 @@
 import CurrentValBox from "./CurrentValBox";
 import { useEffect, useState } from "react";
-import MeasurementService from "src/services/MeasurementService";
+import * as measurementService from "src/services/MeasurementService";
 
 export default function Status() {
   const [temperature, setTemperature] = useState<number | null>(null);
@@ -9,7 +9,6 @@ export default function Status() {
   const [date, setDate] = useState<number | null>(null);
   useEffect(() => {
     let mounted = true;
-    const measurementService = new MeasurementService();
     measurementService.getCurrentTemperature().then((currentTemperature) => {
       if (mounted) {
         setTemperature(currentTemperature[0].value);
