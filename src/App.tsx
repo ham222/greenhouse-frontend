@@ -7,10 +7,12 @@ function App() {
   return (
     <>
       <div className="App">
-        <Routes>
-          <Route path="/" element={<Status />} />
-          <Route path="/timeline" element={<Timeline />} />
-        </Routes>
+        <div className="lg:ml-[8rem]">
+          <Routes>
+            <Route path="/" element={<Status />} />
+            <Route path="/timeline" element={<Timeline />} />
+          </Routes>
+        </div>
         <Navbar />
       </div>
     </>
