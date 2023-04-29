@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <div className="App">
-        <div className="mb-24 lg:mb-0 lg:ml-[8rem]">
+        <div className="mb-24 md:mb-0 md:ml-[6rem] 2xl:ml-[8rem]">
           <Routes>
             <Route path="/" element={<Status />} />
             <Route path="/timeline" element={<Timeline />} />
