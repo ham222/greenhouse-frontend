@@ -7,11 +7,13 @@ function App() {
   return (
     <>
       <div className="App">
+        <div className="mb-24 lg:mb-0 lg:ml-[8rem]">
+          <Routes>
+            <Route path="/" element={<Status />} />
+            <Route path="/timeline" element={<Timeline />} />
+          </Routes>
+        </div>
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Status />} />
-          <Route path="/timeline" element={<Timeline />} />
-        </Routes>
       </div>
     </>
   );
