@@ -1,6 +1,7 @@
 import CurrentValBox from "./CurrentValBox";
 import { useEffect, useState } from "react";
 import * as measurementService from "src/services/MeasurementService";
+import WateringStatus from "./WateringStatus";
 
 export default function Status() {
   const [temperature, setTemperature] = useState<number | null>(null);
@@ -44,7 +45,8 @@ export default function Status() {
         datetime={new Date(date ?? "").toLocaleString()}
         humidity={humidity?.toString() ?? ""}
         co2={co2?.toString() ?? ""}
-      ></CurrentValBox>
+      />
+      <WateringStatus/>
     </>
   );
 }
