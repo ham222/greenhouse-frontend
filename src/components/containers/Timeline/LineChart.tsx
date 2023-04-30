@@ -1,5 +1,5 @@
 import Chart from "react-apexcharts";
-import ChartIcon from "./RectIcon";
+import ChartIcon from "../../UI/RectIcon";
 import Dropdown from "src/components/UI/Dropdown";
 import capitalize from "src/utils/capitalize";
 import Measurement from "src/domain/Measurement";
