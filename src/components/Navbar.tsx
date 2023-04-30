@@ -17,10 +17,12 @@ export default function Navbar() {
           <p>Timeline</p>
         </div>
       </NavLink>
-      <div className="flex flex-col items-center justify-items-center lg:mt-12 text-[#979797] hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
-        <BsCalendar2Date className="text-4xl"></BsCalendar2Date>
-        <p>Watering</p>
-      </div>
+      <NavLink to="/watering">
+        <div className="flex flex-col items-center justify-items-center lg:mt-12 text-[#979797] hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
+          <BsCalendar2Date className="text-4xl"></BsCalendar2Date>
+          <p>Watering</p>
+        </div>
+      </NavLink>
     </nav>
   );
 }
