@@ -1,5 +1,4 @@
 import { DateTime } from "luxon";
-import { useState } from "react";
 
 interface HourPickerProps {
   updateValue: (time: DateTime) => void;
@@ -10,8 +9,8 @@ export default function HourPicker({
   updateValue,
   value,
 }: HourPickerProps) {
-  const [hours, setHours] = useState(value.toFormat("HH"));
-  const [minutes, setMinutes] = useState(value.toFormat("mm"));
+  const hours = value.toFormat("HH");
+  const minutes = value.toFormat("mm");
 
   const leadingZero = (value: number) => {
     return value < 10 ? `0${value}` : `${value}`;
@@ -35,7 +34,6 @@ export default function HourPicker({
     }
 
     const formattedHours = leadingZero(intHours);
-    setHours(formattedHours);
     update(formattedHours, minutes);
   };
 
@@ -47,7 +45,6 @@ export default function HourPicker({
     }
 
     const formattedMinutes = leadingZero(intMinutes);
-    setMinutes(formattedMinutes);
     update(hours, formattedMinutes);
   };
 
