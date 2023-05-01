@@ -13,7 +13,9 @@ export default function Watering() {
   return (
     <>
       <div className="m-3 flex flex-col">
-        <div className="text-center my-7 font-bold">Watering Schedule</div>
+        <div className="text-center text-xl my-7 font-bold">
+          Watering Schedule
+        </div>
         <div>
           <WaterToggle />
           <DayPicker />
