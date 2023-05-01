@@ -1,8 +1,9 @@
+import { DateTime } from "luxon";
 import { useState } from "react";
 
 export default function HourPicker() {
-  const [hours, setHours] = useState("");
-  const [minutes, setMinutes] = useState("");
+  const [hours, setHours] = useState(DateTime.now().toFormat("HH"));
+  const [minutes, setMinutes] = useState(DateTime.now().toFormat("mm"));
 
   const leadingZero = (value: number) => {
     return value < 10 ? `0${value}` : `${value}`;
@@ -35,7 +36,7 @@ export default function HourPicker() {
       <div>
         <input
           type="number"
-          className="block w-18 rounded-md border-0 text-gray-900 text-right ring-gray-300 placeholder:text-gray-400"
+          className="block w-18 focus:outline-none focus:text-red-600 rounded-md border-0 text-gray-900 text-center ring-gray-300 placeholder:text-gray-400"
           placeholder="00"
           value={hours}
           onChange={(e) => handleHours(e.target.value)}
@@ -47,7 +48,7 @@ export default function HourPicker() {
       <div>
         <input
           type="number"
-          className="block w-18 rounded-md border-0 text-gray-900 text-right ring-gray-300 placeholder:text-gray-400"
+          className="block w-18 focus:outline-none focus:text-red-600 rounded-md border-0 text-gray-900 text-center ring-gray-300 placeholder:text-gray-400"
           placeholder="00"
           value={minutes}
           onChange={(e) => handleMinutes(e.target.value)}
