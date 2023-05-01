@@ -1,7 +1,8 @@
 import { WiThermometer } from "react-icons/wi";
 import { Link } from "react-router-dom";
 import RectIcon from "src/components/UI/RectIcon";
-import { DateTime, Duration, DurationUnits } from "luxon";
+import { DateTime } from "luxon";
+import durationToString from "src/utils/durationToString";
 
 interface WateringStatusProps {
   isOnline: boolean;
@@ -13,14 +14,7 @@ export default function WateringStatus({
   nextWatering,
 }: WateringStatusProps) {
   const status = isOnline ? "ON" : "OFF";
-
-  //Rescale is performed twice. Once to shift miliseconds to all needed units, second time to remove empty miliseconds attribute after rounding it down to 0
-  const timeToWatering = nextWatering
-    .diff(DateTime.now())
-    .rescale()
-    .set({ milliseconds: 0 })
-    .rescale()
-    .toHuman({ unitDisplay: "narrow", listStyle: "narrow", useGrouping: false, maximumFractionDigits: 0 });
+  const timeToWatering = durationToString(nextWatering.diff(DateTime.now()));
 
   return (
     <Link to="/watering">
