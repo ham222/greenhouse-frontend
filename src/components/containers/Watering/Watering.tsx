@@ -1,6 +1,5 @@
 import IconButton from "src/components/UI/IconButton";
 import { IoIosAdd } from "react-icons/io";
-import DayPicker from "./DayPicker";
 import WaterToggle from "./WaterToggle";
 import WaterRuntime from "./WaterRuntime";
 import { DateTime } from "luxon";
