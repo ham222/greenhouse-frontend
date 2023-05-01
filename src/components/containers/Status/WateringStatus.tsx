@@ -1,4 +1,4 @@
-import { WiThermometer } from "react-icons/wi";
+import { AiOutlineCalendar } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import RectIcon from "src/components/UI/RectIcon";
 import { DateTime } from "luxon";
@@ -22,7 +22,7 @@ export default function WateringStatus({
         <div>
           <RectIcon
             bgColor={"white"}
-            icon={<WiThermometer className="w-full h-full" />}
+            icon={<AiOutlineCalendar className="w-full h-full" />}
           />
         </div>
         <div className="mt-3 flex text-white flex-col justify-between ">
