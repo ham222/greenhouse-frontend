@@ -1,7 +1,7 @@
 import { ButtonUnstyled } from "@mui/base";
 
 interface IconButtonProps {
-  onClick: Function;
+  onClick?: Function;
   icon: React.ReactNode;
 }
 
