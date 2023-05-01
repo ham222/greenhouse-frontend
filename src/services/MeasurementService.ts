@@ -10,8 +10,6 @@ export async function getCurrentTemperature(): Promise<Measurement[]> {
     if (response.status !== 200) return [];
 
     temperatureList = response.data;
-
-    console.log(response.data);
   } catch (error) {
     console.error(error);
     return [];
@@ -43,8 +41,6 @@ export async function getTemperature(
     if (response.status !== 200) return [];
 
     temperatureList = response.data;
-
-    console.log(response.data);
   } catch (error) {
     console.error(error);
     return [];
@@ -61,8 +57,6 @@ export async function getCurrentHumidity(): Promise<Measurement[]> {
     if (response.status !== 200) return [];
 
     temperatureList = response.data;
-
-    console.log(response.data);
   } catch (error) {
     console.error(error);
     return [];
@@ -94,8 +88,6 @@ export async function getHumidity(
     if (response.status !== 200) return [];
 
     temperatureList = response.data;
-
-    console.log(response.data);
   } catch (error) {
     console.error(error);
     return [];
@@ -112,8 +104,6 @@ export async function getCurrentCo2(): Promise<Measurement[]> {
     if (response.status !== 200) return [];
 
     temperatureList = response.data;
-
-    console.log(response.data);
   } catch (error) {
     console.error(error);
     return [];
@@ -143,8 +133,6 @@ export async function getCo2(
     if (response.status !== 200) return [];
 
     temperatureList = response.data;
-
-    console.log(response.data);
   } catch (error) {
     console.error(error);
     return [];
