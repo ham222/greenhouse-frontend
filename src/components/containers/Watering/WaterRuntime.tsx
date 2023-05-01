@@ -16,7 +16,10 @@ export default function WaterRuntime({
         {startTime.toFormat("hh:mm")} - {endTime.toFormat("hh:mm")}
       </div>
       <div>
-        Runtime: <span className="font-semibold">{durationToString(endTime.diff(startTime))}</span>
+        Runtime:{" "}
+        <span className="font-semibold">
+          {durationToString(endTime.diff(startTime))}
+        </span>
       </div>
     </div>
   );
