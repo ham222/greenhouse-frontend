@@ -1,12 +1,30 @@
 import { DateTime } from "luxon";
 import { useState } from "react";
 
-export default function HourPicker() {
-  const [hours, setHours] = useState(DateTime.now().toFormat("HH"));
-  const [minutes, setMinutes] = useState(DateTime.now().toFormat("mm"));
+interface HourPickerProps {
+  updateValue: (time: DateTime) => void;
+  value: DateTime;
+}
+
+export default function HourPicker({
+  updateValue,
+  value,
+}: HourPickerProps) {
+  const [hours, setHours] = useState(value.toFormat("HH"));
+  const [minutes, setMinutes] = useState(value.toFormat("mm"));
 
   const leadingZero = (value: number) => {
     return value < 10 ? `0${value}` : `${value}`;
+  };
+
+  const update = (hours: string, minutes: string) => {
+    const time = DateTime.fromObject({
+      hour: parseInt(hours),
+      minute: parseInt(minutes),
+    });
+
+    updateValue(time);
+    console.log(time.toObject());
   };
 
   const handleHours = (value: string) => {
@@ -18,6 +36,7 @@ export default function HourPicker() {
 
     const formattedHours = leadingZero(intHours);
     setHours(formattedHours);
+    update(formattedHours, minutes);
   };
 
   const handleMinutes = (value: string) => {
@@ -29,10 +48,11 @@ export default function HourPicker() {
 
     const formattedMinutes = leadingZero(intMinutes);
     setMinutes(formattedMinutes);
+    update(hours, formattedMinutes);
   };
 
   return (
-    <div className="flex justify-center items-center font-bold gap-1 text-4xl">
+    <div className="flex justify-center items-center font-bold text-5xl">
       <div>
         <input
           type="number"
