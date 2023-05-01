@@ -1,4 +1,4 @@
-import { DateTime, Duration } from "luxon";
+import { DateTime } from "luxon";
 import durationToString from "src/utils/durationToString";
 
 interface WaterRuntimeProps {
@@ -13,7 +13,7 @@ export default function WaterRuntime({
   return (
     <div className="bg-[#E6F5FB] flex justify-between py-3 px-2 rounded-lg">
       <div className="font-semibold">
-        {startTime.toFormat("h:m")} - {endTime.toFormat("h:m")}
+        {startTime.toFormat("hh:mm")} - {endTime.toFormat("hh:mm")}
       </div>
       <div>
         Runtime: <span className="font-semibold">{durationToString(endTime.diff(startTime))}</span>
