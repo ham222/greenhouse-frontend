@@ -5,6 +5,8 @@ import HourPicker from "src/components/UI/HourPicker";
 import Modal from "src/components/UI/Modal";
 import durationToString from "src/utils/durationToString";
 import MiniDayPicker from "src/components/UI/MiniDayPicker";
+import { WeekDay } from "src/domain/WeekDay";
+import { DayPick } from "src/domain/DayPick";
 
 interface IntervalModalProps {
   open: boolean;
@@ -16,6 +18,15 @@ export default function CreateIntervalModal({
   onClose,
 }: IntervalModalProps) {
   const now = DateTime.now();
+  const weekDays: WeekDay[] = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   const [startTime, setStartTime] = useState(
     DateTime.fromObject({
@@ -30,6 +41,16 @@ export default function CreateIntervalModal({
     })
   );
   const [duration, setDuration] = useState(endTime.diff(startTime));
+
+  const [dayPicks, setDayPicks] = useState<DayPick[]>(() =>
+    weekDays.map((day) => ({ day, picked: false }))
+  );
+
+  const updateDayPicks = (day: WeekDay, value: boolean) => {
+    setDayPicks((prev) =>
+      prev.map((dp) => (dp.day === day ? { ...dp, picked: value } : dp))
+    );
+  };
 
   useEffect(() => {
     const difference = endTime.diff(startTime);
@@ -53,6 +74,7 @@ export default function CreateIntervalModal({
               New interval
             </Dialog.Title>
             <div className="my-14 sm:flex sm:justify-between">
+              {/* LIMITATION TO ADDRESS: You cannot pick hours from two different days.*/}
               <div>
                 <HourPicker value={startTime} updateValue={setStartTime} />
               </div>
@@ -66,8 +88,8 @@ export default function CreateIntervalModal({
                 {isValid() ? durationToString(duration) : "Invalid"}
               </span>
             </div>
-            <div>
-              <MiniDayPicker />
+            <div className="mt-8">
+              <MiniDayPicker value={dayPicks} updateValue={updateDayPicks} />
             </div>
           </div>
         </div>
