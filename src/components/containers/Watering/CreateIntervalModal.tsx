@@ -37,8 +37,8 @@ export default function CreateIntervalModal({
   const [endTime, setEndTime] = useState(
     DateTime.fromObject({
       hour: now.hour,
-      minute: now.minute + 5,
-    })
+      minute: now.minute,
+    }).plus({ minutes: 5 })
   );
   const [duration, setDuration] = useState(endTime.diff(startTime));
 
