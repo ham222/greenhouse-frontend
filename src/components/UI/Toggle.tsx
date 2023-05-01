@@ -9,7 +9,7 @@ export default function Toggle() {
       checked={enabled}
       onChange={setEnabled}
       className={`${
-        enabled ? "bg-[#BFFA00]" : "bg-[#DB2B2B]"
+        enabled ? "bg-[#BFFA00]" : "bg-stone-400"
       } relative inline-flex h-6 w-11 items-center rounded-full`}
     >
       <span className="sr-only">Enable notifications</span>
