@@ -34,7 +34,7 @@ export default function Watering() {
       },
       {
         startTime: DateTime.fromObject({ hour: 9, minute: 9 }),
-        endTime: DateTime.fromObject({ hour: 9, minute: 9 }),
+        endTime: DateTime.fromObject({ hour: 9, minute: 10 }),
         dayOfWeek: "Friday",
       },
       {
