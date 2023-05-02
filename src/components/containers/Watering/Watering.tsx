@@ -15,7 +15,7 @@ export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [open, setOpen] = useState(false);
   const [isWatering, setIsWatering] = useState(false);
-  const [intervals, setIntervals] = useState<GroupedIntervals>(
+  const [intervals] = useState<GroupedIntervals>(
     groupIntervals([
       {
         startTime: DateTime.fromObject({ hour: 5, minute: 0 }),
