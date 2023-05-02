@@ -12,6 +12,7 @@ import { GroupedIntervals } from "src/domain/GroupedIntervals";
 
 export default function Watering() {
   const [open, setOpen] = useState(false);
+  const [isWatering, setIsWatering] = useState(false);
   const [intervals, setIntervals] = useState<GroupedIntervals>(
     groupIntervals([
       {
@@ -55,7 +56,10 @@ export default function Watering() {
             Watering Schedule
           </div>
           <div>
-            <WaterToggle />
+            <WaterToggle
+              value={isWatering}
+              updateValue={() => setIsWatering(!isWatering)}
+            />
             <div className="overflow-hidden h-20">
               <Tab.List className="flex flex-shrink-0 gap-4 overflow-x-scroll overflow-y-hidden">
                 {WeekDays.map((day) => (
