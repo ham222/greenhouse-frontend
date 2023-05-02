@@ -5,18 +5,18 @@ let schedule = [
     dayOfWeek: 1,
   },
   {
-    startTime: "12:30:00",
-    endTime: "14:00:00",
+    startTime: "18:30:00",
+    endTime: "20:00:00",
     dayOfWeek: 2,
   },
   {
-    startTime: "12:30:00",
-    endTime: "14:00:00",
+    startTime: "12:15:00",
+    endTime: "14:20:00",
     dayOfWeek: 3,
   },
   {
-    startTime: "12:30:00",
-    endTime: "14:00:00",
+    startTime: "10:30:00",
+    endTime: "16:10:00",
     dayOfWeek: 4,
   },
 ];
