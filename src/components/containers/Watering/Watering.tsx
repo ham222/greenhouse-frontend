@@ -9,7 +9,6 @@ import { Tab } from "@headlessui/react";
 import { WeekDays } from "src/domain/WeekDays";
 import { groupIntervals } from "src/utils/groupIntervals";
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
-import DayButton from "src/components/UI/DayButton";
 
 export default function Watering() {
   const [open, setOpen] = useState(false);
