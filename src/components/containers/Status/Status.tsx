@@ -2,7 +2,6 @@ import CurrentValBox from "./CurrentValBox";
 import { useEffect, useState } from "react";
 import * as measurementService from "src/services/MeasurementService";
 import WateringStatus from "./WateringStatus";
-import * as toggleService from "src/services/ToggleService";
 import { DateTime } from "luxon";
 
 export default function Status() {
