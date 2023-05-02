@@ -40,7 +40,7 @@ export default function Timeline() {
     };
   }, []);
   return (
-    <>
+    <div className="m-3 flex flex-col gap-3">
       <LineChart
         measurements={co2}
         type="co2"
@@ -68,6 +68,6 @@ export default function Timeline() {
         accentColor={"#b0d7e7"}
         icon={<BsWater className="w-full h-full" />}
       />
-    </>
+    </div>
   );
 }
