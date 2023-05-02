@@ -13,8 +13,8 @@ export default function WaterRuntime({
   return (
     <div className="bg-[#E6F5FB] flex justify-between sm:justify-center py-3 px-2 rounded-lg">
       <div className="font-semibold sm:flex md:block flex-col justify-center items-center sm:text-xs lg:text-sm">
-        <span className="text-center">{startTime.toFormat("hh:mm")}</span> -{" "}
-        <span className="text-center"></span>
+        <span className="text-center">{startTime.toFormat("hh:mm")}</span> 
+        <span className="text-center sm:max-md:hidden"> - </span>
         <span className="text-center">{endTime.toFormat("hh:mm")}</span>
       </div>
       <div className="sm:hidden">
