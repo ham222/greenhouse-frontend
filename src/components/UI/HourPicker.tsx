@@ -5,10 +5,7 @@ interface HourPickerProps {
   value: DateTime;
 }
 
-export default function HourPicker({
-  updateValue,
-  value,
-}: HourPickerProps) {
+export default function HourPicker({ updateValue, value }: HourPickerProps) {
   const hours = value.toFormat("HH");
   const minutes = value.toFormat("mm");
 
@@ -54,11 +51,11 @@ export default function HourPicker({
         <input
           type="number"
           className="block w-18 focus:outline-none focus:text-red-600 rounded-md border-0 text-gray-900 text-center ring-gray-300 placeholder:text-gray-400"
-          placeholder="00"
           value={hours}
           onChange={(e) => handleHours(e.target.value)}
           max="23"
           min="0"
+          data-testid="hour-input"
         />
       </div>
       <div>:</div>
@@ -66,11 +63,11 @@ export default function HourPicker({
         <input
           type="number"
           className="block w-18 focus:outline-none focus:text-red-600 rounded-md border-0 text-gray-900 text-center ring-gray-300 placeholder:text-gray-400"
-          placeholder="00"
           value={minutes}
           onChange={(e) => handleMinutes(e.target.value)}
           max="59"
           min="0"
+          data-testid="minute-input"
         />
       </div>
     </div>
