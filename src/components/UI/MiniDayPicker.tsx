@@ -1,4 +1,4 @@
-import MiniDay from "./MiniDay";
+import MiniDay from "./MiniDaySwitch";
 import { WeekDay } from "src/domain/WeekDay";
 import { DayPick } from "src/domain/DayPick";
 
