@@ -131,7 +131,7 @@ export default function Watering() {
         ) : (
           <div className="grid grid-cols-7">
             {WeekDays.map((day) => (
-              <ScheduleColumn day={day} intervals={intervals[day]} />
+              <ScheduleColumn key={day} day={day} intervals={intervals[day]} />
             ))}
           </div>
         )}

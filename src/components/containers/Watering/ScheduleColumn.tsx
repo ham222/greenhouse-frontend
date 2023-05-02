@@ -18,8 +18,9 @@ export default function ScheduleColumn({
         <span className="hidden md:inline">{day}</span>
       </div>
       <div className="flex flex-col gap-3">
-        {intervals.map((interval) => (
+        {intervals.map((interval, index) => (
           <WaterRuntime
+            key={index}
             startTime={interval.startTime}
             endTime={interval.endTime}
           />
