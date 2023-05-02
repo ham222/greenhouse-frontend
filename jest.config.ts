@@ -2,11 +2,9 @@
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
  */
-import { pathsToModuleNameMapper } from "ts-jest";
 // In the following statement, replace `./tsconfig` with the path to your `tsconfig` file
 // which contains the path mapping (ie the `compilerOptions.paths` option):
 import { compilerOptions } from "./tsconfig.json";
-import type { JestConfigWithTsJest } from "ts-jest";
 const config = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -70,9 +68,7 @@ const config = {
   // maxWorkers: "50%",
 
   // An array of directory names to be searched recursively up from the requiring module's location
-  // moduleDirectories: [
-  //   "node_modules"
-  // ],
+  moduleDirectories: ["node_modules", "<rootDir>"],
 
   // An array of file extensions your modules use
   // moduleFileExtensions: [
