@@ -1,5 +1,5 @@
 import Chart from "react-apexcharts";
-import ChartIcon from "./ChartIcon";
+import ChartIcon from "src/components/UI/RectIcon";
 import Dropdown from "src/components/UI/Dropdown";
 import capitalize from "src/utils/capitalize";
 import Measurement from "src/domain/Measurement";
@@ -63,7 +63,7 @@ export default function LineChart({
   return (
     <div
       style={{ backgroundColor: bgColor }}
-      className="bg-[#ffefde] p-2 font-sora shadow-sm max-sm:w-auto rounded-xl m-3"
+      className="bg-[#ffefde] p-2 font-sora shadow-sm max-sm:w-auto rounded-xl"
     >
       <div className="flex items-center">
         <div>

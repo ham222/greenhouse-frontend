@@ -1,6 +1,8 @@
 import CurrentValBox from "./CurrentValBox";
 import { useEffect, useState } from "react";
 import * as measurementService from "src/services/MeasurementService";
+import WateringStatus from "./WateringStatus";
+import { DateTime } from "luxon";
 
 export default function Status() {
   const [temperature, setTemperature] = useState<number | null>(null);
@@ -38,13 +40,21 @@ export default function Status() {
   }, []);
 
   return (
-    <>
+    <div className="m-3 flex flex-col gap-3">
       <CurrentValBox
         temperature={temperature?.toString() ?? ""}
         datetime={new Date(date ?? "").toLocaleString()}
         humidity={humidity?.toString() ?? ""}
         co2={co2?.toString() ?? ""}
-      ></CurrentValBox>
-    </>
+      />
+      <WateringStatus
+        isOnline={true}
+        nextWatering={DateTime.now().plus({
+          hours: 2,
+          minutes: 34,
+          seconds: 20,
+        })}
+      />
+    </div>
   );
 }

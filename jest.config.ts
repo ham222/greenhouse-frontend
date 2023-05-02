@@ -2,8 +2,10 @@
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
  */
-
- const config = {
+// In the following statement, replace `./tsconfig` with the path to your `tsconfig` file
+// which contains the path mapping (ie the `compilerOptions.paths` option):
+import { compilerOptions } from "./tsconfig.json";
+const config = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -66,9 +68,7 @@
   // maxWorkers: "50%",
 
   // An array of directory names to be searched recursively up from the requiring module's location
-  // moduleDirectories: [
-  //   "node_modules"
-  // ],
+  moduleDirectories: ["node_modules", "<rootDir>"],
 
   // An array of file extensions your modules use
   // moduleFileExtensions: [
@@ -85,6 +85,8 @@
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
+
+  modulePaths: [compilerOptions.baseUrl],
 
   // Activates notifications for test results
   // notify: false,
@@ -117,9 +119,7 @@
   // rootDir: undefined,
 
   // A list of paths to directories that Jest should use to search for files in
-  // roots: [
-  //   "<rootDir>"
-  // ],
+  roots: ["<rootDir>"],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
