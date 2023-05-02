@@ -20,7 +20,6 @@ let schedule = [
     dayOfWeek: 4,
   },
 ];
-
 module.exports = [
   {
     id: "get-schedule", // id of the route
@@ -29,10 +28,12 @@ module.exports = [
     variants: [
       {
         id: "success", // id of the variant
-        type: "json", // variant type
+        type: "middleware", // variant type
         options: {
-          status: 200,
-          body: schedule,
+          middleware: (req, res) => {
+            res.status(200);
+            res.send(schedule);
+          },
         },
       },
     ],
