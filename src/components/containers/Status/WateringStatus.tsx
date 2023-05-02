@@ -18,7 +18,7 @@ export default function WateringStatus({
 
   return (
     <Link to="/watering">
-      <div className="m-5 p-3 rounded-lg hover:bg-slate-700 duration-150 cursor-pointer bg-[#202329]">
+      <div className="p-3 rounded-lg hover:bg-slate-700 duration-150 cursor-pointer bg-[#202329]">
         <div>
           <RectIcon
             bgColor={"white"}

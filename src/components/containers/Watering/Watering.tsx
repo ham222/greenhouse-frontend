@@ -9,6 +9,7 @@ import { Tab } from "@headlessui/react";
 import { WeekDays } from "src/domain/WeekDays";
 import { groupIntervals } from "src/utils/groupIntervals";
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
+import DayButton from "src/components/UI/DayButton";
 
 export default function Watering() {
   const [open, setOpen] = useState(false);
@@ -50,7 +51,7 @@ export default function Watering() {
 
   return (
     <>
-      <div className="m-3 flex flex-col">
+      <div className="m-3">
         <Tab.Group>
           <div className="text-center text-xl my-7 font-bold">
             Watering Schedule

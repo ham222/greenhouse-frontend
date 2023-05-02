@@ -40,7 +40,7 @@ export default function Status() {
   }, []);
 
   return (
-    <>
+    <div className="m-3 flex flex-col gap-3">
       <CurrentValBox
         temperature={temperature?.toString() ?? ""}
         datetime={new Date(date ?? "").toLocaleString()}
@@ -55,6 +55,6 @@ export default function Status() {
           seconds: 20,
         })}
       />
-    </>
+    </div>
   );
 }
