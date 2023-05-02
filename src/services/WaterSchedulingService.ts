@@ -1,15 +1,19 @@
 import axios from "axios";
 import Interval from "src/domain/Interval";
+import { IntervalDto } from "src/domain/IntervalDto";
 
 export async function getSchedule(): Promise<Interval[]> {
-  let schedule;
-
+  let intervalDtos: IntervalDto[];
+  let schedule: Interval[];
   try {
     let url = `http://localhost:3100/api/schedule`;
     const response = await axios.get(url);
     if (response.status !== 200) return [];
 
-    schedule = response.data;
+    intervalDtos = response.data;
+    schedule = intervalDtos.map((dto) => {
+      return new Interval(dto.startTime, dto.endTime, dto.dayOfWeek);
+    });
   } catch (error) {
     console.error(error);
     return [];
