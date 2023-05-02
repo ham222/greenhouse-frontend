@@ -1,4 +1,4 @@
-import { Interval } from "src/domain/Interval";
+import Interval from "src/domain/Interval";
 import { WeekDay } from "src/domain/WeekDay";
 import WaterRuntime from "./WaterRuntime";
 

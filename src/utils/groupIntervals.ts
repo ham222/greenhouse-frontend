@@ -1,5 +1,5 @@
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
-import { Interval } from "src/domain/Interval";
+import Interval from "src/domain/Interval";
 
 export const groupIntervals = (intervals: Interval[]): GroupedIntervals => {
   const groupedSchedule: GroupedIntervals = {
