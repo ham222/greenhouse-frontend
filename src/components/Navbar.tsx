@@ -1,97 +1,26 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { BiHomeAlt } from "react-icons/bi";
+import { BsFillBarChartFill, BsCalendar2Date } from "react-icons/bs";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-
-  const handleToggle = () => {
-    setOpen(!open);
-  };
-
   return (
-    <nav>
-      <div className="w-auto bg-gray-100 h-16 flex justify-between  flex-wrap items-center shadow-md">
-        <div className="md:hidden flex items-center ml-5">
-          <BurgerMenuButton open={open} onToggle={handleToggle} />
+    <nav className="w-[auto] bg-[#EFEFEF] h-20 flex  justify-around items-center fixed bottom-0 left-0 right-0 rounded-t-[1.25rem] md:w-[6rem] md:flex-col md:right-auto md:top-0 md:h-auto md:justify-start  md:rounded-tl-none md:rounded-r-[1.25rem] 2xl:w-[8rem]">
+      <NavLink to="/">
+        <div className="flex flex-col items-center justify-items-end md:mt-20 text-[#979797] hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
+          <BiHomeAlt className="text-4xl justify-items-center "></BiHomeAlt>
+          <p>Home</p>
         </div>
-        <div className="text-xl ml-5 font-bold m-2">Your Greenhouse</div>
-        <div className="max-md:hidden flex-grow w-max">
-          <Toolbar />
+      </NavLink>
+      <NavLink to="/timeline">
+        <div className="flex flex-col items-center justify-items-center md:mt-12 text-[#979797] hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
+          <BsFillBarChartFill className="text-4xl "></BsFillBarChartFill>
+          <p>Timeline</p>
         </div>
-        <div className="mr-5">
-          <img alt="user icon" src="placeholder-user.png" />
-        </div>
-      </div>
-      <div className="md:hidden">
-        <Drawer open={open} />
+      </NavLink>
+      <div className="flex flex-col items-center justify-items-center md:mt-12 text-[#979797] hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
+        <BsCalendar2Date className="text-4xl"></BsCalendar2Date>
+        <p>Watering</p>
       </div>
     </nav>
-  );
-}
-interface BurgerMenuButtonProps {
-  open: boolean;
-  onToggle: () => void;
-}
-
-function BurgerMenuButton({ open, onToggle }: BurgerMenuButtonProps) {
-  let icon = open ? "cross-button.svg" : "burger-bar.png";
-
-  return (
-    <div className="cursor-pointer" onClick={onToggle}>
-      <img className="w-8" alt="menu" src={icon} />
-    </div>
-  );
-}
-interface DrawerProps {
-  open: boolean;
-}
-function Drawer({ open }: DrawerProps) {
-  return (
-    <div>
-      {open ? (
-        <div className="w-auto overflow-hidden shadow-md bg-gray-100 p-2">
-          <DrawerItem link={"/"}>Status</DrawerItem>
-          <DrawerItem link={"/timeline"}>Timeline</DrawerItem>
-        </div>
-      ) : (
-        ""
-      )}
-    </div>
-  );
-}
-interface DrawerItemProps {
-  link: string;
-}
-
-function DrawerItem({
-  children,
-  link,
-}: React.PropsWithChildren<DrawerItemProps>) {
-  return (
-    <div className="w-auto hover:bg-gray-200 duration-200 text-lg rounded-lg px-2 py-1 m-3">
-      <Link to={link}>{children}</Link>
-    </div>
-  );
-}
-
-function Toolbar() {
-  return (
-    <div className="flex justify-start flex-nowrap">
-      <ToolbarItem link={"/"}>Status</ToolbarItem>
-      <ToolbarItem link={"/timeline"}>Timeline</ToolbarItem>
-    </div>
-  );
-}
-interface ToolbarItemProps {
-  link: string;
-}
-function ToolbarItem({
-  children,
-  link,
-}: React.PropsWithChildren<ToolbarItemProps>) {
-  return (
-    <div className="ml-8 hover:bg-gray-200 px-3 py-1 cursor-pointer rounded-md duration-200">
-      <Link to={link}>{children}</Link>
-    </div>
   );
 }
