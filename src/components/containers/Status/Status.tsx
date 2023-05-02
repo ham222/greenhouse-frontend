@@ -1,6 +1,7 @@
 import CurrentValBox from "./CurrentValBox";
 import { useEffect, useState } from "react";
 import * as measurementService from "src/services/MeasurementService";
+import * as toggleService from "src/services/ToggleService";
 
 export default function Status() {
   const [temperature, setTemperature] = useState<number | null>(null);
@@ -27,10 +28,6 @@ export default function Status() {
         setDate(currentCo2[0].timestamp);
       }
     });
-
-    // productsAndServices.getProductsAndServicesLatest().then((e) => {
-    //   setAll(e);
-    // });
 
     return () => {
       mounted = false;
