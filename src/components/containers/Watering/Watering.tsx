@@ -2,7 +2,6 @@ import IconButton from "src/components/UI/IconButton";
 import { IoIosAdd } from "react-icons/io";
 import WaterToggle from "./WaterToggle";
 import WaterRuntime from "./WaterRuntime";
-import { DateTime } from "luxon";
 import CreateIntervalModal from "./CreateIntervalModal";
 import { Fragment, useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
@@ -10,45 +9,29 @@ import { WeekDays } from "src/domain/WeekDays";
 import { groupIntervals } from "src/utils/groupIntervals";
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import ScheduleColumn from "./ScheduleColumn";
+import * as waterSchedulingService from "src/services/WaterSchedulingService";
 
 export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [open, setOpen] = useState(false);
   const [isWatering, setIsWatering] = useState(false);
-  const [intervals] = useState<GroupedIntervals>(
-    groupIntervals([
-      {
-        startTime: DateTime.fromObject({ hour: 5, minute: 0 }),
-        endTime: DateTime.fromObject({ hour: 6, minute: 0 }),
-        dayOfWeek: "Monday",
-      },
-      {
-        startTime: DateTime.fromObject({ hour: 5, minute: 0 }),
-        endTime: DateTime.fromObject({ hour: 6, minute: 0 }),
-        dayOfWeek: "Wednesday",
-      },
-      {
-        startTime: DateTime.fromObject({ hour: 5, minute: 0 }),
-        endTime: DateTime.fromObject({ hour: 6, minute: 0 }),
-        dayOfWeek: "Friday",
-      },
-      {
-        startTime: DateTime.fromObject({ hour: 9, minute: 9 }),
-        endTime: DateTime.fromObject({ hour: 9, minute: 10 }),
-        dayOfWeek: "Friday",
-      },
-      {
-        startTime: DateTime.fromObject({ hour: 16, minute: 0 }),
-        endTime: DateTime.fromObject({ hour: 16, minute: 30 }),
-        dayOfWeek: "Friday",
-      },
-      {
-        startTime: DateTime.fromObject({ hour: 17, minute: 0 }),
-        endTime: DateTime.fromObject({ hour: 17, minute: 30 }),
-        dayOfWeek: "Friday",
-      },
-    ])
+
+  const [intervals, setIntervals] = useState<GroupedIntervals>(
+    groupIntervals([])
   );
+
+  useEffect(() => {
+    let mounted = true;
+    waterSchedulingService.getSchedule().then((intervals) => {
+      if (mounted) {
+        setIntervals(groupIntervals(intervals));
+      }
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     function handleResize() {
