@@ -6,10 +6,14 @@ import CreateIntervalModal from "./CreateIntervalModal";
 import { Fragment, useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
 import { WeekDays } from "src/domain/WeekDays";
-import { groupIntervals } from "src/utils/groupIntervals";
+import {
+  groupIntervals,
+  appendToGroupIntervals,
+} from "src/utils/groupIntervals";
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import ScheduleColumn from "./ScheduleColumn";
 import * as waterSchedulingService from "src/services/WaterSchedulingService";
+import Interval from "src/domain/Interval";
 
 export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
@@ -33,6 +37,10 @@ export default function Watering() {
     };
   }, []);
 
+  const addInverval = (newIntervals: Interval[]) => {
+    setIntervals(appendToGroupIntervals(newIntervals, intervals));
+    waterSchedulingService.postSchedule(intervals);
+  };
   useEffect(() => {
     function handleResize() {
       setIsMobile(window.innerWidth <= 640);
@@ -119,7 +127,11 @@ export default function Watering() {
           </div>
         )}
       </div>
-      <CreateIntervalModal open={open} onClose={() => setOpen(false)} />
+      <CreateIntervalModal
+        onAdd={addInverval}
+        open={open}
+        onClose={() => setOpen(false)}
+      />
     </>
   );
 }
