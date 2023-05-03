@@ -11,7 +11,7 @@ describe("HourPicker component", () => {
     mockUpdateValue = jest.fn();
   });
 
-  test("renders correctly with initial value", () => {
+  it("renders correctly with initial value", () => {
     render(<HourPicker updateValue={mockUpdateValue} value={mockValue} />);
 
     const hoursInput = screen.getByTestId("hour-input") as HTMLInputElement;
@@ -22,7 +22,7 @@ describe("HourPicker component", () => {
     expect(minutesInput.value).toEqual("30");
   });
 
-  test("updates hours correctly", () => {
+  it("updates hours correctly", () => {
     render(<HourPicker updateValue={mockUpdateValue} value={mockValue} />);
 
     const hoursInput = screen.getByTestId("hour-input") as HTMLInputElement;
@@ -36,7 +36,7 @@ describe("HourPicker component", () => {
     );
   });
 
-  test("updates minutes correctly", () => {
+  it("updates minutes correctly", () => {
     render(<HourPicker updateValue={mockUpdateValue} value={mockValue} />);
 
     const minutesInput = screen.getByTestId("minute-input") as HTMLInputElement;
@@ -50,7 +50,7 @@ describe("HourPicker component", () => {
     );
   });
 
-  test.each([25, -1, "string"])(
+  it.each([25, -1, "string"])(
     "does not update hours with invalid input: %p",
     (invalid) => {
       render(<HourPicker updateValue={mockUpdateValue} value={mockValue} />);
@@ -62,7 +62,7 @@ describe("HourPicker component", () => {
     }
   );
 
-  test.each([61, -1, "string"])(
+  it.each([61, -1, "string"])(
     "does not update minutes with invalid input: %p",
     (invalid) => {
       render(<HourPicker updateValue={mockUpdateValue} value={mockValue} />);
