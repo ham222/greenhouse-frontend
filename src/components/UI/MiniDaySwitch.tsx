@@ -1,7 +1,7 @@
 interface MiniDayProps {
   day: string;
   value: boolean;
-  updateValue: (value: boolean) => any;
+  updateValue: (value: boolean) => boolean;
 }
 
 export default function MiniDay({ day, value, updateValue }: MiniDayProps) {
