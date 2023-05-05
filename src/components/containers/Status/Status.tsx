@@ -49,11 +49,13 @@ export default function Status() {
       />
       <WateringStatus
         isOnline={true}
-        nextWatering={DateTime.now().plus({
-          hours: 2,
-          minutes: 34,
-          seconds: 20,
-        })}
+        timeToWatering={DateTime.now()
+          .plus({
+            hours: 2,
+            minutes: 34,
+            seconds: 20,
+          })
+          .diff(DateTime.now())}
       />
     </div>
   );
