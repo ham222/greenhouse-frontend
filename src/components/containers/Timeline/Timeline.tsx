@@ -9,6 +9,7 @@ export default function Timeline() {
   const [temperature, setTemperature] = useState<Measurement[]>([]);
   const [humidity, setHumidity] = useState<Measurement[]>([]);
   const [co2, setCo2] = useState<Measurement[]>([]);
+  const [threshold, setThreshold] = useState<Measurement[]>([]);
 
   useEffect(() => {
     const now = new Date().getTime() - 21_600_000;
@@ -25,6 +26,11 @@ export default function Timeline() {
       }
     });
 
+    measurementService.getCo2(now).then((currentCo2) => {
+      if (mounted) {
+        setCo2(currentCo2);
+      }
+    });
     measurementService.getCo2(now).then((currentCo2) => {
       if (mounted) {
         setCo2(currentCo2);
@@ -51,6 +57,8 @@ export default function Timeline() {
             CO<sub>2</sub>
           </div>
         }
+        maxThreshold={30}
+        minThreshold={15}
       />
 
       <LineChart
@@ -59,6 +67,8 @@ export default function Timeline() {
         bgColor={"#feffde"}
         accentColor={"#f4f5bd"}
         icon={<WiThermometer className="w-full h-full" />}
+        maxThreshold={30}
+        minThreshold={15}
       />
 
       <LineChart
@@ -67,6 +77,8 @@ export default function Timeline() {
         bgColor={"#e6f5fb"}
         accentColor={"#b0d7e7"}
         icon={<BsWater className="w-full h-full" />}
+        maxThreshold={80}
+        minThreshold={15}
       />
     </div>
   );
