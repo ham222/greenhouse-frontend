@@ -1,4 +1,5 @@
-let state = { state: "true" };
+let state = { state: true };
+let duration = { duration: 0 };
 
 module.exports = [
   {
@@ -28,6 +29,7 @@ module.exports = [
           middleware: (req, res) => {
             console.log(req.body);
             state.state = req.body.state;
+            duration.duration = req.body.duration;
             res.status(201);
             res.send(state);
           },
