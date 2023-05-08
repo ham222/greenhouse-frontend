@@ -17,16 +17,20 @@ export async function getToggle(): Promise<boolean> {
   return toggle;
 }
 
-export async function postToggle(newState: boolean, newDuration: Duration) {
+export async function postToggle(
+  newState: boolean,
+  newDuration: Duration
+): Promise<boolean> {
   try {
     let url = `http://localhost:3100/api/watering-system/toggle`;
     const response = await axios.post(url, {
       state: newState,
       duration: newDuration.as("milliseconds"),
     });
-    if (response.status !== 200) return;
+    if (response.status === 200) return true;
   } catch (error) {
     console.error(error);
-    return;
+    return false;
   }
+  return true;
 }
