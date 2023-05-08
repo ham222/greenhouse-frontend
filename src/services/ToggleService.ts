@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Duration } from "luxon";
 
 export async function getToggle(): Promise<boolean> {
   let toggle;
@@ -16,12 +17,12 @@ export async function getToggle(): Promise<boolean> {
   return toggle;
 }
 
-export async function postToggle(newState: boolean, newDuration: number) {
+export async function postToggle(newState: boolean, newDuration: Duration) {
   try {
     let url = `http://localhost:3100/api/watering-system/toggle`;
     const response = await axios.post(url, {
       state: newState,
-      duration: newDuration,
+      duration: newDuration.as("milliseconds"),
     });
     if (response.status !== 200) return;
   } catch (error) {
