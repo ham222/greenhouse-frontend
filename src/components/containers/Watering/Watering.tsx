@@ -2,7 +2,7 @@ import IconButton from "src/components/UI/IconButton";
 import { IoIosAdd } from "react-icons/io";
 import WaterToggle from "./WaterToggle";
 import WaterRuntime from "./WaterRuntime";
-import { DateTime } from "luxon";
+import { DateTime, Duration } from "luxon";
 import CreateIntervalModal from "./CreateIntervalModal";
 import { Fragment, useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
@@ -10,11 +10,34 @@ import { WeekDays } from "src/domain/WeekDays";
 import { groupIntervals } from "src/utils/groupIntervals";
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import ScheduleColumn from "./ScheduleColumn";
+import { getToggle, postToggle } from "src/services/ToggleService";
 
 export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [open, setOpen] = useState(false);
   const [isWatering, setIsWatering] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    getToggle().then((isOnline) => {
+      if (mounted) {
+        setIsWatering(isOnline);
+      }
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const toggleWaterService = async (isOn: boolean) => {
+    const success = await postToggle(isOn, Duration.fromObject({ minutes: 5 }));
+    if (success) {
+      setIsWatering(isOn);
+    } else {
+      alert("Sorry, there was an error");
+    }
+  };
+
   const [intervals] = useState<GroupedIntervals>(
     groupIntervals([
       {
@@ -77,7 +100,7 @@ export default function Watering() {
           <div className="col-span-12 md:col-span-6">
             <WaterToggle
               value={isWatering}
-              updateValue={() => setIsWatering(!isWatering)}
+              updateValue={() => toggleWaterService(!isWatering)}
             />
           </div>
         </div>
