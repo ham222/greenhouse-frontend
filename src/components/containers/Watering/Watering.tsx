@@ -2,7 +2,7 @@ import IconButton from "src/components/UI/IconButton";
 import { IoIosAdd } from "react-icons/io";
 import WaterToggle from "./WaterToggle";
 import WaterRuntime from "./WaterRuntime";
-import { DateTime, Duration } from "luxon";
+import { Duration } from "luxon";
 import CreateIntervalModal from "./CreateIntervalModal";
 import { Fragment, useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
@@ -21,7 +21,6 @@ export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [open, setOpen] = useState(false);
   const [isWatering, setIsWatering] = useState(false);
-
 
   useEffect(() => {
     let mounted = true;
