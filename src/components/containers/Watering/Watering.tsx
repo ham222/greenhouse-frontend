@@ -29,10 +29,14 @@ export default function Watering() {
     };
   }, []);
 
-  const toggleWaterService = (isOn : boolean) => {
-    setIsWatering(isOn)
-    postToggle(isOn, Duration.fromObject({minutes: 5}))
-  }
+  const toggleWaterService = async (isOn: boolean) => {
+    const success = await postToggle(isOn, Duration.fromObject({ minutes: 5 }));
+    if (success) {
+      setIsWatering(isOn);
+    } else {
+      alert("Sorry, there was an error");
+    }
+  };
 
   const [intervals] = useState<GroupedIntervals>(
     groupIntervals([
