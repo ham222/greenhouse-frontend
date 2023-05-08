@@ -10,7 +10,7 @@ export async function getSchedule(): Promise<Interval[]> {
   try {
     let url = `http://localhost:3100/api/schedule`;
     const response = await axios.get(url);
-    if (response.status !== 200) return [];
+    if (Math.floor(response.status / 100) !== 2) return [];
 
     intervalDtos = response.data;
     schedule = intervalDtos.map((dto) => {
@@ -23,14 +23,16 @@ export async function getSchedule(): Promise<Interval[]> {
   return schedule;
 }
 
-export async function postSchedule(intervals: GroupedIntervals) {
+export async function postSchedule(
+  intervals: GroupedIntervals
+): Promise<boolean> {
   let schedule = convertGroupedIntervalsToIntervalDtoArray(intervals);
   try {
     let url = `http://localhost:3100/api/schedule`;
-    const response = await axios.post(url, schedule);
-    if (response.status !== 200) return;
+    await axios.post(url, schedule);
+    return true;
   } catch (error) {
     console.error(error);
-    return;
+    return false;
   }
 }

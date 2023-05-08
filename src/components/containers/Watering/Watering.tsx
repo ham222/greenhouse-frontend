@@ -60,9 +60,16 @@ export default function Watering() {
     };
   }, []);
 
-  const addInverval = (newIntervals: Interval[]) => {
-    setIntervals(appendToGroupIntervals(newIntervals, intervals));
-    waterSchedulingService.postSchedule(intervals);
+  const addInverval = async (newIntervals: Interval[]) => {
+    const payLoad = appendToGroupIntervals(newIntervals, intervals);
+
+    const isSuccess = await waterSchedulingService.postSchedule(payLoad);
+
+    if (isSuccess) {
+      setIntervals(payLoad);
+    } else {
+      alert("Interval update failed");
+    }
   };
   useEffect(() => {
     function handleResize() {
