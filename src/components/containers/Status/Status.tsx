@@ -30,10 +30,6 @@ export default function Status() {
       }
     });
 
-    // productsAndServices.getProductsAndServicesLatest().then((e) => {
-    //   setAll(e);
-    // });
-
     return () => {
       mounted = false;
     };
