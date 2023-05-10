@@ -1,13 +1,24 @@
-name: Test pushed commits
+name: Test
 on:
   push:
     branches:
-    - "*"
-    - "!main"
+      - "*"
+      - "!main"
 jobs:
+  prettify:
+    name: Prettify code
+    uses: ./.github/workflows/prettify.yml
+    secrets:
+      gh_pages_token: ${{ secrets.GH_PAGES_TOKEN }}
   cypress_test:
+    needs: [prettify]
     name: Cypress Test
     uses: ./.github/workflows/cypress_test.yml
   jest_test:
+    needs: [prettify]
     name: Jest Test
     uses: ./.github/workflows/jest_test.yml
+  build:
+    needs: [cypress_test, jest_test]
+    name: Check if can be built
+    uses: ./.github/workflows/build.yml

@@ -14,8 +14,12 @@ export default function ScheduleColumn({
   return (
     <div>
       <div className="my-4 font-semibold text-center">
-        <span data-testid="short-day" className="md:hidden">{day.substring(0, 3)}</span>
-        <span data-testid="long-day" className="hidden md:inline">{day}</span>
+        <span data-testid="short-day" className="md:hidden">
+          {day.substring(0, 3)}
+        </span>
+        <span data-testid="long-day" className="hidden md:inline">
+          {day}
+        </span>
       </div>
       <div className="flex flex-col gap-3">
         {intervals.map((interval, index) => (
