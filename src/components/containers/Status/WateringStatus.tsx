@@ -1,20 +1,19 @@
 import { AiOutlineCalendar } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import RectIcon from "src/components/UI/RectIcon";
-import { DateTime } from "luxon";
+import { Duration } from "luxon";
 import durationToString from "src/utils/durationToString";
 
 interface WateringStatusProps {
   isOnline: boolean;
-  nextWatering: DateTime;
+  timeToWatering: Duration;
 }
 
 export default function WateringStatus({
   isOnline,
-  nextWatering,
+  timeToWatering,
 }: WateringStatusProps) {
   const status = isOnline ? "ON" : "OFF";
-  const timeToWatering = durationToString(nextWatering.diff(DateTime.now()));
 
   return (
     <Link to="/watering">
@@ -31,7 +30,7 @@ export default function WateringStatus({
             Next watering in:
             <span className="font-bold whitespace-nowrap">
               {" "}
-              {timeToWatering}
+              {durationToString(timeToWatering)}
             </span>{" "}
           </div>
         </div>
