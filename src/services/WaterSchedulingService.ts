@@ -1,15 +1,18 @@
 import axios from "axios";
 import Interval from "src/domain/Interval";
+import { IntervalDto } from "src/domain/IntervalDto";
+import { convertIntervalArrayToIntervalDtoArray } from "src/utils/intervalParser";
 
 export async function getSchedule(): Promise<Interval[]> {
-  let schedule;
-
+  let intervalDtos: IntervalDto[];
+  let schedule: Interval[];
   try {
     let url = `http://localhost:3100/api/schedule`;
     const response = await axios.get(url);
-    if (response.status !== 200) return [];
-
-    schedule = response.data;
+    intervalDtos = response.data;
+    schedule = intervalDtos.map((dto) => {
+      return new Interval(dto.startTime, dto.endTime, dto.dayOfWeek);
+    });
   } catch (error) {
     console.error(error);
     return [];
@@ -17,13 +20,14 @@ export async function getSchedule(): Promise<Interval[]> {
   return schedule;
 }
 
-export async function postSchedule(schedule: Interval[]) {
+export async function postSchedule(intervals: Interval[]): Promise<boolean> {
+  let schedule = convertIntervalArrayToIntervalDtoArray(intervals);
   try {
     let url = `http://localhost:3100/api/schedule`;
-    const response = await axios.post(url, schedule);
-    if (response.status !== 200) return;
+    await axios.post(url, schedule);
+    return true;
   } catch (error) {
     console.error(error);
-    return;
+    return false;
   }
 }

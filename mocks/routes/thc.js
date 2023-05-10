@@ -10,7 +10,6 @@ function generateRandomValues({ valueMin, valueMax, startTimestamp, round }) {
     const rounded = value.toFixed(round);
     objects.push({ timestamp: timestamp, value: rounded });
   }
-  console.log(objects);
 
   return objects;
 }

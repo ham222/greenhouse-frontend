@@ -1,5 +1,6 @@
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import Interval from "src/domain/Interval";
+import { WeekDays } from "src/domain/WeekDays";
 
 export const groupIntervals = (intervals: Interval[]): GroupedIntervals => {
   const groupedSchedule: GroupedIntervals = {
@@ -17,4 +18,40 @@ export const groupIntervals = (intervals: Interval[]): GroupedIntervals => {
   }
 
   return groupedSchedule;
+};
+
+export const appendToGroupIntervals = (
+  intervals: Interval[],
+  groupedSchedule: GroupedIntervals
+): GroupedIntervals => {
+  for (const interval of intervals) {
+    groupedSchedule[interval.dayOfWeek].push(interval);
+  }
+
+  return groupedSchedule;
+};
+
+export const ungroupIntervals = (
+  groupedIntervals: GroupedIntervals
+): Interval[] => {
+  let intervals: Interval[] = [];
+
+  for (let item of WeekDays) {
+    intervals.push(...groupedIntervals[item]);
+  }
+
+  return intervals;
+};
+
+export const createIntervalPayload = (
+  groupedIntervals: GroupedIntervals,
+  newIntervals: Interval[]
+) => {
+  let intervals: Interval[] = [...newIntervals];
+
+  for (let item of WeekDays) {
+    intervals.push(...groupedIntervals[item]);
+  }
+
+  return intervals;
 };
