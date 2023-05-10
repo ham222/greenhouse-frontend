@@ -20,7 +20,6 @@ export default function HourPicker({ updateValue, value }: HourPickerProps) {
     });
 
     updateValue(time);
-    console.log(time.toObject());
   };
 
   const handleHours = (value: string) => {
