@@ -7,15 +7,17 @@ import durationToString from "src/utils/durationToString";
 import MiniDayPicker from "src/components/UI/MiniDayPicker";
 import { WeekDay } from "src/domain/WeekDay";
 import { DayPick } from "src/domain/DayPick";
-
+import Interval from "src/domain/Interval";
 interface IntervalModalProps {
   open: boolean;
   onClose: () => void;
+  onAdd: (newIntervals: Interval[]) => void;
 }
 
 export default function CreateIntervalModal({
   open,
   onClose,
+  onAdd,
 }: IntervalModalProps) {
   const now = DateTime.now();
   const weekDays: WeekDay[] = [
@@ -58,6 +60,19 @@ export default function CreateIntervalModal({
     setDuration(difference);
   }, [startTime, endTime]);
 
+  const generateNewIntervals = () => {
+    let format = "hh:mm:ss";
+    let newIntervals: Interval[] = [];
+    for (let i = 0; i < dayPicks.length; i++) {
+      if (dayPicks[i].picked) {
+        newIntervals.push(
+          new Interval(startTime.toFormat(format), endTime.toFormat(format), i)
+        );
+      }
+    }
+    return newIntervals;
+  };
+
   const isValid = () => {
     return duration.as("milliseconds") > 0;
   };
@@ -99,7 +114,10 @@ export default function CreateIntervalModal({
           type="button"
           disabled={!isValid()}
           className="inline-flex disabled:text-gray-300 max-sm:basis-1/2 max-sm:mx-4 justify-center rounded-md bg-[#F2F4F5] px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 ml-3"
-          onClick={() => onClose()}
+          onClick={() => {
+            onAdd(generateNewIntervals());
+            onClose();
+          }}
         >
           Confirm
         </button>

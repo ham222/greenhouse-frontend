@@ -9,7 +9,6 @@ export async function getCurrentTemperature(): Promise<Measurement[]> {
   try {
     let url = API_URL+`temperature?current`;
     const response = await axios.get(url);
-    if (response.status !== 200) return [];
 
     temperatureList = response.data;
   } catch (error) {
@@ -40,7 +39,6 @@ export async function getTemperature(
       url += `endTimestamp=${endTimestamp}`;
     }
     const response = await axios.get(url);
-    if (response.status !== 200) return [];
 
     temperatureList = response.data;
   } catch (error) {
@@ -56,7 +54,6 @@ export async function getCurrentHumidity(): Promise<Measurement[]> {
   try {
     let url = API_URL+`humidity?current`;
     const response = await axios.get(url);
-    if (response.status !== 200) return [];
 
     temperatureList = response.data;
   } catch (error) {
@@ -87,8 +84,6 @@ export async function getHumidity(
     }
     const response = await axios.get(url);
 
-    if (response.status !== 200) return [];
-
     temperatureList = response.data;
   } catch (error) {
     console.error(error);
@@ -103,7 +98,6 @@ export async function getCurrentCo2(): Promise<Measurement[]> {
   try {
     let url = API_URL+`co2?current`;
     const response = await axios.get(url);
-    if (response.status !== 200) return [];
 
     temperatureList = response.data;
   } catch (error) {
@@ -132,7 +126,6 @@ export async function getCo2(
       url += `endTimestamp=${endTimestamp}`;
     }
     const response = await axios.get(url);
-    if (response.status !== 200) return [];
 
     temperatureList = response.data;
   } catch (error) {
