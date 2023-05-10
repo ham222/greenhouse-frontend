@@ -1,0 +1,14 @@
+name: Prettify and Build
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  prettify:
+    name: Prettify code
+    uses: ./.github/workflows/prettify.yml
+  build:
+    needs: prettify
+    name: Check if can be built
+    uses: ./.github/workflows/build.yml
