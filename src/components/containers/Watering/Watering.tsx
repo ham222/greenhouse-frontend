@@ -94,14 +94,10 @@ export default function Watering() {
           </div>
         </div>
 
-        <div className="grid grid-cols-12">
-          <div className="col-span-12 md:col-span-6">
-            <WaterToggle
-              value={isWatering}
-              updateValue={() => toggleWaterService(!isWatering)}
-            />
-          </div>
-        </div>
+        <WaterToggle
+          value={isWatering}
+          updateValue={() => toggleWaterService(!isWatering)}
+        />
 
         {isMobile ? (
           <Tab.Group>
