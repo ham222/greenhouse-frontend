@@ -7,21 +7,22 @@ describe("Modal", () => {
 
   it("renders children when open prop is true", () => {
     render(
-      <Modal open={true} onClose={onClose}>
+      <Modal title="Modal title" open={true} onClose={onClose}>
         <div>Modal content</div>
       </Modal>
     );
-
+    expect(screen.getByText("Modal title")).toBeInTheDocument();
     expect(screen.getByText("Modal content")).toBeInTheDocument();
   });
 
   it("does not render children when open prop is false", () => {
     render(
-      <Modal open={false} onClose={onClose}>
+      <Modal title="Modal title" open={false} onClose={onClose}>
         <div>Modal content</div>
       </Modal>
     );
 
     expect(screen.queryByText("Modal content")).not.toBeInTheDocument();
+    expect(screen.queryByText("Modal title")).not.toBeInTheDocument();
   });
 });
