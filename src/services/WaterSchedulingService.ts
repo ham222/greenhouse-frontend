@@ -10,8 +10,6 @@ export async function getSchedule(): Promise<Interval[]> {
   try {
     let url = `http://localhost:3100/api/schedule`;
     const response = await axios.get(url);
-    if (Math.floor(response.status / 100) !== 2) return [];
-
     intervalDtos = response.data;
     schedule = intervalDtos.map((dto) => {
       return new Interval(dto.startTime, dto.endTime, dto.dayOfWeek);
