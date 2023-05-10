@@ -16,11 +16,16 @@ import ScheduleColumn from "./ScheduleColumn";
 import * as waterSchedulingService from "src/services/WaterSchedulingService";
 import Interval from "src/domain/Interval";
 import { getToggle, postToggle } from "src/services/ToggleService";
+import RunWateringModal from "./RunWateringModal";
 
 export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
-  const [open, setOpen] = useState(false);
+  const [intervalModalOpen, setIntervalModalOpen] = useState(false);
+  const [durationModalOpen, setDurationModalOpen] = useState(false);
   const [isWatering, setIsWatering] = useState(false);
+  const [intervals, setIntervals] = useState<GroupedIntervals>(
+    groupIntervals([])
+  );
 
   useEffect(() => {
     let mounted = true;
@@ -34,18 +39,27 @@ export default function Watering() {
     };
   }, []);
 
-  const toggleWaterService = async (isOn: boolean) => {
-    const success = await postToggle(isOn, Duration.fromObject({ minutes: 5 }));
+  const runWateringService = async (isOn: boolean, duration: number) => {
+    const success = await postToggle(
+      isOn,
+      Duration.fromObject({ minutes: duration })
+    );
     if (success) {
       setIsWatering(isOn);
     } else {
-      alert("Sorry, there was an error");
+      alert(
+        "Sorry, there was an error while attempting to manually override watering system."
+      );
     }
   };
 
-  const [intervals, setIntervals] = useState<GroupedIntervals>(
-    groupIntervals([])
-  );
+  const toggleWatering = () => {
+    if (!isWatering) {
+      setDurationModalOpen(true);
+    } else {
+      runWateringService(false, 0);
+    }
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -88,16 +102,13 @@ export default function Watering() {
           Watering Schedule
           <div className="hidden ml-5 sm:block">
             <IconButton
-              onClick={() => setOpen(true)}
+              onClick={() => setIntervalModalOpen(true)}
               icon={<IoIosAdd className="text-white w-full h-full" />}
             />
           </div>
         </div>
 
-        <WaterToggle
-          value={isWatering}
-          updateValue={() => toggleWaterService(!isWatering)}
-        />
+        <WaterToggle value={isWatering} updateValue={() => toggleWatering()} />
 
         {isMobile ? (
           <Tab.Group>
@@ -126,7 +137,7 @@ export default function Watering() {
             <div className="font-semibold mt-10 mb-2">Timeline</div>
             <div className="mt-3">
               <IconButton
-                onClick={() => setOpen(true)}
+                onClick={() => setIntervalModalOpen(true)}
                 icon={<IoIosAdd className="text-white w-full h-full" />}
               />
             </div>
@@ -155,8 +166,13 @@ export default function Watering() {
       </div>
       <CreateIntervalModal
         onAdd={addInverval}
-        open={open}
-        onClose={() => setOpen(false)}
+        open={intervalModalOpen}
+        onClose={() => setIntervalModalOpen(false)}
+      />
+      <RunWateringModal
+        onRun={runWateringService}
+        open={durationModalOpen}
+        onClose={() => setDurationModalOpen(false)}
       />
     </>
   );
