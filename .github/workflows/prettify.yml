@@ -1,6 +1,10 @@
 name: Prettier and Build Check
 
-on: workflow_call
+on:
+  workflow_call:
+    secrets:
+      gh_pages_token:
+        required: true
 
 jobs:
   prettify:
@@ -11,6 +15,7 @@ jobs:
         with:
           # Make sure the actual branch is checked out when running on pull requests
           ref: ${{ github.head_ref }}
+          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -26,3 +31,4 @@ jobs:
         with:
           prettier_options: --write src/**/*.{js,jsx,ts,tsx}
           commit_message: Prettify code
+          github_token: ${{ secrets.gh_pages_token }}

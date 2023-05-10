@@ -8,6 +8,8 @@ jobs:
   prettify:
     name: Prettify code
     uses: ./.github/workflows/prettify.yml
+    secrets:
+      gh_pages_token: ${{ secrets.GH_PAGES_TOKEN }}
   build:
     needs: prettify
     name: Check if can be built
