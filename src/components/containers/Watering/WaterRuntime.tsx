@@ -11,11 +11,18 @@ export default function WaterRuntime({
   endTime,
 }: WaterRuntimeProps) {
   return (
-    <div data-testid="water-runtime" className="bg-[#E6F5FB] flex justify-between sm:justify-center py-3 px-2 rounded-lg">
+    <div
+      data-testid="water-runtime"
+      className="bg-[#E6F5FB] flex justify-between sm:justify-center py-3 px-2 rounded-lg"
+    >
       <div className="font-semibold sm:flex md:block flex-col justify-center items-center sm:text-xs lg:text-sm">
-        <span data-testid="start-time" className="text-center">{startTime.toFormat("HH:mm")}</span> 
+        <span data-testid="start-time" className="text-center">
+          {startTime.toFormat("HH:mm")}
+        </span>
         <span className="text-center sm:max-md:hidden"> - </span>
-        <span data-testid="end-time" className="text-center">{endTime.toFormat("HH:mm")}</span>
+        <span data-testid="end-time" className="text-center">
+          {endTime.toFormat("HH:mm")}
+        </span>
       </div>
       <div className="sm:hidden">
         Runtime:{" "}
