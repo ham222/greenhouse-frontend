@@ -16,21 +16,25 @@ describe("ScheduleColumn", () => {
     const intervals: Interval[] = [
       {
         dayOfWeek: "Monday",
+        weekDayIndex: 0,
         startTime: DateTime.fromFormat("12:34", "HH:mm"),
         endTime: DateTime.fromFormat("13:34", "HH:mm"),
       },
       {
         dayOfWeek: "Monday",
+        weekDayIndex: 0,
         startTime: DateTime.fromFormat("13:20", "HH:mm"),
         endTime: DateTime.fromFormat("14:20", "HH:mm"),
       },
       {
         dayOfWeek: "Monday",
+        weekDayIndex: 0,
         startTime: DateTime.fromFormat("15:30", "HH:mm"),
         endTime: DateTime.fromFormat("16:00", "HH:mm"),
       },
       {
         dayOfWeek: "Monday",
+        weekDayIndex: 0,
         startTime: DateTime.fromFormat("17:00", "HH:mm"),
         endTime: DateTime.fromFormat("18:30", "HH:mm"),
       },
