@@ -1,14 +1,11 @@
 import { IntervalDto } from "src/domain/IntervalDto";
 import Interval from "src/domain/Interval";
-import { GroupedIntervals } from "src/domain/GroupedIntervals";
-import { ungroupIntervals } from "./groupIntervals";
-export const convertGroupedIntervalsToIntervalDtoArray = (
-  intervals: GroupedIntervals
+export const convertIntervalArrayToIntervalDtoArray = (
+  intervals: Interval[]
 ): IntervalDto[] => {
   let format = "hh:mm:ss";
-  let ungroupedIntervals: Interval[] = ungroupIntervals(intervals);
   let schedule: IntervalDto[] = [];
-  ungroupedIntervals.forEach((interval) => {
+  intervals.forEach((interval) => {
     let intervalDto = {
       startTime: interval.startTime.toFormat(format),
       endTime: interval.endTime.toFormat(format),

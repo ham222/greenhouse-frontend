@@ -9,7 +9,7 @@ import { Tab } from "@headlessui/react";
 import { WeekDays } from "src/domain/WeekDays";
 import {
   groupIntervals,
-  appendToGroupIntervals,
+  createIntervalPayload,
 } from "src/utils/groupIntervals";
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import ScheduleColumn from "./ScheduleColumn";
@@ -61,12 +61,12 @@ export default function Watering() {
   }, []);
 
   const addInverval = async (newIntervals: Interval[]) => {
-    const payLoad = appendToGroupIntervals(newIntervals, intervals);
+    const payLoad = createIntervalPayload(intervals, newIntervals);
 
     const isSuccess = await waterSchedulingService.postSchedule(payLoad);
 
     if (isSuccess) {
-      setIntervals(payLoad);
+      setIntervals(groupIntervals(payLoad));
     } else {
       alert("Interval update failed");
     }

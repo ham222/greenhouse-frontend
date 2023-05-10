@@ -42,3 +42,16 @@ export const ungroupIntervals = (
 
   return intervals;
 };
+
+export const createIntervalPayload = (
+  groupedIntervals: GroupedIntervals,
+  newIntervals: Interval[]
+) => {
+  let intervals: Interval[] = [...newIntervals];
+
+  for (let item of WeekDays) {
+    intervals.push(...groupedIntervals[item]);
+  }
+
+  return intervals;
+};

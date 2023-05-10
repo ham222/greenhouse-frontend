@@ -1,8 +1,7 @@
 import axios from "axios";
-import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import Interval from "src/domain/Interval";
 import { IntervalDto } from "src/domain/IntervalDto";
-import { convertGroupedIntervalsToIntervalDtoArray } from "src/utils/intervalParser";
+import { convertIntervalArrayToIntervalDtoArray } from "src/utils/intervalParser";
 
 export async function getSchedule(): Promise<Interval[]> {
   let intervalDtos: IntervalDto[];
@@ -21,10 +20,8 @@ export async function getSchedule(): Promise<Interval[]> {
   return schedule;
 }
 
-export async function postSchedule(
-  intervals: GroupedIntervals
-): Promise<boolean> {
-  let schedule = convertGroupedIntervalsToIntervalDtoArray(intervals);
+export async function postSchedule(intervals: Interval[]): Promise<boolean> {
+  let schedule = convertIntervalArrayToIntervalDtoArray(intervals);
   try {
     let url = `http://localhost:3100/api/schedule`;
     await axios.post(url, schedule);
