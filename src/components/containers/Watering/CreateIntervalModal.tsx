@@ -81,7 +81,7 @@ export default function CreateIntervalModal({
       <div className="bg-white p-6">
         <div className="flex items-center justify-center sm:items-start">
           <div className="mt-3 flex flex-col text-center sm:ml-4 sm:mt-0">
-            <div className="my-14 sm:flex sm:justify-between">
+            <div className="mb-14 sm:flex sm:justify-between">
               <div>
                 <HourPicker value={startTime} updateValue={setStartTime} />
               </div>

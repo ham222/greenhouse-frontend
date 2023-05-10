@@ -42,8 +42,9 @@ export default function Modal({ open, onClose, children, title }: ModalProps) {
                 >
                   {title}
                 </Dialog.Title>
-
-                {children}
+                <div className="h-full grid items-center">
+                  <div>{children}</div>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>
