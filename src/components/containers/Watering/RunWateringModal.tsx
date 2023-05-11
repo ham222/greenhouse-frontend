@@ -15,7 +15,7 @@ export default function RunWateringModal({
 }: RunWateringModalProps) {
   const [duration, setDuration] = useState(5);
 
-  const isValid = (duration : number) => {
+  const isValid = (duration: number) => {
     return duration > 0 && Number.isInteger(duration);
   };
 
