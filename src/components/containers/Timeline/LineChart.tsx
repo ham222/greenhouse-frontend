@@ -3,6 +3,9 @@ import ChartIcon from "src/components/UI/RectIcon";
 import Dropdown from "src/components/UI/Dropdown";
 import capitalize from "src/utils/capitalize";
 import Measurement from "src/domain/Measurement";
+import { DateTime, Duration } from "luxon";
+import { useState } from "react";
+import TimeScope from "src/domain/TimeScope";
 
 interface LineChartProps {
   measurements: Measurement[];
@@ -11,17 +14,36 @@ interface LineChartProps {
   accentColor: string;
   icon: JSX.Element;
 }
+
 export default function LineChart({
   measurements,
   type,
   bgColor,
   accentColor,
-  icon,
+  icon
 }: LineChartProps) {
+  const timeScopes = [
+    new TimeScope("day", Duration.fromObject({ days: 1 })),
+    new TimeScope("week", Duration.fromObject({ weeks: 1 })),
+    new TimeScope("month", Duration.fromObject({ months: 1 })),
+    new TimeScope("year", Duration.fromObject({ years: 1 })),
+  ];
+
+  const [timeScope, setTimeScope] = useState(timeScopes[0]);
+
+  console.log(
+    measurements.map(
+      ({ value, timestamp }) => value + " " + new Date(timestamp)
+    )
+  );
+
+  const cutOffTimestamp = DateTime.now().minus(timeScope.scope).toMillis();
   const series = [
     {
       name: capitalize(type),
-      data: measurements.map(({ value }) => value),
+      data: measurements
+        .filter(({ timestamp }) => timestamp >= cutOffTimestamp)
+        .map(({ value }) => value),
     },
   ];
 
@@ -53,10 +75,19 @@ export default function LineChart({
       colors: ["#555555"],
       width: 3,
     },
+    labels: measurements.map(({ timestamp }) =>
+      new Date(timestamp).toLocaleString()
+    ),
     xaxis: {
-      categories: measurements.map(
-        ({ timestamp }) => new Date(timestamp).getHours() + "h"
-      ),
+      type: "datetime",
+      labels: {
+        datetimeFormatter: {
+          year: "yyyy",
+          month: "MMM 'yy",
+          day: "dd MMM",
+          hour: "HH:mm",
+        },
+      },
     },
     yaxis: {},
   };
@@ -75,8 +106,12 @@ export default function LineChart({
         <div>
           <Dropdown
             title={"Interval"}
-            onSelect={(option) => {}}
-            options={["day", "week", "month", "year"]}
+            onSelect={(option) =>
+              setTimeScope(
+                timeScopes.find(({ name }) => name === option) ?? timeScopes[0]
+              )
+            }
+            options={timeScopes.map(({ name }) => name)}
           />
         </div>
       </div>
