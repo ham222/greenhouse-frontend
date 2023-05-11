@@ -1,7 +1,8 @@
-import { Duration } from "luxon";
+import { Duration, Settings } from "luxon";
 import durationToString from "src/utils/durationToString";
 
 describe("durationToString", () => {
+  Settings.defaultLocale = "en-us";
   it.each([
     [0, "0s"],
     [1000, "1s"],

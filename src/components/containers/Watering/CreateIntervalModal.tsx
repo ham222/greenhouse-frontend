@@ -74,7 +74,10 @@ export default function CreateIntervalModal({
   };
 
   const isValid = () => {
-    return duration.as("milliseconds") > 0;
+    return (
+      duration.as("milliseconds") > 0 &&
+      dayPicks.some((day) => day.picked === true)
+    );
   };
 
   return (
