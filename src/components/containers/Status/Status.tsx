@@ -2,7 +2,6 @@ import CurrentValBox from "./CurrentValBox";
 import { useEffect, useState } from "react";
 import WateringStatus from "./WateringStatus";
 import { DateTime } from "luxon";
-import { useFetch } from "src/hooks/useFetch";
 import { useGet } from "src/hooks/useGet";
 import Measurement from "src/domain/Measurement";
 const API_URL = process.env.REACT_APP_API_BASE_URL;
@@ -12,12 +11,12 @@ export default function Status() {
   const [co2, setCo2] = useState<number | null>(null);
   const [date, setDate] = useState<number | null>(null);
 
-  const co2Response = useGet<Measurement[]>(`${API_URL}co2?current`);
+  const co2Response = useGet<Measurement[]>(`${API_URL}/co2?current`);
 
-  const humidityResponse = useGet<Measurement[]>(`${API_URL}humidity?current`);
+  const humidityResponse = useGet<Measurement[]>(`${API_URL}/humidity?current`);
 
   const temperatureResponse = useGet<Measurement[]>(
-    `${API_URL}temperature?current`
+    `${API_URL}/temperature?current`
   );
 
   useEffect(() => {
