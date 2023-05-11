@@ -1,4 +1,4 @@
-const startTimestamp = Date.now() - 300000000;
+const startTimestamp = Date.now() - 30000000000;
 
 function generateRandomValues({ valueMin, valueMax, startTimestamp, round }) {
   const objects = [];
