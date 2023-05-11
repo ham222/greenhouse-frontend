@@ -16,9 +16,10 @@ import ScheduleColumn from "./ScheduleColumn";
 import Interval from "src/domain/Interval";
 import RunWateringModal from "./RunWateringModal";
 import { useGet } from "src/hooks/useGet";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { IntervalDto } from "src/domain/IntervalDto";
 import { convertIntervalArrayToIntervalDtoArray } from "src/utils/intervalParser";
+import { displayNetworkError } from "src/utils/errorToast";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -33,6 +34,11 @@ export default function Watering() {
   const getToggleResponse = useGet<{ state: boolean }>(
     `${API_URL}/watering-system/toggle`
   );
+
+  if (getToggleResponse.error != null) {
+    displayNetworkError(getToggleResponse.error.message);
+  }
+
   useEffect(() => {
     let mounted = true;
     if (mounted && getToggleResponse.data != null) {
@@ -52,11 +58,9 @@ export default function Watering() {
         duration: Duration.fromObject({ minutes: duration }).as("milliseconds"),
       });
     } catch (error) {
-      console.error(error);
       success = false;
-      alert(
-        "Sorry, there was an error while attempting to manually override watering system."
-      );
+      const axiosError = error as AxiosError;
+      displayNetworkError(axiosError.message);
     }
 
     if (success) {
@@ -89,6 +93,9 @@ export default function Watering() {
     };
   }, [intervalResponse.data]);
 
+  if (intervalResponse.error != null) {
+    displayNetworkError(intervalResponse.error.message);
+  }
   const addInverval = async (newIntervals: Interval[]) => {
     let isSuccess = true;
     const payload = createIntervalPayload(intervals, newIntervals);
@@ -97,9 +104,9 @@ export default function Watering() {
       let url = `${API_URL}/schedule`;
       await axios.post(url, schedule);
     } catch (error) {
-      console.error(error);
       isSuccess = false;
-      alert("Interval update failed");
+      const axiosError = error as AxiosError;
+      displayNetworkError(axiosError.message);
     }
     if (isSuccess) {
       setIntervals(groupIntervals(payload));
