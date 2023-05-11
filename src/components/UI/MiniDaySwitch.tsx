@@ -16,7 +16,7 @@ export default function MiniDaySwitch({
   };
 
   return (
-    <div
+    <div data-testid={day+"-switch"}
       onClick={() => toggleCheck()}
       className={classNames(
         "w-8",
