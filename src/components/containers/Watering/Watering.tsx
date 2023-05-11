@@ -17,6 +17,7 @@ import * as waterSchedulingService from "src/services/WaterSchedulingService";
 import Interval from "src/domain/Interval";
 import RunWateringModal from "./RunWateringModal";
 import { useGet } from "src/hooks/useGet";
+import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -42,16 +43,23 @@ export default function Watering() {
   }, [getToggleResponse.data]);
 
   const runWateringService = async (isOn: boolean, duration: number) => {
-    const success = await postToggle(
-      isOn,
-      Duration.fromObject({ minutes: duration })
-    );
-    if (success) {
-      setIsWatering(isOn);
-    } else {
+    let success = true;
+    try {
+      let url = `http://localhost:3100/api/watering-system/toggle`;
+      await axios.post(url, {
+        state: isOn,
+        duration: Duration.fromObject({ minutes: duration }).as("milliseconds"),
+      });
+    } catch (error) {
+      console.error(error);
+      success = false;
       alert(
         "Sorry, there was an error while attempting to manually override watering system."
       );
+    }
+
+    if (success) {
+      setIsWatering(isOn);
     }
   };
 

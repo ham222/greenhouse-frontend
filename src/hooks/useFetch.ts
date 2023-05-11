@@ -28,7 +28,7 @@ function useFetch<Type>(
       }
     };
 
-    fetchData().then((r) => r);
+    fetchData();
   }, [url, method, body]);
 
   return { loading, error, data };
