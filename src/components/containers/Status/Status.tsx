@@ -4,6 +4,7 @@ import WateringStatus from "./WateringStatus";
 import { DateTime } from "luxon";
 import { useGet } from "src/hooks/useGet";
 import Measurement from "src/domain/Measurement";
+import { displayNetworkError } from "src/utils/errorToast";
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 export default function Status() {
   const [temperature, setTemperature] = useState<number | null>(null);
@@ -19,6 +20,15 @@ export default function Status() {
     `${API_URL}/temperature?current`
   );
 
+  if (co2Response.error != null) {
+    displayNetworkError(co2Response.error.message);
+  }
+  if (humidityResponse.error != null) {
+    displayNetworkError(humidityResponse.error.message);
+  }
+  if (temperatureResponse.error != null) {
+    displayNetworkError(temperatureResponse.error.message);
+  }
   useEffect(() => {
     let mounted = true;
     if (mounted && temperatureResponse.data != null) {
