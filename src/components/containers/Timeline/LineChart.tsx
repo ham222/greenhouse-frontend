@@ -5,7 +5,7 @@ import capitalize from "src/utils/capitalize";
 import Measurement from "src/domain/Measurement";
 
 interface LineChartProps {
-  measurements: Measurement[];
+  measurements: Measurement[] | null;
   type: string;
   bgColor: string;
   accentColor: string;
@@ -23,6 +23,9 @@ export default function LineChart({
   maxThreshold
 
 }: LineChartProps) {
+  if (measurements == null) {
+    measurements = [];
+  }
   const series = [
     {
       name: capitalize(type),

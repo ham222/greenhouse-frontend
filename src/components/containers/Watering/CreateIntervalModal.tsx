@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Dialog } from "@headlessui/react";
 import { DateTime } from "luxon";
 import HourPicker from "src/components/UI/HourPicker";
 import Modal from "src/components/UI/Modal";
@@ -7,15 +6,17 @@ import durationToString from "src/utils/durationToString";
 import MiniDayPicker from "src/components/UI/MiniDayPicker";
 import { WeekDay } from "src/domain/WeekDay";
 import { DayPick } from "src/domain/DayPick";
-
+import Interval from "src/domain/Interval";
 interface IntervalModalProps {
   open: boolean;
   onClose: () => void;
+  onAdd: (newIntervals: Interval[]) => void;
 }
 
 export default function CreateIntervalModal({
   open,
   onClose,
+  onAdd,
 }: IntervalModalProps) {
   const now = DateTime.now();
   const weekDays: WeekDay[] = [
@@ -58,23 +59,33 @@ export default function CreateIntervalModal({
     setDuration(difference);
   }, [startTime, endTime]);
 
+  const generateNewIntervals = () => {
+    let format = "hh:mm:ss";
+    let newIntervals: Interval[] = [];
+    for (let i = 0; i < dayPicks.length; i++) {
+      if (dayPicks[i].picked) {
+        newIntervals.push(
+          new Interval(startTime.toFormat(format), endTime.toFormat(format), i)
+        );
+      }
+    }
+
+    return newIntervals;
+  };
+
   const isValid = () => {
-    return duration.as("milliseconds") > 0;
+    return (
+      duration.as("milliseconds") > 0 &&
+      dayPicks.some((day) => day.picked === true)
+    );
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal title={"New interval"} open={open} onClose={onClose}>
       <div className="bg-white p-6">
-        <div className="flex  items-center justify-center sm:items-start">
+        <div className="flex items-center justify-center sm:items-start">
           <div className="mt-3 flex flex-col text-center sm:ml-4 sm:mt-0">
-            <Dialog.Title
-              as="h3"
-              className="text-xl text-center font-semibold leading-6 text-gray-900"
-            >
-              New interval
-            </Dialog.Title>
-            <div className="my-14 sm:flex sm:justify-between">
-              {/* LIMITATION TO ADDRESS: You cannot pick hours from two different days.*/}
+            <div className="mb-14 sm:flex sm:justify-between">
               <div>
                 <HourPicker value={startTime} updateValue={setStartTime} />
               </div>
@@ -94,12 +105,15 @@ export default function CreateIntervalModal({
           </div>
         </div>
       </div>
-      <div className="px-4 py-3 flex  flex-row-reverse sm:px-6">
+      <div className="px-4 py-3 flex flex-row-reverse sm:px-6">
         <button
           type="button"
-          disabled={!isValid()}
+          disabled={!isValid() || !open}
           className="inline-flex disabled:text-gray-300 max-sm:basis-1/2 max-sm:mx-4 justify-center rounded-md bg-[#F2F4F5] px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 ml-3"
-          onClick={() => onClose()}
+          onClick={() => {
+            onAdd(generateNewIntervals());
+            onClose();
+          }}
         >
           Confirm
         </button>

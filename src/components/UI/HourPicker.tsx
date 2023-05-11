@@ -20,7 +20,6 @@ export default function HourPicker({ updateValue, value }: HourPickerProps) {
     });
 
     updateValue(time);
-    console.log(time.toObject());
   };
 
   const handleHours = (value: string) => {
@@ -46,29 +45,31 @@ export default function HourPicker({ updateValue, value }: HourPickerProps) {
   };
 
   return (
-    <div className="flex justify-center items-center font-bold text-5xl">
-      <div>
-        <input
-          type="number"
-          className="block w-18 focus:outline-none focus:text-red-600 rounded-md border-0 text-gray-900 text-center ring-gray-300 placeholder:text-gray-400"
-          value={hours}
-          onChange={(e) => handleHours(e.target.value)}
-          max="23"
-          min="0"
-          data-testid="hour-input"
-        />
-      </div>
-      <div>:</div>
-      <div>
-        <input
-          type="number"
-          className="block w-18 focus:outline-none focus:text-red-600 rounded-md border-0 text-gray-900 text-center ring-gray-300 placeholder:text-gray-400"
-          value={minutes}
-          onChange={(e) => handleMinutes(e.target.value)}
-          max="59"
-          min="0"
-          data-testid="minute-input"
-        />
+    <div>
+      <div className="flex justify-center items-center font-bold text-5xl">
+        <div className="w-20">
+          <input
+            type="number"
+            className="w-full min-w-0 block focus:outline-none focus:text-red-600 rounded-md border-0 text-gray-900 text-center ring-gray-300 placeholder:text-gray-400"
+            value={hours}
+            onChange={(e) => handleHours(e.target.value)}
+            max="23"
+            min="0"
+            data-testid="hour-input"
+          />
+        </div>
+        <div>:</div>
+        <div className="w-20">
+          <input
+            type="number"
+            className="w-full min-w-0 block focus:outline-none focus:text-red-600 rounded-md border-0 text-gray-900 text-center ring-gray-300 placeholder:text-gray-400"
+            value={minutes}
+            onChange={(e) => handleMinutes(e.target.value)}
+            max="59"
+            min="0"
+            data-testid="minute-input"
+          />
+        </div>
       </div>
     </div>
   );

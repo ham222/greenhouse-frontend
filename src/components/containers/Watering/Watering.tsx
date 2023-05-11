@@ -2,54 +2,109 @@ import IconButton from "src/components/UI/IconButton";
 import { IoIosAdd } from "react-icons/io";
 import WaterToggle from "./WaterToggle";
 import WaterRuntime from "./WaterRuntime";
-import { DateTime } from "luxon";
+import { Duration } from "luxon";
 import CreateIntervalModal from "./CreateIntervalModal";
 import { Fragment, useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
 import { WeekDays } from "src/domain/WeekDays";
-import { groupIntervals } from "src/utils/groupIntervals";
+import {
+  groupIntervals,
+  createIntervalPayload,
+} from "src/utils/groupIntervals";
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import ScheduleColumn from "./ScheduleColumn";
+import Interval from "src/domain/Interval";
+import RunWateringModal from "./RunWateringModal";
+import { useGet } from "src/hooks/useGet";
+import axios from "axios";
+import { IntervalDto } from "src/domain/IntervalDto";
+import { convertIntervalArrayToIntervalDtoArray } from "src/utils/intervalParser";
+
+const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
-  const [open, setOpen] = useState(false);
+  const [intervalModalOpen, setIntervalModalOpen] = useState(false);
+  const [durationModalOpen, setDurationModalOpen] = useState(false);
   const [isWatering, setIsWatering] = useState(false);
-  const [intervals] = useState<GroupedIntervals>(
-    groupIntervals([
-      {
-        startTime: DateTime.fromObject({ hour: 5, minute: 0 }),
-        endTime: DateTime.fromObject({ hour: 6, minute: 0 }),
-        dayOfWeek: "Monday",
-      },
-      {
-        startTime: DateTime.fromObject({ hour: 5, minute: 0 }),
-        endTime: DateTime.fromObject({ hour: 6, minute: 0 }),
-        dayOfWeek: "Wednesday",
-      },
-      {
-        startTime: DateTime.fromObject({ hour: 5, minute: 0 }),
-        endTime: DateTime.fromObject({ hour: 6, minute: 0 }),
-        dayOfWeek: "Friday",
-      },
-      {
-        startTime: DateTime.fromObject({ hour: 9, minute: 9 }),
-        endTime: DateTime.fromObject({ hour: 9, minute: 10 }),
-        dayOfWeek: "Friday",
-      },
-      {
-        startTime: DateTime.fromObject({ hour: 16, minute: 0 }),
-        endTime: DateTime.fromObject({ hour: 16, minute: 30 }),
-        dayOfWeek: "Friday",
-      },
-      {
-        startTime: DateTime.fromObject({ hour: 17, minute: 0 }),
-        endTime: DateTime.fromObject({ hour: 17, minute: 30 }),
-        dayOfWeek: "Friday",
-      },
-    ])
+  const [intervals, setIntervals] = useState<GroupedIntervals>(
+    groupIntervals([])
   );
+  const getToggleResponse = useGet<{ state: boolean }>(
+    `${API_URL}/watering-system/toggle`
+  );
+  useEffect(() => {
+    let mounted = true;
+    if (mounted && getToggleResponse.data != null) {
+      setIsWatering(getToggleResponse.data.state);
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [getToggleResponse.data]);
 
+  const runWateringService = async (isOn: boolean, duration: number) => {
+    let success = true;
+    try {
+      let url = `${API_URL}/watering-system/toggle`;
+      await axios.post(url, {
+        state: isOn,
+        duration: Duration.fromObject({ minutes: duration }).as("milliseconds"),
+      });
+    } catch (error) {
+      console.error(error);
+      success = false;
+      alert(
+        "Sorry, there was an error while attempting to manually override watering system."
+      );
+    }
+
+    if (success) {
+      setIsWatering(isOn);
+    }
+  };
+
+  const toggleWatering = () => {
+    if (!isWatering) {
+      setDurationModalOpen(true);
+    } else {
+      runWateringService(false, 0);
+    }
+  };
+
+  const intervalResponse = useGet<IntervalDto[]>(`${API_URL}/schedule`);
+  useEffect(() => {
+    let mounted = true;
+    if (mounted && intervalResponse.data != null) {
+      let intervalDtos: IntervalDto[];
+      let schedule: Interval[];
+      intervalDtos = intervalResponse.data;
+      schedule = intervalDtos.map((dto) => {
+        return new Interval(dto.startTime, dto.endTime, dto.dayOfWeek);
+      });
+      setIntervals(groupIntervals(schedule));
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [intervalResponse.data]);
+
+  const addInverval = async (newIntervals: Interval[]) => {
+    let isSuccess = true;
+    const payload = createIntervalPayload(intervals, newIntervals);
+    let schedule = convertIntervalArrayToIntervalDtoArray(payload);
+    try {
+      let url = `${API_URL}/schedule`;
+      await axios.post(url, schedule);
+    } catch (error) {
+      console.error(error);
+      isSuccess = false;
+      alert("Interval update failed");
+    }
+    if (isSuccess) {
+      setIntervals(groupIntervals(payload));
+    }
+  };
   useEffect(() => {
     function handleResize() {
       setIsMobile(window.innerWidth <= 640);
@@ -67,20 +122,13 @@ export default function Watering() {
           Watering Schedule
           <div className="hidden ml-5 sm:block">
             <IconButton
-              onClick={() => setOpen(true)}
+              onClick={() => setIntervalModalOpen(true)}
               icon={<IoIosAdd className="text-white w-full h-full" />}
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-12">
-          <div className="col-span-12 md:col-span-6">
-            <WaterToggle
-              value={isWatering}
-              updateValue={() => setIsWatering(!isWatering)}
-            />
-          </div>
-        </div>
+        <WaterToggle value={isWatering} updateValue={() => toggleWatering()} />
 
         {isMobile ? (
           <Tab.Group>
@@ -109,7 +157,7 @@ export default function Watering() {
             <div className="font-semibold mt-10 mb-2">Timeline</div>
             <div className="mt-3">
               <IconButton
-                onClick={() => setOpen(true)}
+                onClick={() => setIntervalModalOpen(true)}
                 icon={<IoIosAdd className="text-white w-full h-full" />}
               />
             </div>
@@ -129,14 +177,23 @@ export default function Watering() {
             </Tab.Panels>
           </Tab.Group>
         ) : (
-          <div className="grid grid-cols-7">
+          <div className="grid gap-3 grid-cols-7">
             {WeekDays.map((day) => (
               <ScheduleColumn key={day} day={day} intervals={intervals[day]} />
             ))}
           </div>
         )}
       </div>
-      <CreateIntervalModal open={open} onClose={() => setOpen(false)} />
+      <CreateIntervalModal
+        onAdd={addInverval}
+        open={intervalModalOpen}
+        onClose={() => setIntervalModalOpen(false)}
+      />
+      <RunWateringModal
+        onRun={runWateringService}
+        open={durationModalOpen}
+        onClose={() => setDurationModalOpen(false)}
+      />
     </>
   );
 }

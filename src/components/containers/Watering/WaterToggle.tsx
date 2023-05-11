@@ -4,9 +4,11 @@ interface WaterToggleProps extends ToggleProps {}
 
 export default function WaterToggle(props: WaterToggleProps) {
   return (
-    <div className="bg-[#202329] rounded-lg text-white items-center font-semibold py-6 px-4 flex justify-between">
-      <div>Manual Toggle</div>
-      <Toggle {...props} />
+    <div className="flex justify-end">
+      <div className="bg-[#202329] max-sm:justify-between max-sm:w-full rounded-lg text-white flex gap-3 items-center py-4 px-4 font-semibold">
+        <div className="whitespace-nowrap">Manual Toggle</div>
+        <Toggle {...props} />
+      </div>
     </div>
   );
 }
