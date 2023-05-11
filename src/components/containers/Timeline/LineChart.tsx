@@ -32,11 +32,11 @@ export default function LineChart({
     },
     ...(maxThreshold!==undefined ? [{
       name: "max",
-      data: measurements.map(({})=>maxThreshold)
+      data: measurements.map((measurements)=>maxThreshold)
     }]:[]),
     ...(minThreshold!==undefined ? [{
       name: "min",
-      data: measurements.map(({})=>minThreshold)
+      data: measurements.map((measurements)=>minThreshold)
     }]:[])
   ];
 
