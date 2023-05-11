@@ -15,12 +15,18 @@ export default function Timeline() {
   const temperatureResponse = useGet<Measurement[]>(`${API_URL}/temperature`);
 
   const presetResponse = useGet<Preset>(`${API_URL}/current-preset`);
-  
-  const co2Thresholds = presetResponse.data?.thresholds?.find(({type}) =>type ==="co2")
 
-  const humidityThresholds = presetResponse.data?.thresholds.find(({type})=>type==="humidity")
+  const co2Thresholds = presetResponse.data?.thresholds?.find(
+    ({ type }) => type === "co2"
+  );
 
-  const temperatureThresholds = presetResponse.data?.thresholds.find(({type})=>type==="temperature")
+  const humidityThresholds = presetResponse.data?.thresholds.find(
+    ({ type }) => type === "humidity"
+  );
+
+  const temperatureThresholds = presetResponse.data?.thresholds.find(
+    ({ type }) => type === "temperature"
+  );
 
   return (
     <div className="m-3 flex flex-col gap-3">

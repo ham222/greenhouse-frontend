@@ -10,8 +10,8 @@ interface LineChartProps {
   bgColor: string;
   accentColor: string;
   icon: JSX.Element;
-  minThreshold?: number,
-  maxThreshold?: number
+  minThreshold?: number;
+  maxThreshold?: number;
 }
 export default function LineChart({
   measurements,
