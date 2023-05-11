@@ -73,7 +73,11 @@ export default function LineChart({
           {capitalize(type)}
         </div>
         <div>
-          <Dropdown />
+          <Dropdown
+            title={"Interval"}
+            onSelect={(option) => {}}
+            options={["day", "week", "month", "year"]}
+          />
         </div>
       </div>
       <div className="xs:h-40 md:h-80">
