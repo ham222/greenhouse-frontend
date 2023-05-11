@@ -13,10 +13,14 @@ import {
 } from "src/utils/groupIntervals";
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import ScheduleColumn from "./ScheduleColumn";
-import * as waterSchedulingService from "src/services/WaterSchedulingService";
 import Interval from "src/domain/Interval";
-import { getToggle, postToggle } from "src/services/ToggleService";
 import RunWateringModal from "./RunWateringModal";
+import { useGet } from "src/hooks/useGet";
+import axios from "axios";
+import { IntervalDto } from "src/domain/IntervalDto";
+import { convertIntervalArrayToIntervalDtoArray } from "src/utils/intervalParser";
+
+const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
@@ -26,30 +30,37 @@ export default function Watering() {
   const [intervals, setIntervals] = useState<GroupedIntervals>(
     groupIntervals([])
   );
-
+  const getToggleResponse = useGet<{ state: boolean }>(
+    `${API_URL}/watering-system/toggle`
+  );
   useEffect(() => {
     let mounted = true;
-    getToggle().then((isOnline) => {
-      if (mounted) {
-        setIsWatering(isOnline);
-      }
-    });
+    if (mounted && getToggleResponse.data != null) {
+      setIsWatering(getToggleResponse.data.state);
+    }
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [getToggleResponse.data]);
 
   const runWateringService = async (isOn: boolean, duration: number) => {
-    const success = await postToggle(
-      isOn,
-      Duration.fromObject({ minutes: duration })
-    );
-    if (success) {
-      setIsWatering(isOn);
-    } else {
+    let success = true;
+    try {
+      let url = `${API_URL}/watering-system/toggle`;
+      await axios.post(url, {
+        state: isOn,
+        duration: Duration.fromObject({ minutes: duration }).as("milliseconds"),
+      });
+    } catch (error) {
+      console.error(error);
+      success = false;
       alert(
         "Sorry, there was an error while attempting to manually override watering system."
       );
+    }
+
+    if (success) {
+      setIsWatering(isOn);
     }
   };
 
@@ -61,28 +72,37 @@ export default function Watering() {
     }
   };
 
+  const intervalResponse = useGet<IntervalDto[]>(`${API_URL}/schedule`);
   useEffect(() => {
     let mounted = true;
-    waterSchedulingService.getSchedule().then((intervals) => {
-      if (mounted) {
-        setIntervals(groupIntervals(intervals));
-      }
-    });
-
+    if (mounted && intervalResponse.data != null) {
+      let intervalDtos: IntervalDto[];
+      let schedule: Interval[];
+      intervalDtos = intervalResponse.data;
+      schedule = intervalDtos.map((dto) => {
+        return new Interval(dto.startTime, dto.endTime, dto.dayOfWeek);
+      });
+      setIntervals(groupIntervals(schedule));
+    }
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [intervalResponse.data]);
 
   const addInverval = async (newIntervals: Interval[]) => {
-    const payLoad = createIntervalPayload(intervals, newIntervals);
-
-    const isSuccess = await waterSchedulingService.postSchedule(payLoad);
-
-    if (isSuccess) {
-      setIntervals(groupIntervals(payLoad));
-    } else {
+    let isSuccess = true;
+    const payload = createIntervalPayload(intervals, newIntervals);
+    let schedule = convertIntervalArrayToIntervalDtoArray(payload);
+    try {
+      let url = `${API_URL}/schedule`;
+      await axios.post(url, schedule);
+    } catch (error) {
+      console.error(error);
+      isSuccess = false;
       alert("Interval update failed");
+    }
+    if (isSuccess) {
+      setIntervals(groupIntervals(payload));
     }
   };
   useEffect(() => {
