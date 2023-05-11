@@ -31,7 +31,7 @@ export default function RunWateringModal({
       <div className="px-4 py-3 flex flex-row-reverse sm:px-6">
         <button
           type="button"
-          disabled={!isValid(duration)}
+          disabled={!isValid(duration) || !open}
           className="inline-flex disabled:text-gray-300 max-sm:basis-1/2 max-sm:mx-4 justify-center rounded-md bg-[#F2F4F5] px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 ml-3"
           onClick={() => {
             onRun(true, duration);
