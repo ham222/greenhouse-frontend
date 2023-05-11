@@ -11,16 +11,8 @@ jest.mock("react-apexcharts", () => ({
 describe("LineChart", () => {
   it("renders title correctly", () => {
     const measurements = [
-      new Measurement(
-        72,
-        "temperature",
-        new Date("2023-04-18T08:00:00").getTime()
-      ),
-      new Measurement(
-        68,
-        "temperature",
-        new Date("2023-04-18T09:00:00").getTime()
-      ),
+      new Measurement(72, new Date("2023-04-18T08:00:00").getTime()),
+      new Measurement(68, new Date("2023-04-18T09:00:00").getTime()),
     ];
     render(
       <LineChart
