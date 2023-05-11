@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Dialog } from "@headlessui/react";
 import { DateTime } from "luxon";
 import HourPicker from "src/components/UI/HourPicker";
 import Modal from "src/components/UI/Modal";
@@ -79,18 +78,11 @@ export default function CreateIntervalModal({
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal title={"New interval"} open={open} onClose={onClose}>
       <div className="bg-white p-6">
-        <div className="flex  items-center justify-center sm:items-start">
+        <div className="flex items-center justify-center sm:items-start">
           <div className="mt-3 flex flex-col text-center sm:ml-4 sm:mt-0">
-            <Dialog.Title
-              as="h3"
-              className="text-xl text-center font-semibold leading-6 text-gray-900"
-            >
-              New interval
-            </Dialog.Title>
-            <div className="my-14 sm:flex sm:justify-between">
-              {/* LIMITATION TO ADDRESS: You cannot pick hours from two different days.*/}
+            <div className="mb-14 sm:flex sm:justify-between">
               <div>
                 <HourPicker value={startTime} updateValue={setStartTime} />
               </div>
@@ -110,7 +102,7 @@ export default function CreateIntervalModal({
           </div>
         </div>
       </div>
-      <div className="px-4 py-3 flex  flex-row-reverse sm:px-6">
+      <div className="px-4 py-3 flex flex-row-reverse sm:px-6">
         <button
           type="button"
           disabled={!isValid() || !open}
