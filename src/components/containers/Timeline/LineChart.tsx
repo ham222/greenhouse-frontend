@@ -30,14 +30,22 @@ export default function LineChart({
       name: capitalize(type),
       data: measurements.map(({ value }) => value),
     },
-    ...(maxThreshold!==undefined ? [{
-      name: "max",
-      data: measurements.map((measurements)=>maxThreshold)
-    }]:[]),
-    ...(minThreshold!==undefined ? [{
-      name: "min",
-      data: measurements.map((measurements)=>minThreshold)
-    }]:[])
+    ...(maxThreshold !== undefined
+      ? [
+          {
+            name: "max",
+            data: measurements.map((measurements) => maxThreshold),
+          },
+        ]
+      : []),
+    ...(minThreshold !== undefined
+      ? [
+          {
+            name: "min",
+            data: measurements.map((measurements) => minThreshold),
+          },
+        ]
+      : []),
   ];
 
   const options: ApexCharts.ApexOptions = {
