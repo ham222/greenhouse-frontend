@@ -56,6 +56,7 @@ export default function LineChart({
         enabled: false,
       },
     },
+    colors: ["#555555", "#00c91b", "#c91b00"],
 
     theme: {
       mode: "light",
@@ -73,7 +74,6 @@ export default function LineChart({
     },
     stroke: {
       curve: "smooth",
-      colors: ["#555555", "#00c91b", "#c91b00"],
       width: 3,
     },
     xaxis: {
