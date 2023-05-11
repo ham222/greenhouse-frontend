@@ -2,47 +2,20 @@ import LineChart from "./LineChart";
 import Measurement from "src/domain/Measurement";
 import { WiThermometer } from "react-icons/wi";
 import { BsWater } from "react-icons/bs";
-import { useEffect, useState } from "react";
-import * as measurementService from "src/services/MeasurementService";
+import { useGet } from "src/hooks/useGet";
+
+const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 export default function Timeline() {
-  const [temperature, setTemperature] = useState<Measurement[]>([]);
-  const [humidity, setHumidity] = useState<Measurement[]>([]);
-  const [co2, setCo2] = useState<Measurement[]>([]);
+  const co2Response = useGet<Measurement[]>(`${API_URL}/co2`);
 
-  useEffect(() => {
-    const now = new Date().getTime() - 21_600_000;
-    let mounted = true;
-    measurementService.getTemperature(now).then((currentTemperature) => {
-      if (mounted) {
-        setTemperature(currentTemperature);
-      }
-    });
+  const humidityResponse = useGet<Measurement[]>(`${API_URL}/humidity`);
 
-    measurementService.getHumidity(now).then((currentHumidity) => {
-      if (mounted) {
-        setHumidity(currentHumidity);
-      }
-    });
-
-    measurementService.getCo2(now).then((currentCo2) => {
-      if (mounted) {
-        setCo2(currentCo2);
-      }
-    });
-
-    // productsAndServices.getProductsAndServicesLatest().then((e) => {
-    //   setAll(e);
-    // });
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  const temperatureResponse = useGet<Measurement[]>(`${API_URL}/temperature`);
   return (
     <div className="m-3 flex flex-col gap-3">
       <LineChart
-        measurements={co2}
+        measurements={co2Response.data}
         type="co2"
         bgColor={"#ffefde"}
         accentColor={"#FFDCB6"}
@@ -54,7 +27,7 @@ export default function Timeline() {
       />
 
       <LineChart
-        measurements={temperature}
+        measurements={temperatureResponse.data}
         type="temperature"
         bgColor={"#feffde"}
         accentColor={"#f4f5bd"}
@@ -62,7 +35,7 @@ export default function Timeline() {
       />
 
       <LineChart
-        measurements={humidity}
+        measurements={humidityResponse.data}
         type="humidity"
         bgColor={"#e6f5fb"}
         accentColor={"#b0d7e7"}
