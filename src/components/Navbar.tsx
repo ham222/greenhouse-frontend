@@ -24,7 +24,7 @@ export default function Navbar() {
           <p>Watering</p>
         </div>
       </NavLink>
-      <NavLink to="/watering">
+      <NavLink to="/presets">
         <div className="flex flex-col items-center justify-items-center md:mt-12 text-[#979797] hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
           <FaCarrot className="text-4xl mb-1 md:mb-2"></FaCarrot>
           <p>Presets</p>
