@@ -4,15 +4,15 @@ import "@testing-library/jest-dom";
 import {act} from 'react-dom/test-utils'
 
 class ResizeObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-    }
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
 
 describe("CreateIntervalModal", () => {
-    window.ResizeObserver = ResizeObserver;
-    const onClose = jest.fn()
-    const onAdd = jest.fn()
+  window.ResizeObserver = ResizeObserver;
+  const onClose = jest.fn();
+  const onAdd = jest.fn();
 
     it("Renders without crashing", async () => {
         await waitFor(()=>{
