@@ -8,7 +8,7 @@ import { useState } from "react";
 import TimeScope from "src/domain/TimeScope";
 
 interface LineChartProps {
-  measurements: Measurement[];
+  measurements: Measurement[] | null;
   type: string;
   bgColor: string;
   accentColor: string;
@@ -31,13 +31,10 @@ export default function LineChart({
 
   const [timeScope, setTimeScope] = useState(timeScopes[0]);
 
-  console.log(
-    measurements.map(
-      ({ value, timestamp }) => value + " " + new Date(timestamp)
-    )
-  );
-
   const cutOffTimestamp = DateTime.now().minus(timeScope.scope).toMillis();
+  if (measurements == null) {
+    measurements = [];
+  }
   const series = [
     {
       name: capitalize(type),
