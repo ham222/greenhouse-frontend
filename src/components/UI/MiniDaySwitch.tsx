@@ -6,7 +6,11 @@ interface MiniDayProps {
   updateValue: (value: boolean) => void;
 }
 
-export default function MiniDaySwitch({ day, value, updateValue }: MiniDayProps) {
+export default function MiniDaySwitch({
+  day,
+  value,
+  updateValue,
+}: MiniDayProps) {
   const toggleCheck = () => {
     updateValue(!value);
   };
