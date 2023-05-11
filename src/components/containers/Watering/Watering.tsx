@@ -18,6 +18,7 @@ import Interval from "src/domain/Interval";
 import RunWateringModal from "./RunWateringModal";
 import { useGet } from "src/hooks/useGet";
 import axios from "axios";
+import { IntervalDto } from "src/domain/IntervalDto";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -71,18 +72,22 @@ export default function Watering() {
     }
   };
 
+  const intervalResponse = useGet<IntervalDto[]>(`${API_URL}/schedule`);
   useEffect(() => {
     let mounted = true;
-    waterSchedulingService.getSchedule().then((intervals) => {
-      if (mounted) {
-        setIntervals(groupIntervals(intervals));
-      }
-    });
-
+    if (mounted && intervalResponse.data != null) {
+      let intervalDtos: IntervalDto[];
+      let schedule: Interval[];
+      intervalDtos = intervalResponse.data;
+      schedule = intervalDtos.map((dto) => {
+        return new Interval(dto.startTime, dto.endTime, dto.dayOfWeek);
+      });
+      setIntervals(groupIntervals(schedule));
+    }
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [intervalResponse.data]);
 
   const addInverval = async (newIntervals: Interval[]) => {
     const payLoad = createIntervalPayload(intervals, newIntervals);
