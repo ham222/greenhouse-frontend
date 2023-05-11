@@ -15,8 +15,10 @@ import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import ScheduleColumn from "./ScheduleColumn";
 import * as waterSchedulingService from "src/services/WaterSchedulingService";
 import Interval from "src/domain/Interval";
-import { getToggle, postToggle } from "src/services/ToggleService";
 import RunWateringModal from "./RunWateringModal";
+import { useGet } from "src/hooks/useGet";
+
+const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
@@ -26,18 +28,18 @@ export default function Watering() {
   const [intervals, setIntervals] = useState<GroupedIntervals>(
     groupIntervals([])
   );
-
+  const getToggleResponse = useGet<{ state: boolean }>(
+    `${API_URL}/watering-system/toggle`
+  );
   useEffect(() => {
     let mounted = true;
-    getToggle().then((isOnline) => {
-      if (mounted) {
-        setIsWatering(isOnline);
-      }
-    });
+    if (mounted && getToggleResponse.data != null) {
+      setIsWatering(getToggleResponse.data.state);
+    }
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [getToggleResponse.data]);
 
   const runWateringService = async (isOn: boolean, duration: number) => {
     const success = await postToggle(
