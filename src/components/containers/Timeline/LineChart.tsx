@@ -20,7 +20,7 @@ export default function LineChart({
   type,
   bgColor,
   accentColor,
-  icon
+  icon,
 }: LineChartProps) {
   const timeScopes = [
     new TimeScope("day", Duration.fromObject({ days: 1 })),
