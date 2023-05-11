@@ -20,8 +20,7 @@ export default function LineChart({
   accentColor,
   icon,
   minThreshold,
-  maxThreshold
-
+  maxThreshold,
 }: LineChartProps) {
   if (measurements == null) {
     measurements = [];
@@ -66,7 +65,7 @@ export default function LineChart({
     },
     stroke: {
       curve: "smooth",
-      colors: ["#555555","#00c91b","#c91b00"],
+      colors: ["#555555", "#00c91b", "#c91b00"],
       width: 3,
     },
     xaxis: {
