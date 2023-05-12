@@ -3,6 +3,7 @@ import Measurement from "src/domain/Measurement";
 import { WiThermometer } from "react-icons/wi";
 import { BsWater } from "react-icons/bs";
 import { useGet } from "src/hooks/useGet";
+import { displayNetworkError } from "src/utils/errorToast";
 import Preset from "src/domain/Preset";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
@@ -14,6 +15,15 @@ export default function Timeline() {
 
   const temperatureResponse = useGet<Measurement[]>(`${API_URL}/temperature`);
 
+  if (co2Response.error != null) {
+    displayNetworkError(co2Response.error.message);
+  }
+  if (humidityResponse.error != null) {
+    displayNetworkError(humidityResponse.error.message);
+  }
+  if (temperatureResponse.error != null) {
+    displayNetworkError(temperatureResponse.error.message);
+  }
   const presetResponse = useGet<Preset>(`${API_URL}/current-preset`);
 
   const co2Thresholds = presetResponse.data?.thresholds?.find(
