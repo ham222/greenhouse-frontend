@@ -46,9 +46,6 @@ export default function LineChart({
   const [timeScope, setTimeScope] = useState(timeScopes[0]);
 
   const cutOffTimestamp = DateTime.now().minus(timeScope.scope).toMillis();
-  if (measurements == null) {
-    measurements = [];
-  }
 
   const averageMeasurements = (
     measurements: Measurement[],
@@ -83,18 +80,20 @@ export default function LineChart({
     return averagedData;
   };
 
+  if (measurements == null) {
+    measurements = [];
+  }
+
   measurements = measurements.filter(
     ({ timestamp }) => timestamp >= cutOffTimestamp
   );
 
-  console.log(measurements);
   if (timeScope.averageTo !== undefined) {
     measurements = averageMeasurements(
       measurements,
       timeScope.averageTo.toMillis()
     );
   }
-  console.log(measurements);
 
   const series = [
     {
