@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Status from "./components/containers/Status/Status";
 import Timeline from "./components/containers/Timeline/Timeline";
 import Watering from "./components/containers/Watering/Watering";
+import Presets from "./components/containers/Presets/Preset";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
             <Route path="/" element={<Status />} />
             <Route path="/timeline" element={<Timeline />} />
             <Route path="/watering" element={<Watering />} />
+            <Route path="/presets" element={<Presets />} />
           </Routes>
         </div>
         <Navbar />
