@@ -10,6 +10,8 @@ interface LineChartProps {
   bgColor: string;
   accentColor: string;
   icon: JSX.Element;
+  minThreshold?: number;
+  maxThreshold?: number;
 }
 export default function LineChart({
   measurements,
@@ -17,6 +19,8 @@ export default function LineChart({
   bgColor,
   accentColor,
   icon,
+  minThreshold,
+  maxThreshold,
 }: LineChartProps) {
   if (measurements == null) {
     measurements = [];
@@ -26,6 +30,22 @@ export default function LineChart({
       name: capitalize(type),
       data: measurements.map(({ value }) => value),
     },
+    ...(maxThreshold !== undefined
+      ? [
+          {
+            name: "max",
+            data: measurements.map((measurements) => maxThreshold),
+          },
+        ]
+      : []),
+    ...(minThreshold !== undefined
+      ? [
+          {
+            name: "min",
+            data: measurements.map((measurements) => minThreshold),
+          },
+        ]
+      : []),
   ];
 
   const options: ApexCharts.ApexOptions = {
@@ -53,7 +73,7 @@ export default function LineChart({
     },
     stroke: {
       curve: "smooth",
-      colors: ["#555555"],
+      colors: ["#555555", "#00c91b", "#c91b00"],
       width: 3,
     },
     xaxis: {

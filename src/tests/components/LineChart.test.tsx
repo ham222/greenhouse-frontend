@@ -29,6 +29,8 @@ describe("LineChart", () => {
         bgColor={"#e6f5fb"}
         accentColor={"#b0d7e7"}
         icon={<BsWater className="w-full h-full" />}
+        maxThreshold={30}
+        minThreshold={15}
       />
     );
 
