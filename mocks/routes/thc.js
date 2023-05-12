@@ -7,7 +7,7 @@ function generateRandomValues({ valueMin, valueMax, startTimestamp, round }) {
 
   for (let timestamp = startTimestamp; timestamp <= now; timestamp += 300000) {
     const value = Math.random() * valueRange + valueMin;
-    const rounded = value.toFixed(round);
+    const rounded = parseFloat(value.toFixed(round));
     objects.push({ timestamp: timestamp, value: rounded });
   }
 
