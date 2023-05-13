@@ -42,7 +42,7 @@ export default function Modal({ open, onClose, children, title }: ModalProps) {
                 >
                   {title}
                 </Dialog.Title>
-                <div className="h-full grid items-center">
+                <div className="h-full grid ">
                   <div>{children}</div>
                 </div>
               </Dialog.Panel>

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import ThresholdBox from "./ThresholdBox";
+import ViewAllPresetsModal from "./ViewAllPresetsModal";
 
 export default function Preset() {
   const [title, setTitle] = useState("Create new Preset");
+  const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
   return (
     <>
@@ -21,12 +23,17 @@ export default function Preset() {
       </div>
       <div className="flex justify-center my-5">
         <button
-          className="bg-[#202329] text-white w-4/5
+          className="bg-[#202329] text-white w-4/5 font-semibold
         py-4 rounded-3xl hover:bg-slate-700 ease-in-out duration-200 md:hidden"
+          onClick={() => setAllPresetsModalOpen(true)}
         >
           See all presets
         </button>
       </div>
+      <ViewAllPresetsModal
+        open={allPresetsModalOpen}
+        onClose={() => setAllPresetsModalOpen(false)}
+      />
     </>
   );
 }
