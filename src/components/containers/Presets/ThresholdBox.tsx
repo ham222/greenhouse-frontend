@@ -13,13 +13,17 @@ let ThresholdBox = ({ title, updateValue }: ThresholdBoxProps): JSX.Element => {
   });
 
   const handleChange = (evt: any) => {
-    // console.log(state.min);
-    const value = evt.target.value;
-    setState({
-      ...state,
-      [evt.target.name]: value,
-    });
-    updateValue(state);
+    if (evt.target.value === "") {
+      return;
+    }
+    const value = parseFloat(evt.target.value);
+    if (evt.target.name === "max") {
+      setState({ min: state.min, max: value });
+      updateValue({ min: state.min, max: value });
+    } else {
+      setState({ max: state.max, min: value });
+      updateValue({ min: state.min, max: value });
+    }
   };
 
   return (
