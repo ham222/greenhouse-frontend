@@ -5,6 +5,7 @@ import ViewAllPresetsModal from "./ViewAllPresetsModal";
 import PresetDomain from "src/domain/Preset";
 import Threshold from "src/domain/Threshold";
 import axios from "axios";
+import { ChangeEvent } from "react";
 
 export default function Preset() {
   const [title, setTitle] = useState("Create new Preset");
@@ -21,6 +22,7 @@ export default function Preset() {
     min: 0,
     max: 0,
   });
+  const [presetName, setPresetName] = React.useState("");
   const API_URL = process.env.REACT_APP_API_BASE_URL;
 
   const addPreset = async () => {
@@ -48,6 +50,15 @@ export default function Preset() {
     <>
       <div className="flex flex-col align-items-center">
         <h1 className="text-center text-2xl font-semibold mt-4">{title}</h1>
+        <div className="flex justify-center items-baseline">
+          <h2 className="font-semibold mt-4 mb-4 text-lg mr-4">Preset Name</h2>
+          <input
+            type="text"
+            name="presetName"
+            id=""
+            className="w-1/2 h-10 bg-[#EFEFEF] rounded-lg"
+          />
+        </div>
         <ThresholdBox
           title={"Temperature"}
           updateValue={setTemperature}
