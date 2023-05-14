@@ -1,4 +1,5 @@
 import Modal from "src/components/UI/Modal";
+import PresetItem from "./PresetItem";
 
 interface ViewAllPresetsModalProps {
   open: boolean;
@@ -12,13 +13,17 @@ let ViewAllPresetsModal = ({
   return (
     <>
       <Modal title={""} open={open} onClose={onClose}>
-        <div className="flex justify-center relative top-0">
+        <div className="flex flex-col items-center ">
           <button
             className="bg-[#202329] text-white w-4/5 font-semibold
-        py-4 rounded-3xl hover:bg-slate-700 ease-in-out duration-200 md:hidden"
+        py-4 rounded-3xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200 md:hidden"
+            onClick={() => onClose()}
           >
             Create new Preset
           </button>
+          <PresetItem></PresetItem>
+          <PresetItem></PresetItem>
+          <PresetItem></PresetItem>
         </div>
       </Modal>
     </>
