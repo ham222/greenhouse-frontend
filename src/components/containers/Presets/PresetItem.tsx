@@ -1,6 +1,10 @@
-interface PresetItemProps {}
 
-let PresetItem = ({}: PresetItemProps): JSX.Element => {
+
+interface PresetItemProps {
+  presetName: string;
+}
+
+let PresetItem = ({ presetName }: PresetItemProps): JSX.Element => {
   return (
     <>
       <div
@@ -8,7 +12,7 @@ let PresetItem = ({}: PresetItemProps): JSX.Element => {
         py-4 rounded-3xl   ease-in-out duration-300 my-3 cursor-pointer hover:scale-105 hover:shadow-xl"
       >
         <p className="text-[#202329] font-semibold text-2xl text-center ">
-          Cucumber
+          {presetName}
         </p>
       </div>
     </>

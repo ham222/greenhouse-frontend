@@ -1,5 +1,9 @@
 import Modal from "src/components/UI/Modal";
 import PresetItem from "./PresetItem";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 interface ViewAllPresetsModalProps {
   open: boolean;
@@ -10,6 +14,23 @@ let ViewAllPresetsModal = ({
   open,
   onClose,
 }: ViewAllPresetsModalProps): JSX.Element => {
+  const [state, setState] = useState<any>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let url = `${API_URL}/preset`;
+        const response = await axios.get(url);
+        setState(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <Modal title={""} open={open} onClose={onClose}>
@@ -21,9 +42,9 @@ let ViewAllPresetsModal = ({
           >
             Create new Preset
           </button>
-          <PresetItem></PresetItem>
-          <PresetItem></PresetItem>
-          <PresetItem></PresetItem>
+          {state.map((item: any) => (
+            <PresetItem key={item.name} presetName={item.name}></PresetItem>
+          ))}
         </div>
       </Modal>
     </>
