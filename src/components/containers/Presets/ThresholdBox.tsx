@@ -30,8 +30,8 @@ let ThresholdBox = ({ title, updateValue }: ThresholdBoxProps): JSX.Element => {
     <>
       <div className="flex flex-col my-5">
         <h2 className="text-center font-semibold text-lg ">{title}</h2>
-        <div className="grid grid-cols-2">
-          <div className="flex justify-center gap-3 items-center">
+        <div className="grid grid-cols-2 mx-10">
+          <div className="flex justify-start gap-3 items-center">
             <p className="text-lg">Min</p>
             <div className="max-sm:w-1/2 w-56">
               <input
@@ -43,7 +43,7 @@ let ThresholdBox = ({ title, updateValue }: ThresholdBoxProps): JSX.Element => {
               />
             </div>
           </div>
-          <div className="flex justify-center gap-3 items-center">
+          <div className="flex justify-end gap-3 items-center">
             <p className="text-lg">Max</p>
             <div className="max-sm:w-1/2 w-56">
               <input

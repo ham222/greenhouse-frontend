@@ -59,13 +59,13 @@ export default function Preset() {
     <>
       <div className="flex flex-col align-items-center">
         <h1 className="text-center text-2xl font-semibold mt-4">{title}</h1>
-        <div className="flex justify-center items-baseline">
-          <h2 className="font-semibold mt-4 mb-4 text-lg mr-4">Preset Name</h2>
+        <div className="flex justify-start items-baseline ml-10">
+          <h2 className="font-semibold mt-4 mr-4 mb-4 text-lg ">Preset Name</h2>
           <input
             type="text"
             name="presetName"
             id=""
-            className="w-1/2 h-10 bg-[#EFEFEF] rounded-lg"
+            className="w-1/2 sm:w-78 py-1 bg-[#EFEFEF] rounded-lg"
             onChange={handleNameChange}
           />
         </div>
@@ -94,7 +94,7 @@ export default function Preset() {
       <div className="flex justify-center my-5">
         <button
           className="bg-[#202329] text-white w-4/5 font-semibold
-        py-4 rounded-3xl hover:bg-slate-700 ease-in-out duration-200 md:hidden"
+        py-4 rounded-3xl hover:bg-slate-700 ease-in-out duration-200 lg:hidden md:w-40"
           onClick={() => setAllPresetsModalOpen(true)}
         >
           See all presets

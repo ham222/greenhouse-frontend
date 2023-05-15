@@ -24,7 +24,12 @@ export default function RunWateringModal({
   };
 
   return (
-    <Modal title={"Start watering system "} open={open} onClose={onClose}>
+    <Modal
+      title={"Start watering system "}
+      open={open}
+      onClose={onClose}
+     
+    >
       <div>
         <DurationPicker value={duration} updateValue={updateDuration} />
       </div>

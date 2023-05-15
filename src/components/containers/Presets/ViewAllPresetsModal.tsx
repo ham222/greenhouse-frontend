@@ -1,4 +1,4 @@
-import Modal from "src/components/UI/Modal";
+import ModalSmallScreen from "src/components/UI/ModalSmallScreen";
 import PresetItem from "./PresetItem";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -33,20 +33,22 @@ let ViewAllPresetsModal = ({
 
   return (
     <>
-      <Modal title={""} open={open} onClose={onClose}>
-        <div className="flex flex-col items-center ">
-          <button
-            className="bg-[#202329] text-white w-4/5 font-semibold
-        py-4 rounded-3xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200 md:hidden"
-            onClick={() => onClose()}
-          >
-            Create new Preset
-          </button>
-          {state.map((item: any) => (
-            <PresetItem key={item.name} presetName={item.name}></PresetItem>
-          ))}
+      <ModalSmallScreen title={""} open={open} onClose={onClose}>
+        <div className="flex flex-col items-center">
+          <div className=" md:w-4/5 flex flex-col items-center">
+            <button
+              className="bg-[#202329] text-white w-4/5 font-semibold
+        py-4 rounded-3xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200 lg:hidden"
+              onClick={() => onClose()}
+            >
+              Create new Preset
+            </button>
+            {state.map((item: any) => (
+              <PresetItem key={item.name} presetName={item.name}></PresetItem>
+            ))}
+          </div>
         </div>
-      </Modal>
+      </ModalSmallScreen>
     </>
   );
 };
