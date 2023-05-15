@@ -5,10 +5,10 @@ import ViewAllPresetsModal from "./ViewAllPresetsModal";
 import PresetDomain from "src/domain/Preset";
 import Threshold from "src/domain/Threshold";
 import axios from "axios";
-import { ChangeEvent } from "react";
 
 export default function Preset() {
   const [title, setTitle] = useState("Create new Preset");
+
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
   const [temperature, setTemperature] = React.useState({
     min: 0,
@@ -32,10 +32,7 @@ export default function Preset() {
       new Threshold("Humidity", humidity.min, humidity.max),
       new Threshold("Co2", co2.min, co2.max),
     ];
-    const presetDomain: PresetDomain = new PresetDomain(
-      "My Preset",
-      thresholds
-    );
+    const presetDomain: PresetDomain = new PresetDomain(presetName, thresholds);
 
     try {
       let url = `${API_URL}/preset`;
@@ -43,6 +40,18 @@ export default function Preset() {
       console.log(response.data);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleNameChange = (evt: any) => {
+    if (evt.target.value === "") {
+      return;
+    }
+    const value = String(evt.target.value);
+
+    if (evt.target.name === "presetName") {
+      setPresetName(value);
+      console.log(value);
     }
   };
 
@@ -57,6 +66,7 @@ export default function Preset() {
             name="presetName"
             id=""
             className="w-1/2 h-10 bg-[#EFEFEF] rounded-lg"
+            onChange={handleNameChange}
           />
         </div>
         <ThresholdBox
