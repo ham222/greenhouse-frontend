@@ -27,30 +27,11 @@ export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [intervalModalOpen, setIntervalModalOpen] = useState(false);
   const [durationModalOpen, setDurationModalOpen] = useState(false);
-  const [isWatering, setIsWatering] = useState(false);
   const [intervals, setIntervals] = useState<GroupedIntervals>(
     groupIntervals([])
   );
-  const getToggleResponse = useGet<{ state: boolean }>(
-    `${API_URL}/watering-system/toggle`
-  );
-
-  if (getToggleResponse.error != null) {
-    displayNetworkError(getToggleResponse.error.message);
-  }
-
-  useEffect(() => {
-    let mounted = true;
-    if (mounted && getToggleResponse.data != null) {
-      setIsWatering(getToggleResponse.data.state);
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [getToggleResponse.data]);
 
   const runWateringService = async (isOn: boolean, duration: number) => {
-    let success = true;
     try {
       let url = `${API_URL}/watering-system/toggle`;
       await axios.post(url, {
@@ -58,21 +39,8 @@ export default function Watering() {
         duration: Duration.fromObject({ minutes: duration }).as("milliseconds"),
       });
     } catch (error) {
-      success = false;
       const axiosError = error as AxiosError;
       displayNetworkError(axiosError.message);
-    }
-
-    if (success) {
-      setIsWatering(isOn);
-    }
-  };
-
-  const toggleWatering = () => {
-    if (!isWatering) {
-      setDurationModalOpen(true);
-    } else {
-      runWateringService(false, 0);
     }
   };
 
@@ -135,7 +103,7 @@ export default function Watering() {
           </div>
         </div>
 
-        <WaterToggle value={isWatering} updateValue={() => toggleWatering()} />
+        <WaterToggle updateValue={() => setDurationModalOpen(true)} />
 
         {isMobile ? (
           <Tab.Group>
