@@ -74,13 +74,13 @@ export default function CreateIntervalModal({
   };
 
   const isValid = () => {
-      if(!(dayPicks.some((day) => day.picked === true))){
-        return "Pick a day"
-      }
-      if(duration.as("milliseconds") <= 0){
-        return "Invalid time"
-      }
-      return "OK"
+    if (!dayPicks.some((day) => day.picked === true)) {
+      return "Pick a day";
+    }
+    if (duration.as("milliseconds") <= 0) {
+      return "Invalid time";
+    }
+    return "OK";
   };
 
   return (
@@ -99,7 +99,7 @@ export default function CreateIntervalModal({
             <div className="text-xl">
               Total time:{" "}
               <span className="font-semibold">
-                {isValid()=="OK" ? durationToString(duration) : isValid()}
+                {isValid() == "OK" ? durationToString(duration) : isValid()}
               </span>
             </div>
             <div className="mt-8">
@@ -111,7 +111,7 @@ export default function CreateIntervalModal({
       <div className="px-4 py-3 flex flex-row-reverse sm:px-6">
         <button
           type="button"
-          disabled={isValid()!=="OK" || !open}
+          disabled={isValid() !== "OK" || !open}
           className="inline-flex disabled:text-gray-300 max-sm:basis-1/2 max-sm:mx-4 justify-center rounded-md bg-[#F2F4F5] px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 ml-3"
           onClick={() => {
             onAdd(generateNewIntervals());
