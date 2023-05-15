@@ -4,12 +4,16 @@ import axios, { AxiosError, Method } from "axios";
 function useFetch<Type>(
   url: string,
   method: Method,
-  body?: any
-): { loading: boolean; error: AxiosError | null; data: Type | null } {
+  body?: any,
+  dependency?: any
+): {
+  loading: boolean;
+  error: AxiosError | null;
+  data: Type | null;
+} {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<Type | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
-
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
@@ -29,7 +33,7 @@ function useFetch<Type>(
     };
 
     fetchData();
-  }, [url, method, body]);
+  }, [url, method, body, dependency]);
 
   return { loading, error, data };
 }
