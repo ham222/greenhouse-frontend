@@ -1,13 +1,16 @@
 import React from "react";
-import { useState } from "react";
 import ThresholdBox from "./ThresholdBox";
 import ViewAllPresetsModal from "./ViewAllPresetsModal";
 import PresetDomain from "src/domain/Preset";
 import Threshold from "src/domain/Threshold";
+import PresetItem from "./PresetItem";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Preset() {
   const [title, setTitle] = useState("Create new Preset");
+  const [presetList, setPresetList] = useState<any>([]);
+  const [windowSize, setWindowSize] = useState(0);
 
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
   const [temperature, setTemperature] = React.useState({
@@ -55,55 +58,84 @@ export default function Preset() {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (window.innerWidth > 1024)
+        try {
+          let url = `${API_URL}/preset`;
+          const response = await axios.get(url);
+          setPresetList(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
-      <div className="flex flex-col align-items-center">
-        <h1 className="text-center text-2xl font-semibold mt-4">{title}</h1>
-        <div className="flex justify-start items-baseline ml-10">
-          <h2 className="font-semibold mt-4 mr-4 mb-4 text-lg ">Preset Name</h2>
-          <input
-            type="text"
-            name="presetName"
-            id=""
-            className="w-1/2 sm:w-78 py-1 bg-[#EFEFEF] rounded-lg"
-            onChange={handleNameChange}
+      <div className="lg:flex">
+        <div className="lg:w-2/3">
+          <div className="flex flex-col align-items-center">
+            <h1 className="text-center text-2xl font-semibold mt-4">{title}</h1>
+            <div className="flex justify-start items-baseline ml-10  mt-5 md:mt-10 md:mb-5">
+              <h2 className="font-semibold  mr-4 mb-4 text-lg ">Preset Name</h2>
+              <input
+                type="text"
+                name="presetName"
+                id=""
+                className="w-1/2 sm:w-72 py-1 bg-[#EFEFEF] rounded-lg"
+                onChange={handleNameChange}
+              />
+            </div>
+            <ThresholdBox
+              title={"Temperature"}
+              updateValue={setTemperature}
+            ></ThresholdBox>
+            <ThresholdBox
+              title={"Humidity"}
+              updateValue={setHumidity}
+            ></ThresholdBox>
+            <ThresholdBox title={"Co2"} updateValue={setCo2}></ThresholdBox>
+          </div>
+          <div className="flex justify-end ">
+            <div className="mr-14">
+              <button
+                className="bg-[#D9D9D9] font-semibold text-xl px-7 py-1.5 rounded-lg hover:bg-stone-200 ease-in-out duration-200"
+                onClick={() => {
+                  addPreset();
+                }}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+          <div className="flex justify-center my-10">
+            <button
+              className="bg-[#202329] text-white w-4/5 font-semibold
+        py-4 rounded-3xl hover:bg-slate-700 ease-in-out duration-200 lg:hidden md:w-40"
+              onClick={() => setAllPresetsModalOpen(true)}
+            >
+              See all presets
+            </button>
+          </div>
+          <ViewAllPresetsModal
+            open={allPresetsModalOpen}
+            onClose={() => setAllPresetsModalOpen(false)}
           />
         </div>
-        <ThresholdBox
-          title={"Temperature"}
-          updateValue={setTemperature}
-        ></ThresholdBox>
-        <ThresholdBox
-          title={"Humidity"}
-          updateValue={setHumidity}
-        ></ThresholdBox>
-        <ThresholdBox title={"Co2"} updateValue={setCo2}></ThresholdBox>
-      </div>
-      <div className="flex justify-end ">
-        <div className="mr-14">
-          <button
-            className="bg-[#D9D9D9] font-semibold text-xl px-7 py-1.5 rounded-lg hover:bg-stone-200 ease-in-out duration-200"
-            onClick={() => {
-              addPreset();
-            }}
-          >
-            Save
-          </button>
+        <div className="hidden lg:block bg-slate-600 w-1/3">
+          <div className="flex flex-col items-center">
+            <div className=" md:w-4/5 flex flex-col items-center">
+              {presetList.map((item: any) => (
+                <PresetItem key={item.name} presetName={item.name}></PresetItem>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex justify-center my-5">
-        <button
-          className="bg-[#202329] text-white w-4/5 font-semibold
-        py-4 rounded-3xl hover:bg-slate-700 ease-in-out duration-200 lg:hidden md:w-40"
-          onClick={() => setAllPresetsModalOpen(true)}
-        >
-          See all presets
-        </button>
-      </div>
-      <ViewAllPresetsModal
-        open={allPresetsModalOpen}
-        onClose={() => setAllPresetsModalOpen(false)}
-      />
     </>
   );
 }
