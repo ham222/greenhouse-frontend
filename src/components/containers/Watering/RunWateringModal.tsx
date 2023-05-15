@@ -1,6 +1,9 @@
 import Modal from "src/components/UI/Modal";
 import { useState } from "react";
 import DurationPicker from "src/components/UI/DurationPicker";
+import { useGet } from "src/hooks/useGet";
+import { displayNetworkError } from "src/utils/errorToast";
+const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 interface RunWateringModalProps {
   open: boolean;
@@ -15,6 +18,14 @@ export default function RunWateringModal({
 }: RunWateringModalProps) {
   const [duration, setDuration] = useState(5);
 
+  const getToggleResponse = useGet<{ state: boolean }>(
+    `${API_URL}/watering-system/toggle`,
+    open
+  );
+
+  if (getToggleResponse.error != null) {
+    displayNetworkError(getToggleResponse.error.message);
+  }
   const isValid = (duration: number) => {
     return duration > 0 && Number.isInteger(duration);
   };
