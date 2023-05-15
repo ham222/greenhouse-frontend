@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 export default function Preset() {
   const [title, setTitle] = useState("Create new Preset");
   const [presetList, setPresetList] = useState<any>([]);
-  const [windowSize, setWindowSize] = useState(0);
 
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
   const [temperature, setTemperature] = React.useState({
@@ -54,21 +53,19 @@ export default function Preset() {
 
     if (evt.target.name === "presetName") {
       setPresetName(value);
-      console.log(value);
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      if (window.innerWidth > 1024)
-        try {
-          let url = `${API_URL}/preset`;
-          const response = await axios.get(url);
-          setPresetList(response.data);
-          console.log(response.data);
-        } catch (error) {
-          console.error(error);
-        }
+      try {
+        let url = `${API_URL}/preset`;
+        const response = await axios.get(url);
+        setPresetList(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     fetchData();
@@ -121,12 +118,16 @@ export default function Preset() {
               See all presets
             </button>
           </div>
-          <ViewAllPresetsModal
-            open={allPresetsModalOpen}
-            onClose={() => setAllPresetsModalOpen(false)}
-          />
+          <div className="lg:hidden">
+            <ViewAllPresetsModal
+              open={allPresetsModalOpen}
+              onClose={() => setAllPresetsModalOpen(false)}
+              presets={presetList}
+            />
+          </div>
         </div>
-        <div className="hidden lg:block bg-slate-600 w-1/3">
+
+        <div className="hidden lg:block w-1/3">
           <div className="flex flex-col items-center">
             <div className=" md:w-4/5 flex flex-col items-center">
               {presetList.map((item: any) => (
