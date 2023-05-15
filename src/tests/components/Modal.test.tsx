@@ -1,6 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import Modal from "src/components/UI/Modal";
-import "@testing-library/jest-dom";
 
 describe("Modal", () => {
   const onClose = jest.fn();

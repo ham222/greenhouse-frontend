@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Dropdown from "src/components/UI/Dropdown";
-import "@testing-library/jest-dom";
 
 describe("Dropdown", () => {
   it("renders correctly", () => {

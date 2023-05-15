@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Toggle from "src/components/UI/Toggle";
-import "@testing-library/jest-dom";
 
 describe("Toggle", () => {
   let mockUpdateValue: jest.Mock;

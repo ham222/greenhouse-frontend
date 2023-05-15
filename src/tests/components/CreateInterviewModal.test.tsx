@@ -1,6 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import CreateIntervalModal from "src/components/containers/Watering/CreateIntervalModal";
-import "@testing-library/jest-dom";
 import { act } from "react-dom/test-utils";
 
 class ResizeObserver {
