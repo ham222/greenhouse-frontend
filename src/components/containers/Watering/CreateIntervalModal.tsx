@@ -99,7 +99,7 @@ export default function CreateIntervalModal({
             <div className="text-xl">
               Total time:{" "}
               <span className="font-semibold">
-                {isValid()==="OK" ? durationToString(duration) : isValid()}
+                {isValid() === "OK" ? durationToString(duration) : isValid()}
               </span>
             </div>
             <div className="mt-8">
