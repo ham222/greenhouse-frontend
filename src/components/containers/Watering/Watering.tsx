@@ -8,26 +8,35 @@ import { Fragment, useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
 import { WeekDays } from "src/domain/WeekDays";
 import { groupIntervals } from "src/utils/groupIntervals";
-import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import ScheduleColumn from "./ScheduleColumn";
 import Interval from "src/domain/Interval";
 import RunWateringModal from "./RunWateringModal";
 import { useGet } from "src/hooks/useGet";
 import axios, { AxiosError } from "axios";
-import { IntervalDto } from "src/domain/IntervalDto";
+import IntervalDto from "src/domain/IntervalDto";
 import { displayNetworkError } from "src/utils/errorToast";
 import { CreateIntervalDto } from "src/domain/CreateIntervalDto";
+import { useMemo } from "react";
+import UpdateIntervalModal from "./UpdateIntervalModal";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [intervalModalOpen, setIntervalModalOpen] = useState(false);
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [durationModalOpen, setDurationModalOpen] = useState(false);
   const [isWatering, setIsWatering] = useState(false);
-  const [intervals, setIntervals] = useState<GroupedIntervals>(
-    groupIntervals([])
+  const [intervals, setIntervals] = useState<Interval[]>([]);
+  const [toUpdate, setToUpdate] = useState<Interval>(
+    new Interval(-1, "00:00:00", "01:00:00", 0)
   );
+
+  const groupedIntervals = useMemo(
+    () => groupIntervals(intervals),
+    [intervals]
+  );
+
   const getToggleResponse = useGet<{ state: boolean }>(
     `${API_URL}/watering-system/toggle`
   );
@@ -75,16 +84,9 @@ export default function Watering() {
 
   const setSchedule = (intervals: IntervalDto[]) => {
     setIntervals(
-      groupIntervals(
-        intervals.map((dto) => {
-          return new Interval(
-            dto.id,
-            dto.startTime,
-            dto.endTime,
-            dto.dayOfWeek
-          );
-        })
-      )
+      intervals.map((dto) => {
+        return new Interval(dto.id, dto.startTime, dto.endTime, dto.dayOfWeek);
+      })
     );
   };
 
@@ -105,9 +107,52 @@ export default function Watering() {
     displayNetworkError(intervalResponse.error.message);
   }
 
-  const updateInterval = async (id: number) => {};
+  const openUpdateIntervalModal = (updateId: number) => {
+    const toUpdate = intervals.find((interval) => interval.id === updateId);
+    console.log(toUpdate);
+    if (toUpdate === undefined) return;
+    setToUpdate(toUpdate);
+    setUpdateModalOpen(true);
+  };
 
-  const deleteInterval = async (id: number) => {};
+  const updateInterval = async (dto: IntervalDto) => {
+    try {
+      let url = `${API_URL}/schedule/${dto.id}`;
+      await axios.put(url, dto);
+
+      //New array so that useMemo detects reference change
+      const newIntervals = [...intervals];
+
+      const index = newIntervals.findIndex(
+        (interval) => interval.id === dto.id
+      );
+
+      if (index === -1) return;
+
+      newIntervals[index] = new Interval(
+        dto.id,
+        dto.startTime,
+        dto.endTime,
+        dto.dayOfWeek
+      );
+
+      setIntervals(newIntervals);
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      displayNetworkError(axiosError.message);
+    }
+  };
+
+  const deleteInterval = async (id: number) => {
+    try {
+      let url = `${API_URL}/schedule/${id}`;
+      await axios.delete(url);
+      setIntervals(intervals.filter((interval) => interval.id !== id));
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      displayNetworkError(axiosError.message);
+    }
+  };
 
   const addInverval = async (newIntervals: CreateIntervalDto[]) => {
     try {
@@ -156,7 +201,7 @@ export default function Watering() {
                           "font-semibold flex-grow focus:outline-0 cursor-pointer text-center w-14 flex justify-center items-center h-16 my-4 py-4 px-2 flex-shrink-0 rounded-lg",
                           selected
                             ? "bg-[#202329] text-white"
-                            : intervals[day].length > 0
+                            : groupedIntervals[day].length > 0
                             ? "bg-[#E6F5FB]"
                             : "bg-[#F2F4F5]",
                         ].join(" ")}
@@ -178,10 +223,10 @@ export default function Watering() {
             <Tab.Panels className="mt-4">
               {WeekDays.map((day) => (
                 <Tab.Panel key={day}>
-                  {intervals[day].map((interval, index) => (
+                  {groupedIntervals[day].map((interval, index) => (
                     <div key={index} className="mt-2">
                       <WaterRuntime
-                        onUpdate={updateInterval}
+                        onUpdate={openUpdateIntervalModal}
                         onDelete={deleteInterval}
                         interval={interval}
                       />
@@ -195,11 +240,11 @@ export default function Watering() {
           <div className="grid gap-3 grid-cols-7">
             {WeekDays.map((day) => (
               <ScheduleColumn
-                onUpdate={updateInterval}
+                onUpdate={openUpdateIntervalModal}
                 onDelete={deleteInterval}
                 key={day}
                 day={day}
-                intervals={intervals[day]}
+                intervals={groupedIntervals[day]}
               />
             ))}
           </div>
@@ -209,6 +254,12 @@ export default function Watering() {
         onAdd={addInverval}
         open={intervalModalOpen}
         onClose={() => setIntervalModalOpen(false)}
+      />
+      <UpdateIntervalModal
+        toUpdate={toUpdate}
+        onUpdate={updateInterval}
+        open={updateModalOpen}
+        onClose={() => setUpdateModalOpen(false)}
       />
       <RunWateringModal
         onRun={runWateringService}
