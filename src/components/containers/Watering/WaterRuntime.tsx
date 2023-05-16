@@ -22,7 +22,9 @@ export default function WaterRuntime({
   return (
     <div
       data-testid="water-runtime"
-      onClick={() => open(!isOpen)}
+      tabIndex={0}
+      onFocus={() => open(true)}
+      onBlur={() => open(false)}
       className="bg-[#E6F5FB] cursor-pointer relative rounded-lg"
     >
       <div className="flex justify-between shadow-md rounded-lg sm:justify-center py-3 px-2">
