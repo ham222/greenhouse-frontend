@@ -12,7 +12,7 @@ export default function Preset() {
   const [title, setTitle] = useState("Create new Preset");
   const [presetList, setPresetList] = useState<PresetDomain[]>([]);
 
-  const defaultPreset: PresetDomain = new PresetDomain("Default", [
+  const defaultPreset: PresetDomain = new PresetDomain("", [
     new Threshold("Temperature", 0, 0),
     new Threshold("Co2", 0, 0),
     new Threshold("Humidity", 0, 0),
@@ -40,6 +40,11 @@ export default function Preset() {
     setPreset(newPreset);
   };
 
+  // const updatePresetName = (name: string) => {
+  //   const newPreset = new PresetDomain(name, preset.thresholds);
+  //   setPreset(newPreset);
+  // };
+
   const addPreset = async () => {
     try {
       let url = `${API_URL}/preset`;
@@ -49,14 +54,14 @@ export default function Preset() {
     }
   };
 
-  const handleNameChange = (evt: any) => {
+  const handleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (evt.target.value === "") {
       return;
     }
-    const value = String(evt.target.value);
 
     if (evt.target.name === "presetName") {
-      setPresetName(value);
+      const newPreset = new PresetDomain(evt.target.value, preset.thresholds);
+      setPreset(newPreset);
     }
   };
   const itemRefs = useRef({});
