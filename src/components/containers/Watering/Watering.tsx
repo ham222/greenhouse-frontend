@@ -105,6 +105,10 @@ export default function Watering() {
     displayNetworkError(intervalResponse.error.message);
   }
 
+  const updateInterval = async (id: number) => {};
+
+  const deleteInterval = async (id: number) => {};
+
   const addInverval = async (newIntervals: CreateIntervalDto[]) => {
     try {
       let url = `${API_URL}/schedule`;
@@ -177,8 +181,9 @@ export default function Watering() {
                   {intervals[day].map((interval, index) => (
                     <div key={index} className="mt-2">
                       <WaterRuntime
-                        startTime={interval.startTime}
-                        endTime={interval.endTime}
+                        onUpdate={updateInterval}
+                        onDelete={deleteInterval}
+                        interval={interval}
                       />
                     </div>
                   ))}
@@ -189,7 +194,13 @@ export default function Watering() {
         ) : (
           <div className="grid gap-3 grid-cols-7">
             {WeekDays.map((day) => (
-              <ScheduleColumn key={day} day={day} intervals={intervals[day]} />
+              <ScheduleColumn
+                onUpdate={updateInterval}
+                onDelete={deleteInterval}
+                key={day}
+                day={day}
+                intervals={intervals[day]}
+              />
             ))}
           </div>
         )}
