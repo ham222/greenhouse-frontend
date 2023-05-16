@@ -37,7 +37,6 @@ export default function Watering() {
     [intervals]
   );
 
-
   const runWateringService = async (isOn: boolean, duration: number) => {
     try {
       let url = `${API_URL}/watering-system/toggle`;
