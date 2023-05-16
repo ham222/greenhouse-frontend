@@ -11,6 +11,8 @@
       "change-toggle:success",
       "get-schedule:success",
       "set-schedule:success",
+      "delete-schedule:success",
+      "update-schedule:success",
       "get-current-preset:success",
       "set-current-preset:success",
       "get-presets:success",
