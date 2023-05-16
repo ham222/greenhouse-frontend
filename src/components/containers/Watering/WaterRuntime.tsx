@@ -16,7 +16,6 @@ export default function WaterRuntime({
 
   const open = (value: boolean) => {
     setIsOpen(value);
-    console.log(value);
   };
 
   return (
