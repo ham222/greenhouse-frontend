@@ -14,8 +14,8 @@ export default class Interval {
     dayOfWeek: number
   ) {
     this.id = id;
-    this.startTime = DateTime.fromFormat(startTime, "hh:mm:ss");
-    this.endTime = DateTime.fromFormat(endTime, "hh:mm:ss");
+    this.startTime = DateTime.fromFormat(startTime, "HH:mm:ss");
+    this.endTime = DateTime.fromFormat(endTime, "HH:mm:ss");
     this.weekDayIndex = dayOfWeek;
     this.dayOfWeek = WeekDays[dayOfWeek];
   }
