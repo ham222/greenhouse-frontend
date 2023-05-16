@@ -1,36 +1,45 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import Threshold from "src/domain/Threshold";
+import capitalize from "src/utils/capitalize";
 
 interface ThresholdBoxProps {
-  title: String;
-  updateValue: (state: any) => void;
+  threshold: Threshold;
+  updateValue: (state: Threshold) => void;
 }
 
-let ThresholdBox = ({ title, updateValue }: ThresholdBoxProps): JSX.Element => {
-  const [state, setState] = React.useState({
-    min: 0,
-    max: 0,
-  });
-
-  const handleChange = (evt: any) => {
+let ThresholdBox = ({
+  threshold,
+  updateValue,
+}: ThresholdBoxProps): JSX.Element => {
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (evt.target.value === "") {
       return;
     }
     const value = parseFloat(evt.target.value);
+
+    const newThreshold = new Threshold(
+      threshold.type,
+      threshold.min,
+      threshold.max
+    );
+
     if (evt.target.name === "max") {
-      setState({ min: state.min, max: value });
-      updateValue({ min: state.min, max: value });
+      newThreshold.max = value;
+
+      updateValue(newThreshold);
     } else {
-      setState({ max: state.max, min: value });
-      updateValue({ min: state.min, max: value });
+      newThreshold.min = value;
+
+      updateValue(newThreshold);
     }
   };
-
+  console.log(threshold?.min);
   return (
     <>
       <div className="flex flex-col lg:flex-row my-5 ">
         <h2 className="text-center font-semibold text-lg lg:w-28 lg:text-right">
-          {title}
+          {capitalize(threshold.type)}
         </h2>
         <div className="grid grid-cols-2 mx-10 lg:gap-10">
           <div className="flex justify-start gap-3 items-center ">
@@ -42,6 +51,7 @@ let ThresholdBox = ({ title, updateValue }: ThresholdBoxProps): JSX.Element => {
                 id=""
                 className="py-1 w-full bg-[#EFEFEF] rounded-lg"
                 onChange={handleChange}
+                value={threshold.min === 0 ? "" : threshold.min}
               />
             </div>
           </div>
@@ -54,6 +64,7 @@ let ThresholdBox = ({ title, updateValue }: ThresholdBoxProps): JSX.Element => {
                 id=""
                 className="py-1 w-full bg-[#EFEFEF]  rounded-lg "
                 onChange={handleChange}
+                value={threshold.max === 0 ? "" : threshold.max}
               />
             </div>
           </div>

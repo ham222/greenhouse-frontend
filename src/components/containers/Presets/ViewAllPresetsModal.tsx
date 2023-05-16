@@ -11,15 +11,15 @@ interface ViewAllPresetsModalProps {
   open: boolean;
   onClose: () => void;
   presets: any;
+  onClick: (value: string) => void;
 }
 
-let ViewAllPresetsModal = ({
+export default function ViewAllPresetsModal({
   open,
   onClose,
   presets,
-}: ViewAllPresetsModalProps): JSX.Element => {
-  const [state, setState] = useState<any>([]);
-
+  onClick,
+}: ViewAllPresetsModalProps) {
   return (
     <>
       <ModalSmallScreen title={""} open={open} onClose={onClose}>
@@ -33,7 +33,11 @@ let ViewAllPresetsModal = ({
               Create new Preset
             </button>
             {presets.map((item: any) => (
-              <PresetItem key={item.name} presetName={item.name}></PresetItem>
+              <PresetItem
+                onClick={onClick}
+                key={item.name}
+                presetName={item.name}
+              ></PresetItem>
             ))}
           </div>
         </div>
@@ -41,5 +45,3 @@ let ViewAllPresetsModal = ({
     </>
   );
 };
-
-export default ViewAllPresetsModal;

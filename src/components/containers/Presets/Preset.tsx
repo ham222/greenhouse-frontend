@@ -6,40 +6,44 @@ import Threshold from "src/domain/Threshold";
 import PresetItem from "./PresetItem";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useRef } from "react";
 
 export default function Preset() {
   const [title, setTitle] = useState("Create new Preset");
-  const [presetList, setPresetList] = useState<any>([]);
+  const [presetList, setPresetList] = useState<PresetDomain[]>([]);
+
+  const defaultPreset: PresetDomain = new PresetDomain("Default", [
+    new Threshold("Temperature", 0, 0),
+    new Threshold("Co2", 0, 0),
+    new Threshold("Humidity", 0, 0),
+  ]);
+  const [preset, setPreset] = useState<PresetDomain>(defaultPreset);
+
+  const changeCurrentPreset = (newPresetName: string) => {
+    const newPreset =
+      presetList.find(({ name }) => name === newPresetName) ?? defaultPreset;
+    setPreset(newPreset);
+  };
 
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
-  const [temperature, setTemperature] = React.useState({
-    min: 0,
-    max: 0,
-  });
-  const [humidity, setHumidity] = React.useState({
-    min: 0,
-    max: 0,
-  });
-  const [co2, setCo2] = React.useState({
-    min: 0,
-    max: 0,
-  });
   const [presetName, setPresetName] = React.useState("");
   const API_URL = process.env.REACT_APP_API_BASE_URL;
 
-  const addPreset = async () => {
-    console.log("adding");
-    const thresholds: Threshold[] = [
-      new Threshold("Temperature", temperature.min, temperature.max),
-      new Threshold("Humidity", humidity.min, humidity.max),
-      new Threshold("Co2", co2.min, co2.max),
-    ];
-    const presetDomain: PresetDomain = new PresetDomain(presetName, thresholds);
+  const updateThreshold = (threshold: Threshold) => {
+    const newPreset = new PresetDomain(preset.name, preset.thresholds);
+    const id = newPreset.thresholds.findIndex(
+      ({ type }) => threshold.type === type
+    );
+    console.log(id + " " + threshold);
+    newPreset.thresholds[id] = threshold;
+    console.log(id + " " + threshold);
+    setPreset(newPreset);
+  };
 
+  const addPreset = async () => {
     try {
       let url = `${API_URL}/preset`;
-      const response = await axios.post(url, presetDomain);
-      console.log(response.data);
+      const response = await axios.post(url, preset);
     } catch (error) {
       console.error(error);
     }
@@ -55,19 +59,20 @@ export default function Preset() {
       setPresetName(value);
     }
   };
+  const itemRefs = useRef({});
+
+  const fetchData = async () => {
+    try {
+      let url = `${API_URL}/preset`;
+      const response = await axios.get(url);
+      setPresetList(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let url = `${API_URL}/preset`;
-        const response = await axios.get(url);
-        setPresetList(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -77,8 +82,6 @@ export default function Preset() {
 
       <div className="md:flex md:flex-col md:items-center lg:flex-row lg:items-start">
         <div className=" md:w-4/5 lg:w-3/5 lg:border-r-stone-400 lg:border-r-2 lg:content-center lg:ml-[7vw]">
-          {/* here  */}
-
           <div className="flex flex-col">
             <div className="flex justify-start items-baseline ml-10  mt-5 md:mt-10 md:mb-5 lg:ml-0 lg:mt-0 ">
               <h2 className="font-semibold  mr-4 mb-4 text-lg  lg:text-left lg:ml-0 ">
@@ -90,23 +93,22 @@ export default function Preset() {
                 id=""
                 className="w-1/2 sm:w-72 py-1 bg-[#EFEFEF] rounded-lg"
                 onChange={handleNameChange}
+                value={preset?.name}
               />
             </div>
-            <ThresholdBox
-              title={"Temperature"}
-              updateValue={setTemperature}
-            ></ThresholdBox>
-            <ThresholdBox
-              title={"Humidity"}
-              updateValue={setHumidity}
-            ></ThresholdBox>
-            <ThresholdBox title={"Co2"} updateValue={setCo2}></ThresholdBox>
+            {preset?.thresholds.map((threshold) => (
+              <ThresholdBox
+                updateValue={updateThreshold}
+                threshold={threshold}
+              ></ThresholdBox>
+            ))}
             <div className="flex justify-end">
               <div className="mr-14">
                 <button
                   className="bg-[#D9D9D9] font-semibold text-xl px-7 py-1.5 rounded-lg hover:bg-stone-200 ease-in-out duration-200"
                   onClick={() => {
                     addPreset();
+                    fetchData();
                   }}
                 >
                   Save
@@ -126,6 +128,7 @@ export default function Preset() {
           </div>
           <div className="lg:hidden">
             <ViewAllPresetsModal
+              onClick={changeCurrentPreset}
               open={allPresetsModalOpen}
               onClose={() => setAllPresetsModalOpen(false)}
               presets={presetList}
@@ -143,7 +146,11 @@ export default function Preset() {
               </div>
 
               {presetList.map((item: any) => (
-                <PresetItem key={item.name} presetName={item.name}></PresetItem>
+                <PresetItem
+                  onClick={changeCurrentPreset}
+                  key={item.name}
+                  presetName={item.name}
+                ></PresetItem>
               ))}
             </div>
           </div>
