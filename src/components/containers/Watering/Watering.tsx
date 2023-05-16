@@ -7,10 +7,7 @@ import CreateIntervalModal from "./CreateIntervalModal";
 import { Fragment, useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
 import { WeekDays } from "src/domain/WeekDays";
-import {
-  groupIntervals,
-  createIntervalPayload,
-} from "src/utils/groupIntervals";
+import { groupIntervals } from "src/utils/groupIntervals";
 import { GroupedIntervals } from "src/domain/GroupedIntervals";
 import ScheduleColumn from "./ScheduleColumn";
 import Interval from "src/domain/Interval";
@@ -18,8 +15,8 @@ import RunWateringModal from "./RunWateringModal";
 import { useGet } from "src/hooks/useGet";
 import axios, { AxiosError } from "axios";
 import { IntervalDto } from "src/domain/IntervalDto";
-import { convertIntervalArrayToIntervalDtoArray } from "src/utils/intervalParser";
 import { displayNetworkError } from "src/utils/errorToast";
+import { CreateIntervalDto } from "src/domain/CreateIntervalDto";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -76,17 +73,28 @@ export default function Watering() {
     }
   };
 
+  const setSchedule = (intervals: IntervalDto[]) => {
+    setIntervals(
+      groupIntervals(
+        intervals.map((dto) => {
+          return new Interval(
+            dto.id,
+            dto.startTime,
+            dto.endTime,
+            dto.dayOfWeek
+          );
+        })
+      )
+    );
+  };
+
   const intervalResponse = useGet<IntervalDto[]>(`${API_URL}/schedule`);
   useEffect(() => {
     let mounted = true;
     if (mounted && intervalResponse.data != null) {
       let intervalDtos: IntervalDto[];
-      let schedule: Interval[];
       intervalDtos = intervalResponse.data;
-      schedule = intervalDtos.map((dto) => {
-        return new Interval(dto.startTime, dto.endTime, dto.dayOfWeek);
-      });
-      setIntervals(groupIntervals(schedule));
+      setSchedule(intervalDtos);
     }
     return () => {
       mounted = false;
@@ -96,20 +104,15 @@ export default function Watering() {
   if (intervalResponse.error != null) {
     displayNetworkError(intervalResponse.error.message);
   }
-  const addInverval = async (newIntervals: Interval[]) => {
-    let isSuccess = true;
-    const payload = createIntervalPayload(intervals, newIntervals);
-    let schedule = convertIntervalArrayToIntervalDtoArray(payload);
+
+  const addInverval = async (newIntervals: CreateIntervalDto[]) => {
     try {
       let url = `${API_URL}/schedule`;
-      await axios.post(url, schedule);
+      const result = await axios.post(url, newIntervals);
+      setSchedule(result.data as IntervalDto[]);
     } catch (error) {
-      isSuccess = false;
       const axiosError = error as AxiosError;
       displayNetworkError(axiosError.message);
-    }
-    if (isSuccess) {
-      setIntervals(groupIntervals(payload));
     }
   };
   useEffect(() => {

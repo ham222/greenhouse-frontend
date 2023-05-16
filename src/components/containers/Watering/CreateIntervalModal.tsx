@@ -6,11 +6,11 @@ import durationToString from "src/utils/durationToString";
 import MiniDayPicker from "src/components/UI/MiniDayPicker";
 import { WeekDay } from "src/domain/WeekDay";
 import { DayPick } from "src/domain/DayPick";
-import Interval from "src/domain/Interval";
+import { CreateIntervalDto } from "src/domain/CreateIntervalDto";
 interface IntervalModalProps {
   open: boolean;
   onClose: () => void;
-  onAdd: (newIntervals: Interval[]) => void;
+  onAdd: (newIntervals: CreateIntervalDto[]) => void;
 }
 
 export default function CreateIntervalModal({
@@ -60,13 +60,10 @@ export default function CreateIntervalModal({
   }, [startTime, endTime]);
 
   const generateNewIntervals = () => {
-    let format = "hh:mm:ss";
-    let newIntervals: Interval[] = [];
+    let newIntervals: CreateIntervalDto[] = [];
     for (let i = 0; i < dayPicks.length; i++) {
       if (dayPicks[i].picked) {
-        newIntervals.push(
-          new Interval(startTime.toFormat(format), endTime.toFormat(format), i)
-        );
+        newIntervals.push(new CreateIntervalDto(startTime, endTime, i));
       }
     }
 
