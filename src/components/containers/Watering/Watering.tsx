@@ -26,7 +26,6 @@ export default function Watering() {
   const [intervalModalOpen, setIntervalModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [durationModalOpen, setDurationModalOpen] = useState(false);
-  const [isWatering, setIsWatering] = useState(false);
   const [intervals, setIntervals] = useState<Interval[]>([]);
   const [toUpdate, setToUpdate] = useState<Interval>(
     new Interval(-1, "00:00:00", "01:00:00", 0)
