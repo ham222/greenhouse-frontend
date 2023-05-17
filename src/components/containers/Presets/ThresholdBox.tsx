@@ -6,16 +6,20 @@ import capitalize from "src/utils/capitalize";
 interface ThresholdBoxProps {
   threshold: Threshold;
   updateValue: (state: Threshold) => void;
+  min: number;
+  max: number;
 }
 
 let ThresholdBox = ({
   threshold,
   updateValue,
+  min,
+  max,
 }: ThresholdBoxProps): JSX.Element => {
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.value === "") {
-      return;
-    }
+    // if (evt.target.value === "0") {
+    //   console.log("hooooooooooo");
+    // }
     const value = parseFloat(evt.target.value);
 
     const newThreshold = new Threshold(
@@ -25,11 +29,12 @@ let ThresholdBox = ({
     );
 
     if (evt.target.name === "max") {
-      newThreshold.max = value;
+      newThreshold.max = Math.max(min, Math.min(max, Number(value)));
+      console.log("hhhhhh" + threshold.max);
 
       updateValue(newThreshold);
     } else {
-      newThreshold.min = value;
+      newThreshold.min = Math.max(min, Math.min(max, Number(value)));
 
       updateValue(newThreshold);
     }
@@ -64,7 +69,7 @@ let ThresholdBox = ({
                 id=""
                 className="py-1 w-full bg-[#EFEFEF]  rounded-lg "
                 onChange={handleChange}
-                value={threshold.max === 0 ? "" : threshold.max}
+                value={threshold.max == 0 ? "" : threshold.max}
               />
             </div>
           </div>

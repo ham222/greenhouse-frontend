@@ -34,9 +34,7 @@ export default function Preset() {
     const id = newPreset.thresholds.findIndex(
       ({ type }) => threshold.type === type
     );
-    console.log(id + " " + threshold);
     newPreset.thresholds[id] = threshold;
-    console.log(id + " " + threshold);
     setPreset(newPreset);
   };
 
@@ -46,6 +44,8 @@ export default function Preset() {
   // };
 
   const addPreset = async () => {
+    // console.log(preset.thresholds[0].max + "aaaaaaaaaaaa");
+
     try {
       let url = `${API_URL}/preset`;
       const response = await axios.post(url, preset);
@@ -60,11 +60,13 @@ export default function Preset() {
     }
 
     if (evt.target.name === "presetName") {
+      if (evt.target.value === "") {
+      }
+
       const newPreset = new PresetDomain(evt.target.value, preset.thresholds);
       setPreset(newPreset);
     }
   };
-  const itemRefs = useRef({});
 
   const fetchData = async () => {
     try {
@@ -75,6 +77,18 @@ export default function Preset() {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const onSave = () => {
+    const temperatureThreshold: Threshold[] = preset.thresholds.filter(
+      (t) => t.type === "Temperature"
+    );
+    if (temperatureThreshold[0].min > 0 && temperatureThreshold[0].max < 10)
+      console.log("aaaaaaaaaaaaaaaaaaaa");
+    console.log(temperatureThreshold);
+
+    fetchData();
+    addPreset();
   };
 
   useEffect(() => {
@@ -112,8 +126,7 @@ export default function Preset() {
                 <button
                   className="bg-[#D9D9D9] font-semibold text-xl px-7 py-1.5 rounded-lg hover:bg-stone-200 ease-in-out duration-200"
                   onClick={() => {
-                    addPreset();
-                    fetchData();
+                    onSave();
                   }}
                 >
                   Save
