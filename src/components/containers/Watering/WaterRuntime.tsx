@@ -46,6 +46,7 @@ export default function WaterRuntime({
         </div>
       </div>
       <div
+        data-testid="drawer"
         className={classNames(
           { "rounded-b-lg": isOpen },
           { "h-12": isOpen },
