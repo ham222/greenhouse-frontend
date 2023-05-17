@@ -19,16 +19,14 @@ export default function PresetStatus({ preset }: Props) {
           </div>
         </div>
         <div className="flex text-white rounded-b-lg p-3 flex-row group-hover:bg-slate-500 duration-150 justify-between bg-slate-700">
-          <div className="text-sm">
-            <span className="flex flex-col font-bold whitespace-nowrap ">
-              {preset.thresholds.map((t) => (
-                <div className="grid grid-cols-3 gap-2" key={t.type}>
-                  <div className="text-right">{capitalize(t.type)}:</div>
-                  <div>Min: {t.min}</div>
-                  <div>Max: {t.max}</div>
-                </div>
-              ))}
-            </span>
+          <div className="text-sm flex flex-col font-bold whitespace-nowrap">
+            {preset.thresholds.map((t) => (
+              <div className="grid grid-cols-3 gap-2" key={t.type}>
+                <div className="text-right">{capitalize(t.type)}:</div>
+                <div>Min: {t.min}</div>
+                <div>Max: {t.max}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
