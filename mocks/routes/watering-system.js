@@ -1,4 +1,4 @@
-let state = { state: true };
+let state = { state: false };
 let duration = { duration: 0 };
 
 module.exports = [

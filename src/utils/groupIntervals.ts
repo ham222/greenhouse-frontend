@@ -17,6 +17,13 @@ export const groupIntervals = (intervals: Interval[]): GroupedIntervals => {
     groupedSchedule[interval.dayOfWeek].push(interval);
   }
 
+  Object.entries(groupedSchedule).forEach(
+    ([key, intvals]) =>
+      (groupedSchedule[key as keyof GroupedIntervals] = intvals.sort(
+        (a, b) => a.startTime.toMillis() - b.startTime.toMillis()
+      ))
+  );
+
   return groupedSchedule;
 };
 
@@ -35,19 +42,6 @@ export const ungroupIntervals = (
   groupedIntervals: GroupedIntervals
 ): Interval[] => {
   let intervals: Interval[] = [];
-
-  for (let item of WeekDays) {
-    intervals.push(...groupedIntervals[item]);
-  }
-
-  return intervals;
-};
-
-export const createIntervalPayload = (
-  groupedIntervals: GroupedIntervals,
-  newIntervals: Interval[]
-) => {
-  let intervals: Interval[] = [...newIntervals];
 
   for (let item of WeekDays) {
     intervals.push(...groupedIntervals[item]);

@@ -5,11 +5,15 @@ import WaterRuntime from "./WaterRuntime";
 interface ScheduleColumnProps {
   day: WeekDay;
   intervals: Interval[];
+  onUpdate?: (id: number) => void;
+  onDelete?: (id: number) => void;
 }
 
 export default function ScheduleColumn({
   day,
   intervals,
+  onUpdate = () => {},
+  onDelete = () => {},
 }: ScheduleColumnProps) {
   return (
     <div>
@@ -24,9 +28,10 @@ export default function ScheduleColumn({
       <div className="flex flex-col gap-3">
         {intervals.map((interval, index) => (
           <WaterRuntime
+            onDelete={onDelete}
+            onUpdate={onUpdate}
             key={index}
-            startTime={interval.startTime}
-            endTime={interval.endTime}
+            interval={interval}
           />
         ))}
       </div>
