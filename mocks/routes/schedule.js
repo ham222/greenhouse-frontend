@@ -1,28 +1,28 @@
 let idCount = 0;
 let schedule = [
   {
-    id: 0,
+    id: idCount++,
     startTime: "08:00:00",
     endTime: "09:45:00",
-    dayOfWeek: idCount++,
+    dayOfWeek: 0,
   },
   {
-    id: 1,
+    id: idCount++,
     startTime: "18:30:00",
     endTime: "20:00:00",
-    dayOfWeek: idCount++,
+    dayOfWeek: 1,
   },
   {
-    id: 2,
+    id: idCount++,
     startTime: "12:15:00",
     endTime: "14:20:00",
-    dayOfWeek: idCount++,
+    dayOfWeek: 2,
   },
   {
-    id: 3,
+    id: idCount++,
     startTime: "10:30:00",
     endTime: "16:10:00",
-    dayOfWeek: idCount++,
+    dayOfWeek: 3,
   },
 ];
 module.exports = [
