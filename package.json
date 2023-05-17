@@ -34,7 +34,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "react-scripts test",
+    "test:coverage": "react-scripts test --coverage src",
     "watch": "jest --watch",
     "eject": "react-scripts eject",
     "mocks": "mocks-server"
@@ -62,7 +63,6 @@
     "@mocks-server/main": "^4.0.1",
     "@types/luxon": "^3.3.0",
     "cypress": "^12.10.0",
-    "jest": "^29.5.0",
     "jsdom": "^21.1.1",
     "tailwindcss": "^3.3.0"
   },

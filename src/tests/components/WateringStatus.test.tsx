@@ -3,7 +3,6 @@ import { DateTime } from "luxon";
 import { BrowserRouter } from "react-router-dom";
 import WateringStatus from "src/components/containers/Status/WateringStatus";
 import durationToString from "src/utils/durationToString";
-import "@testing-library/jest-dom";
 
 describe("Watering Status", () => {
   it("renders the correct status when online", () => {
