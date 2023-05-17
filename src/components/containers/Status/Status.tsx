@@ -5,6 +5,8 @@ import { DateTime } from "luxon";
 import { useGet } from "src/hooks/useGet";
 import Measurement from "src/domain/Measurement";
 import { displayNetworkError } from "src/utils/errorToast";
+import PresetStatus from "./PresetStatus";
+import Preset from "src/domain/Preset";
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 export default function Status() {
   const [temperature, setTemperature] = useState<number | null>(null);
@@ -29,6 +31,8 @@ export default function Status() {
   if (temperatureResponse.error != null) {
     displayNetworkError(temperatureResponse.error.message);
   }
+  const presetResponse = useGet<Preset>(`${API_URL}/current-preset`);
+
   useEffect(() => {
     let mounted = true;
     if (mounted && temperatureResponse.data != null) {
@@ -64,6 +68,7 @@ export default function Status() {
           })
           .diff(DateTime.now())}
       />
+      <PresetStatus preset={presetResponse.data}></PresetStatus>
     </div>
   );
 }

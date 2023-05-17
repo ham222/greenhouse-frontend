@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import MiniDaySwitch from "src/components/UI/MiniDaySwitch";
 import { WeekDay } from "src/domain/WeekDay";
-import "@testing-library/jest-dom";
 
 describe("MiniDayPicker", () => {
   let mockUpdateValue: jest.Mock;
