@@ -8,6 +8,7 @@ import { displayNetworkError } from "src/utils/errorToast";
 import LineChart from "../Status/LineChart";
 import { WiThermometer } from "react-icons/wi";
 import { BsWater } from "react-icons/bs";
+import PresetStatus from "./PresetStatus";
 import Preset from "src/domain/Preset";
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 export default function Status() {
@@ -70,6 +71,7 @@ export default function Status() {
   if (temperatureResponse.error != null) {
     displayNetworkError(temperatureResponse.error.message);
   }
+
   useEffect(() => {
     let mounted = true;
     if (mounted && temperatureResponse.data != null) {
@@ -105,6 +107,7 @@ export default function Status() {
           })
           .diff(DateTime.now())}
       />
+      <PresetStatus preset={presetResponse.data}></PresetStatus>
       <LineChart
         measurements={co2ChartResponse.data}
         type="co2"

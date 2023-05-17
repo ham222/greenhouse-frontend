@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import { DateTime } from "luxon";
-import React from "react";
 import WaterRuntime from "src/components/containers/Watering/WaterRuntime";
 import durationToString from "src/utils/durationToString";
 

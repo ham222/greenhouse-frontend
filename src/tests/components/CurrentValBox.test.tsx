@@ -1,6 +1,5 @@
 import { describe } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import CurrentValBox from "../../components/containers/Status/CurrentValBox";
 
 describe("CurrentValBox", () => {
