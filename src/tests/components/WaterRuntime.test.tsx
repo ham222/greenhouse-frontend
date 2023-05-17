@@ -67,7 +67,7 @@ describe("Water Runtime", () => {
     expect(updateButton).toBeVisible();
   });
 
-  it("has update button that fire onUpdate event", () => {
+  it("has update button that fires onUpdate event", () => {
     const deleteMock = jest.fn();
     const updateMock = jest.fn();
 
@@ -87,7 +87,7 @@ describe("Water Runtime", () => {
     expect(updateMock).toHaveBeenCalled();
   });
 
-  it("has delete button that fire onDelete event", () => {
+  it("has delete button that fires onDelete event", () => {
     const deleteMock = jest.fn();
     const updateMock = jest.fn();
 
