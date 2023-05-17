@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { DateTime } from "luxon";
-import "@testing-library/jest-dom";
 import WaterRuntime from "src/components/containers/Watering/WaterRuntime";
 import Interval from "src/domain/Interval";
 import durationToString from "src/utils/durationToString";
