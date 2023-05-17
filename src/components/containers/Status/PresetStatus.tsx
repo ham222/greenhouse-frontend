@@ -14,7 +14,7 @@ export default function PresetStatus({ preset }: Props) {
         <div className="flex flex-col p-3 rounded-t-lg duration-150 cursor-pointer group-hover:bg-slate-600 bg-slate-800">
           <div className="flex gap-3 items-center">
             <div className="flex font-bold text-white">
-              CurrentPreset: {preset.name}
+              Current preset: {preset.name}
             </div>
           </div>
         </div>
