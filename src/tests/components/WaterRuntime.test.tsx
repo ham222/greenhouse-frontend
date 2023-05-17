@@ -75,7 +75,7 @@ describe("Water Runtime", () => {
       <WaterRuntime
         onDelete={deleteMock}
         onUpdate={updateMock}
-        interval={new Interval(0, "23:00:00", "23:30:00", 6)}
+        interval={new Interval(1, "23:00:00", "23:30:00", 6)}
       />
     );
 
@@ -84,7 +84,7 @@ describe("Water Runtime", () => {
     fireEvent.click(updateButton);
 
     expect(deleteMock).not.toHaveBeenCalled();
-    expect(updateMock).toHaveBeenCalled();
+    expect(updateMock).toHaveBeenCalledWith(1);
   });
 
   it("has delete button that fires onDelete event", () => {
@@ -95,7 +95,7 @@ describe("Water Runtime", () => {
       <WaterRuntime
         onDelete={deleteMock}
         onUpdate={updateMock}
-        interval={new Interval(0, "23:00:00", "23:30:00", 6)}
+        interval={new Interval(1, "23:00:00", "23:30:00", 6)}
       />
     );
 
@@ -103,7 +103,7 @@ describe("Water Runtime", () => {
 
     fireEvent.click(deleteButton);
 
-    expect(deleteMock).toHaveBeenCalled();
+    expect(deleteMock).toHaveBeenCalledWith(1);
     expect(updateMock).not.toHaveBeenCalled();
   });
 });
