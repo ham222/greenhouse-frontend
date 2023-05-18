@@ -13,9 +13,9 @@ export default function Preset() {
   const [presetList, setPresetList] = useState<PresetDomain[]>([]);
 
   const defaultPreset: PresetDomain = new PresetDomain("", [
-    new Threshold("Temperature", 0, 0),
-    new Threshold("Co2", 0, 0),
-    new Threshold("Humidity", 0, 0),
+    new Threshold("Temperature", parseFloat(""), parseFloat("")),
+    new Threshold("Co2", parseFloat(""), parseFloat("")),
+    new Threshold("Humidity", parseFloat(""), parseFloat("")),
   ]);
   const [preset, setPreset] = useState<PresetDomain>(defaultPreset);
 
@@ -44,7 +44,8 @@ export default function Preset() {
   // };
 
   const addPreset = async () => {
-    // console.log(preset.thresholds[0].max + "aaaaaaaaaaaa");
+    console.log("bbbbbbb");
+    console.log(preset);
 
     try {
       let url = `${API_URL}/preset`;
@@ -60,9 +61,6 @@ export default function Preset() {
     }
 
     if (evt.target.name === "presetName") {
-      if (evt.target.value === "") {
-      }
-
       const newPreset = new PresetDomain(evt.target.value, preset.thresholds);
       setPreset(newPreset);
     }
@@ -80,15 +78,22 @@ export default function Preset() {
   };
 
   const onSave = () => {
-    const temperatureThreshold: Threshold[] = preset.thresholds.filter(
-      (t) => t.type === "Temperature"
-    );
-    if (temperatureThreshold[0].min > 0 && temperatureThreshold[0].max < 10)
-      console.log("aaaaaaaaaaaaaaaaaaaa");
-    console.log(temperatureThreshold);
+    preset.thresholds.forEach((t) => {
+      if (Number.isNaN(t.max) || Number.isNaN(t.min) || preset.name === "") {
+        console.log(preset.name);
+        console.log(Number.isNaN(t.max));
+        console.log(Number.isNaN(t.min));
 
-    fetchData();
-    addPreset();
+        console.log("NAN");
+      } else {
+        fetchData();
+        addPreset();
+      }
+    });
+
+    // if (temperatureThreshold[0].min > 0 && temperatureThreshold[0].max < 10)
+    //   console.log("aaaaaaaaaaaaaaaaaaaa");
+    // console.log(temperatureThreshold);
   };
 
   useEffect(() => {

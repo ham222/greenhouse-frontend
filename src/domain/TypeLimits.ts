@@ -1,0 +1,9 @@
+import { Limit } from "./Limit";
+
+const limitMap: Map<string, Limit> = new Map();
+
+limitMap.set("Temperature", { min: -50, max: 60 });
+limitMap.set("Humidity", { min: 0, max: 100 });
+limitMap.set("Co2", { min: 0, max: 4095 });
+
+export default limitMap;

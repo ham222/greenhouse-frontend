@@ -2,24 +2,25 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Threshold from "src/domain/Threshold";
 import capitalize from "src/utils/capitalize";
+import limitMap from "src/domain/TypeLimits";
+import { Limit } from "src/domain/Limit";
 
 interface ThresholdBoxProps {
   threshold: Threshold;
   updateValue: (state: Threshold) => void;
-  min: number;
-  max: number;
 }
 
 let ThresholdBox = ({
   threshold,
   updateValue,
-  min,
-  max,
 }: ThresholdBoxProps): JSX.Element => {
+  let limit: Limit;
+
+  if (limitMap.has(threshold.type)) {
+    limit = limitMap.get(threshold.type) ?? { min: -9999, max: 9999 };
+  }
+
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    // if (evt.target.value === "0") {
-    //   console.log("hooooooooooo");
-    // }
     const value = parseFloat(evt.target.value);
 
     const newThreshold = new Threshold(
@@ -29,12 +30,18 @@ let ThresholdBox = ({
     );
 
     if (evt.target.name === "max") {
-      newThreshold.max = Math.max(min, Math.min(max, Number(value)));
+      newThreshold.max = Math.max(
+        limit.min,
+        Math.min(limit.max, Number(value))
+      );
       console.log("hhhhhh" + threshold.max);
 
       updateValue(newThreshold);
     } else {
-      newThreshold.min = Math.max(min, Math.min(max, Number(value)));
+      newThreshold.min = Math.max(
+        limit.min,
+        Math.min(limit.max, Number(value))
+      );
 
       updateValue(newThreshold);
     }
@@ -56,7 +63,7 @@ let ThresholdBox = ({
                 id=""
                 className="py-1 w-full bg-[#EFEFEF] rounded-lg"
                 onChange={handleChange}
-                value={threshold.min === 0 ? "" : threshold.min}
+                value={Number.isNaN(threshold.min) ? "" : threshold.min}
               />
             </div>
           </div>
@@ -69,7 +76,7 @@ let ThresholdBox = ({
                 id=""
                 className="py-1 w-full bg-[#EFEFEF]  rounded-lg "
                 onChange={handleChange}
-                value={threshold.max == 0 ? "" : threshold.max}
+                value={Number.isNaN(threshold.max) ? "" : threshold.max}
               />
             </div>
           </div>
