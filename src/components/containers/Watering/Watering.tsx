@@ -167,10 +167,10 @@ export default function Watering() {
                         className={[
                           "font-semibold flex-grow focus:outline-0 cursor-pointer text-center w-14 flex justify-center items-center h-16 my-4 py-4 px-2 flex-shrink-0 rounded-lg",
                           selected
-                            ? "bg-[#202329] text-white"
+                            ? "bg-dark text-white"
                             : groupedIntervals[day].length > 0
-                            ? "bg-[#E6F5FB]"
-                            : "bg-[#F2F4F5]",
+                            ? "bg-accent"
+                            : "bg-slate-100",
                         ].join(" ")}
                       >
                         {day.substring(0, 3)}

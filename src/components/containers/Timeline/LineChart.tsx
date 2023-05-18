@@ -137,7 +137,7 @@ export default function LineChart({
   return (
     <div
       style={{ backgroundColor: bgColor }}
-      className="bg-[#ffefde] p-2 font-sora shadow-sm max-sm:w-auto rounded-xl"
+      className="bg-accent p-2 font-sora shadow-sm max-sm:w-auto rounded-xl"
     >
       <div className="flex items-center">
         <div>

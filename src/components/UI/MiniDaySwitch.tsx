@@ -30,8 +30,8 @@ export default function MiniDaySwitch({
         "select-none",
         "place-items-center",
         {
-          "bg-[#202329]": value,
-          "bg-[#F2F4F5]": !value,
+          "bg-dark": value,
+          "bg-neutral-50": !value,
           "text-white": value,
         }
       )}

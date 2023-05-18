@@ -26,7 +26,7 @@ export default function WaterRuntime({
       tabIndex={0}
       onFocus={() => open(true)}
       onBlur={() => open(false)}
-      className="bg-[#E6F5FB] cursor-pointer relative rounded-lg"
+      className="bg-accent cursor-pointer relative rounded-lg"
     >
       <div className="flex justify-between shadow-md rounded-lg sm:justify-center py-3 px-2">
         <div className="font-semibold sm:flex lg:block flex-col justify-center items-center sm:text-xs lg:text-sm">
