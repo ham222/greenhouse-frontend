@@ -14,7 +14,7 @@ let CurrentValBox = ({
   return (
     <>
       <div className="flex flex-col items-center mt-10">
-        <div className="flex flex-col bg-[#BFFA00] max-w-[90%] h-[40%] rounded-[0.625rem] ">
+        <div className="flex flex-col bg-neon max-w-[90%] h-[40%] rounded-[0.625rem] ">
           <div className="flex px-[3vw] py-[1vw] lg:py-[.7vw] ">
             <div className="flex items-baseline">
               <h1 className="text-[3rem] font-bold">{temperature}°C</h1>
