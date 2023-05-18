@@ -78,6 +78,7 @@ export default function Preset() {
   };
 
   const onSave = () => {
+    let isEmpty = false;
     preset.thresholds.forEach((t) => {
       if (Number.isNaN(t.max) || Number.isNaN(t.min) || preset.name === "") {
         console.log(preset.name);
@@ -85,11 +86,17 @@ export default function Preset() {
         console.log(Number.isNaN(t.min));
 
         console.log("NAN");
-      } else {
-        fetchData();
-        addPreset();
+        isEmpty = true;
       }
     });
+
+    if (isEmpty === false) {
+      alert("k");
+      addPreset();
+      fetchData();
+      console.log("hhhhhhhhhhh");
+      console.log(presetList);
+    }
 
     // if (temperatureThreshold[0].min > 0 && temperatureThreshold[0].max < 10)
     //   console.log("aaaaaaaaaaaaaaaaaaaa");
