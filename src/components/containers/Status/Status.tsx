@@ -90,57 +90,63 @@ export default function Status() {
   }, [co2Response, humidityResponse, temperatureResponse]);
 
   return (
-    <div className="m-3 flex flex-col gap-3">
-      <CurrentValBox
-        temperature={temperature?.toString() ?? ""}
-        datetime={new Date(date ?? "").toLocaleString()}
-        humidity={humidity?.toString() ?? ""}
-        co2={co2?.toString() ?? ""}
-      />
-      <WateringStatus
-        isOnline={getToggleResponse.data?.state ?? false}
-        timeToWatering={DateTime.now()
-          .plus({
-            hours: 2,
-            minutes: 34,
-            seconds: 20,
-          })
-          .diff(DateTime.now())}
-      />
-      <PresetStatus preset={presetResponse.data}></PresetStatus>
-      <LineChart
-        measurements={co2ChartResponse.data}
-        type="co2"
-        bgColor={"#ffefde"}
-        accentColor={"#FFDCB6"}
-        icon={
-          <div className="font-semibold">
-            CO<sub>2</sub>
-          </div>
-        }
-        maxThreshold={co2Thresholds?.max}
-        minThreshold={co2Thresholds?.min}
-      />
+    <div className="grid m-3 grid-cols-1 lg:grid-cols-5 gap-5">
+      <div className="lg:col-span-2 flex flex-col gap-5">
+        {" "}
+        <CurrentValBox
+          temperature={temperature?.toString() ?? ""}
+          datetime={new Date(date ?? "").toLocaleString()}
+          humidity={humidity?.toString() ?? ""}
+          co2={co2?.toString() ?? ""}
+        />
+        <WateringStatus
+          isOnline={getToggleResponse.data?.state ?? false}
+          timeToWatering={DateTime.now()
+            .plus({
+              hours: 2,
+              minutes: 34,
+              seconds: 20,
+            })
+            .diff(DateTime.now())}
+        />
+        <PresetStatus preset={presetResponse.data}></PresetStatus>
+      </div>
 
-      <LineChart
-        measurements={temperatureChartResponse.data}
-        type="temperature"
-        bgColor={"#feffde"}
-        accentColor={"#f4f5bd"}
-        icon={<WiThermometer className="w-full h-full" />}
-        maxThreshold={temperatureThresholds?.max}
-        minThreshold={temperatureThresholds?.min}
-      />
+      <div className="lg:col-span-3 flex flex-col gap-5">
+        <LineChart
+          measurements={co2ChartResponse.data}
+          type="co2"
+          bgColor={"#ffefde"}
+          accentColor={"#FFDCB6"}
+          icon={
+            <div className="font-semibold">
+              CO<sub>2</sub>
+            </div>
+          }
+          maxThreshold={co2Thresholds?.max}
+          minThreshold={co2Thresholds?.min}
+        />
 
-      <LineChart
-        measurements={humidityChartResponse.data}
-        type="humidity"
-        bgColor={"#e6f5fb"}
-        accentColor={"#b0d7e7"}
-        icon={<BsWater className="w-full h-full" />}
-        maxThreshold={humidityThresholds?.max}
-        minThreshold={humidityThresholds?.min}
-      />
+        <LineChart
+          measurements={temperatureChartResponse.data}
+          type="temperature"
+          bgColor={"#feffde"}
+          accentColor={"#f4f5bd"}
+          icon={<WiThermometer className="w-full h-full" />}
+          maxThreshold={temperatureThresholds?.max}
+          minThreshold={temperatureThresholds?.min}
+        />
+
+        <LineChart
+          measurements={humidityChartResponse.data}
+          type="humidity"
+          bgColor={"#e6f5fb"}
+          accentColor={"#b0d7e7"}
+          icon={<BsWater className="w-full h-full" />}
+          maxThreshold={humidityThresholds?.max}
+          minThreshold={humidityThresholds?.min}
+        />
+      </div>
     </div>
   );
 }
