@@ -11,15 +11,37 @@ interface ViewAllPresetsModalProps {
   open: boolean;
   onClose: () => void;
   presets: any;
-  onClick: (value: string) => void;
+  onPresetClick: (value: string) => void;
 }
 
 export default function ViewAllPresetsModal({
   open,
   onClose,
   presets,
-  onClick,
+  onPresetClick,
 }: ViewAllPresetsModalProps) {
+  const [presetList, setPresetList] = useState<PresetDomain[]>([]);
+  const defaultPreset: PresetDomain = new PresetDomain("", [
+    new Threshold("Temperature", parseFloat(""), parseFloat("")),
+    new Threshold("Co2", parseFloat(""), parseFloat("")),
+    new Threshold("Humidity", parseFloat(""), parseFloat("")),
+  ]);
+  const [preset, setPreset] = useState<PresetDomain>(defaultPreset);
+
+  const changeCurrentPreset = (newPresetName: string) => {
+    const newPreset =
+      presetList.find(({ name }) => name === newPresetName) ?? defaultPreset;
+    setPreset(newPreset);
+  };
+
+  const handleClick = () => {
+    // Function 1
+    console.log("Function 1 called");
+
+    // Function 2
+    console.log("Function 2 called");
+  };
+
   return (
     <>
       <ModalSmallScreen title={""} open={open} onClose={onClose}>
@@ -28,13 +50,19 @@ export default function ViewAllPresetsModal({
             <button
               className="bg-[#202329] text-white w-4/5 font-semibold
         py-4 rounded-3xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200 lg:hidden"
-              onClick={() => onClose()}
+              onClick={() => {
+                onPresetClick();
+                onClose();
+              }}
             >
               Create new Preset
             </button>
             {presets.map((item: any) => (
               <PresetItem
-                onClick={onClick}
+                onClick={(name) => {
+                  onPresetClick(name);
+                  onClose();
+                }}
                 key={item.name}
                 presetName={item.name}
               ></PresetItem>

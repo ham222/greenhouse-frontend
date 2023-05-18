@@ -34,7 +34,6 @@ let ThresholdBox = ({
         limit.min,
         Math.min(limit.max, Number(value))
       );
-      console.log("hhhhhh" + threshold.max);
 
       updateValue(newThreshold);
     } else {
@@ -46,7 +45,6 @@ let ThresholdBox = ({
       updateValue(newThreshold);
     }
   };
-  console.log(threshold?.min);
   return (
     <>
       <div className="flex flex-col lg:flex-row my-5 ">

@@ -44,9 +44,6 @@ export default function Preset() {
   // };
 
   const addPreset = async () => {
-    console.log("bbbbbbb");
-    console.log(preset);
-
     try {
       let url = `${API_URL}/preset`;
       const response = await axios.post(url, preset);
@@ -81,10 +78,6 @@ export default function Preset() {
     let isEmpty = false;
     preset.thresholds.forEach((t) => {
       if (Number.isNaN(t.max) || Number.isNaN(t.min) || preset.name === "") {
-        console.log(preset.name);
-        console.log(Number.isNaN(t.max));
-        console.log(Number.isNaN(t.min));
-
         console.log("NAN");
         isEmpty = true;
       }
@@ -158,7 +151,7 @@ export default function Preset() {
           </div>
           <div className="lg:hidden">
             <ViewAllPresetsModal
-              onClick={changeCurrentPreset}
+              onPresetClick={changeCurrentPreset}
               open={allPresetsModalOpen}
               onClose={() => setAllPresetsModalOpen(false)}
               presets={presetList}
@@ -174,7 +167,13 @@ export default function Preset() {
                   All Presets
                 </h1>
               </div>
-
+              <button
+                className="bg-[#202329] text-white w-4/5 font-semibold
+        py-4 rounded-3xl mt-3 mb-4 text-lg ease-in-out duration-300 hover:scale-105 hover:shadow-xl"
+                onClick={() => setPreset(defaultPreset)}
+              >
+                Create new Preset
+              </button>
               {presetList.map((item: any) => (
                 <PresetItem
                   onClick={changeCurrentPreset}
