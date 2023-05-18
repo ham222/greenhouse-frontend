@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         dark: {
           DEFAULT: "#202329",
-          dark: "#393e49",
+          light: "#393e49",
         },
         neon: "#BFFA00",
         accent: {
