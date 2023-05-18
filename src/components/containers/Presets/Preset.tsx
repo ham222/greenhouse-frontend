@@ -152,6 +152,7 @@ export default function Preset() {
           <div className="lg:hidden">
             <ViewAllPresetsModal
               onPresetClick={changeCurrentPreset}
+              onCreateNewClick={() => setPreset(defaultPreset)}
               open={allPresetsModalOpen}
               onClose={() => setAllPresetsModalOpen(false)}
               presets={presetList}

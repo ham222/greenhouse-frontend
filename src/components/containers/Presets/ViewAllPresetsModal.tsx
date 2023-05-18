@@ -12,6 +12,7 @@ interface ViewAllPresetsModalProps {
   onClose: () => void;
   presets: any;
   onPresetClick: (value: string) => void;
+  onCreateNewClick(): void;
 }
 
 export default function ViewAllPresetsModal({
@@ -19,6 +20,7 @@ export default function ViewAllPresetsModal({
   onClose,
   presets,
   onPresetClick,
+  onCreateNewClick,
 }: ViewAllPresetsModalProps) {
   const [presetList, setPresetList] = useState<PresetDomain[]>([]);
   const defaultPreset: PresetDomain = new PresetDomain("", [
@@ -51,7 +53,7 @@ export default function ViewAllPresetsModal({
               className="bg-[#202329] text-white w-4/5 font-semibold
         py-4 rounded-3xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200 lg:hidden"
               onClick={() => {
-                onPresetClick();
+                onCreateNewClick();
                 onClose();
               }}
             >
