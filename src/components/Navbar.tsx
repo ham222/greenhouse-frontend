@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { BiHomeAlt } from "react-icons/bi";
-import { BsFillBarChartFill, BsCalendar2Date } from "react-icons/bs";
+import { BsCalendar2Date } from "react-icons/bs";
 import { FaCarrot } from "react-icons/fa";
 
 export default function Navbar() {
@@ -10,12 +10,6 @@ export default function Navbar() {
         <div className="flex flex-col items-center justify-items-end md:mt-20 text-neutral-400 hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
           <BiHomeAlt className="text-4xl justify-items-center mb-1 md:mb-2"></BiHomeAlt>
           <p>Home</p>
-        </div>
-      </NavLink>
-      <NavLink to="/timeline">
-        <div className="flex flex-col items-center justify-items-center md:mt-12 text-neutral-400 hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
-          <BsFillBarChartFill className="text-4xl mb-1 md:mb-2"></BsFillBarChartFill>
-          <p>Timeline</p>
         </div>
       </NavLink>
       <NavLink to="/watering">

@@ -1,6 +1,6 @@
 import { describe } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import LineChart from "../../components/containers/Timeline/LineChart";
+import LineChart from "../../components/containers/Status/LineChart";
 import { BsWater } from "react-icons/bs";
 import Measurement from "../../domain/Measurement";
 jest.mock("react-apexcharts", () => ({
