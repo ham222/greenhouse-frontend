@@ -11,8 +11,8 @@ import { averageMeasurements } from "src/utils/averageMeasurements";
 interface LineChartProps {
   measurements: Measurement[] | null;
   type: string;
-  bgColor: string;
-  accentColor: string;
+  bgColor?: string;
+  accentColor?: string;
   icon: JSX.Element;
   minThreshold?: number;
   maxThreshold?: number;
