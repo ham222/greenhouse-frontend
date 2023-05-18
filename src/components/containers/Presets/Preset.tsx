@@ -105,9 +105,9 @@ export default function Preset() {
       <h1 className="text-center text-2xl font-semibold my-8">{title}</h1>
 
       <div className="md:flex md:flex-col md:items-center lg:flex-row lg:items-start">
-        <div className=" md:w-4/5 lg:w-3/5 lg:border-r-stone-400 lg:border-r-2 lg:content-center lg:ml-[7vw]">
-          <div className="flex flex-col">
-            <div className="flex justify-start items-baseline ml-10  mt-5 md:mt-10 md:mb-5 lg:ml-0 lg:mt-0 ">
+        <div className=" md:w-4/5 lg:w-3/5 lg:border-r-stone-400 lg:border-r-2 lg:content-center ">
+          <div className="flex flex-col items-center">
+            {/* <div className="flex justify-start items-baseline ml-10  mt-5 md:mt-10 md:mb-5 lg:ml-0 lg:mt-0 ">
               <h2 className="font-semibold  mr-4 mb-4 text-lg  lg:text-left lg:ml-0 ">
                 Preset Name
               </h2>
@@ -119,14 +119,35 @@ export default function Preset() {
                 onChange={handleNameChange}
                 value={preset?.name}
               />
+            </div> */}
+            {/*  */}
+            <div className="flex my-5">
+              <div className="grid  grid-cols-2  lg:gap-10">
+                <div className="flex justify-center sm:justify-start lg:justify-start items-center">
+                  <h2 className=" font-semibold text-lg  ">Preset Name</h2>
+
+                  <div className="w-1/2 ">
+                    <input
+                      type="number"
+                      name="min"
+                      id=""
+                      className="py-1 w-full bg-[#EFEFEF] rounded-lg"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-            {preset?.thresholds.map((threshold) => (
-              <ThresholdBox
-                updateValue={updateThreshold}
-                threshold={threshold}
-              ></ThresholdBox>
-            ))}
-            <div className="flex justify-end">
+            {/*  */}
+            <div className="w-full">
+              {preset?.thresholds.map((threshold) => (
+                <ThresholdBox
+                  updateValue={updateThreshold}
+                  threshold={threshold}
+                ></ThresholdBox>
+              ))}
+            </div>
+
+            <div className="flex justify-start">
               <div className="mr-14">
                 <button
                   className="bg-[#D9D9D9] font-semibold text-xl px-7 py-1.5 rounded-lg hover:bg-stone-200 ease-in-out duration-200"
