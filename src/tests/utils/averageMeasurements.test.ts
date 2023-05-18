@@ -21,7 +21,6 @@ describe("averageMeasurements", () => {
 
     const result = averageMeasurements(measurements, durationInMilliseconds);
 
-    console.log(result, expectedAveragedData);
     expect(result).toEqual(expectedAveragedData);
   });
 });

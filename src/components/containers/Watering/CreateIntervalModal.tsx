@@ -6,11 +6,11 @@ import durationToString from "src/utils/durationToString";
 import MiniDayPicker from "src/components/UI/MiniDayPicker";
 import { WeekDay } from "src/domain/WeekDay";
 import { DayPick } from "src/domain/DayPick";
-import Interval from "src/domain/Interval";
+import { CreateIntervalDto } from "src/domain/CreateIntervalDto";
 interface IntervalModalProps {
   open: boolean;
   onClose: () => void;
-  onAdd: (newIntervals: Interval[]) => void;
+  onAdd: (newIntervals: CreateIntervalDto[]) => void;
 }
 
 export default function CreateIntervalModal({
@@ -60,13 +60,10 @@ export default function CreateIntervalModal({
   }, [startTime, endTime]);
 
   const generateNewIntervals = () => {
-    let format = "hh:mm:ss";
-    let newIntervals: Interval[] = [];
+    let newIntervals: CreateIntervalDto[] = [];
     for (let i = 0; i < dayPicks.length; i++) {
       if (dayPicks[i].picked) {
-        newIntervals.push(
-          new Interval(startTime.toFormat(format), endTime.toFormat(format), i)
-        );
+        newIntervals.push(new CreateIntervalDto(startTime, endTime, i));
       }
     }
 
@@ -112,7 +109,7 @@ export default function CreateIntervalModal({
         <button
           type="button"
           disabled={isValid() !== "OK" || !open}
-          className="inline-flex disabled:text-gray-300 max-sm:basis-1/2 max-sm:mx-4 justify-center rounded-md bg-[#F2F4F5] px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 ml-3"
+          className="inline-flex disabled:text-gray-300 max-sm:basis-1/2 max-sm:mx-4 justify-center rounded-md bg-gray-100 px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 ml-3"
           onClick={() => {
             onAdd(generateNewIntervals());
             onClose();
@@ -122,7 +119,7 @@ export default function CreateIntervalModal({
         </button>
         <button
           type="button"
-          className="inline-flex max-sm:basis-1/2 max-sm:mx-4 justify-center rounded-md bg-[#F2F4F5] px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0"
+          className="inline-flex max-sm:basis-1/2 max-sm:mx-4 justify-center rounded-md bg-gray-100 px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0"
           onClick={() => onClose()}
         >
           Cancel

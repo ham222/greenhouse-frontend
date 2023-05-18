@@ -8,8 +8,6 @@ jobs:
   prettify:
     name: Prettify code
     uses: ./.github/workflows/prettify.yml
-    secrets:
-      gh_pages_token: ${{ secrets.GH_PAGES_TOKEN }}
   cypress_test:
     needs: [prettify]
     name: Cypress Test
