@@ -6,7 +6,6 @@ import Threshold from "src/domain/Threshold";
 import PresetItem from "./PresetItem";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useRef } from "react";
 
 export default function Preset() {
   const [title, setTitle] = useState("Create new Preset");
@@ -26,7 +25,6 @@ export default function Preset() {
   };
 
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
-  const [presetName, setPresetName] = React.useState("");
   const API_URL = process.env.REACT_APP_API_BASE_URL;
 
   const updateThreshold = (threshold: Threshold) => {
@@ -73,17 +71,19 @@ export default function Preset() {
     let isEmpty = false;
     preset.thresholds.forEach((t) => {
       if (Number.isNaN(t.max) || Number.isNaN(t.min) || preset.name === "") {
+        console.log(Number.isNaN(t.max));
+        console.log(Number.isNaN(t.min));
+        console.log(preset.name === "");
+        console.log(preset.name);
         console.log("NAN");
         isEmpty = true;
       }
     });
 
     if (isEmpty === false) {
-      alert("k");
+      console.log("saved");
       addPreset();
       fetchData();
-      console.log("hhhhhhhhhhh");
-      console.log(presetList);
     }
   };
 
@@ -105,11 +105,12 @@ export default function Preset() {
 
                   <div className="w-1/2 ">
                     <input
-                      type="number"
-                      name="min"
+                      name="presetName"
+                      type="text"
                       id=""
                       className="py-1 w-full bg-[#EFEFEF] rounded-lg"
-                      data-testid="name-input"
+                      onChange={handleNameChange}
+                      value={preset.name}
                     />
                   </div>
                 </div>

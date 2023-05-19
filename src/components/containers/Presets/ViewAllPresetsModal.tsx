@@ -1,11 +1,8 @@
 import ModalSmallScreen from "src/components/UI/ModalSmallScreen";
 import PresetItem from "./PresetItem";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import PresetDomain from "src/domain/Preset";
 import Threshold from "src/domain/Threshold";
-
-const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 interface ViewAllPresetsModalProps {
   open: boolean;
@@ -34,14 +31,6 @@ export default function ViewAllPresetsModal({
     const newPreset =
       presetList.find(({ name }) => name === newPresetName) ?? defaultPreset;
     setPreset(newPreset);
-  };
-
-  const handleClick = () => {
-    // Function 1
-    console.log("Function 1 called");
-
-    // Function 2
-    console.log("Function 2 called");
   };
 
   return (

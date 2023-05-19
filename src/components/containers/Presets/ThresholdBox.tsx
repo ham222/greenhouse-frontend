@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import Threshold from "src/domain/Threshold";
 import capitalize from "src/utils/capitalize";
 import limitMap from "src/domain/TypeLimits";
