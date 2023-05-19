@@ -1,8 +1,6 @@
 import ModalSmallScreen from "src/components/UI/ModalSmallScreen";
 import PresetItem from "./PresetItem";
-import { useEffect, useState } from "react";
-import PresetDomain from "src/domain/Preset";
-import Threshold from "src/domain/Threshold";
+import { useEffect } from "react";
 
 interface ViewAllPresetsModalProps {
   open: boolean;
@@ -19,46 +17,40 @@ export default function ViewAllPresetsModal({
   onPresetClick,
   onCreateNewClick,
 }: ViewAllPresetsModalProps) {
-  const [presetList, setPresetList] = useState<PresetDomain[]>([]);
-  const defaultPreset: PresetDomain = new PresetDomain("", [
-    new Threshold("Temperature", parseFloat(""), parseFloat("")),
-    new Threshold("Co2", parseFloat(""), parseFloat("")),
-    new Threshold("Humidity", parseFloat(""), parseFloat("")),
-  ]);
-  const [preset, setPreset] = useState<PresetDomain>(defaultPreset);
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 1024) onClose();
+    }
 
-  const changeCurrentPreset = (newPresetName: string) => {
-    const newPreset =
-      presetList.find(({ name }) => name === newPresetName) ?? defaultPreset;
-    setPreset(newPreset);
-  };
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [onClose]);
 
   return (
     <>
-      <ModalSmallScreen title={""} open={open} onClose={onClose}>
-        <div className="flex flex-col items-center">
-          <div className=" w-full  flex flex-col items-center md:w-4/5 lg:hidden">
-            <button
-              className="bg-dark text-white w-4/5 font-semibold
-        py-4 rounded-3xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200 lg:hidden"
-              onClick={() => {
-                onCreateNewClick();
+      <ModalSmallScreen title={"Choose a preset"} open={open} onClose={onClose}>
+        <div className="justify-end flex flex-col gaitems-center">
+          <button
+            className="bg-dark w-full order-last text-white font-semibold
+        p-3 rounded-lg mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200"
+            onClick={() => {
+              onCreateNewClick();
+              onClose();
+            }}
+          >
+            Create new Preset
+          </button>
+          {presets.map((item: any) => (
+            <PresetItem
+              onClick={(name) => {
+                onPresetClick(name);
                 onClose();
               }}
-            >
-              Create new Preset
-            </button>
-            {presets.map((item: any) => (
-              <PresetItem
-                onClick={(name) => {
-                  onPresetClick(name);
-                  onClose();
-                }}
-                key={item.name}
-                presetName={item.name}
-              ></PresetItem>
-            ))}
-          </div>
+              key={item.name}
+              presetName={item.name}
+            ></PresetItem>
+          ))}
         </div>
       </ModalSmallScreen>
     </>
