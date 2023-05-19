@@ -39,7 +39,7 @@ export default function ViewAllPresetsModal({
         <div className="flex flex-col items-center">
           <div className=" w-full  flex flex-col items-center md:w-4/5 lg:hidden">
             <button
-              className="bg-[#202329] text-white w-4/5 font-semibold
+              className="bg-dark text-white w-4/5 font-semibold
         py-4 rounded-3xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200 lg:hidden"
               onClick={() => {
                 onCreateNewClick();

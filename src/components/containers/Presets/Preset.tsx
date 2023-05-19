@@ -142,7 +142,7 @@ export default function Preset() {
 
           <div className="flex justify-center my-10">
             <button
-              className="bg-[#202329] text-white w-4/5 font-semibold
+              className="bg-dark text-white w-4/5 font-semibold
         py-4 rounded-3xl hover:bg-slate-700 ease-in-out duration-200 lg:hidden md:w-40"
               onClick={() => setAllPresetsModalOpen(true)}
             >
@@ -169,7 +169,7 @@ export default function Preset() {
                 </h1>
               </div>
               <button
-                className="bg-[#202329] text-white w-4/5 font-semibold
+                className="bg-dark text-white w-4/5 font-semibold
         py-4 rounded-3xl mt-3 mb-4 text-lg ease-in-out duration-300 hover:scale-105 hover:shadow-xl"
                 onClick={() => setPreset(defaultPreset)}
               >
