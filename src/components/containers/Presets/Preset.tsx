@@ -38,11 +38,6 @@ export default function Preset() {
     setPreset(newPreset);
   };
 
-  // const updatePresetName = (name: string) => {
-  //   const newPreset = new PresetDomain(name, preset.thresholds);
-  //   setPreset(newPreset);
-  // };
-
   const addPreset = async () => {
     try {
       let url = `${API_URL}/preset`;
@@ -90,10 +85,6 @@ export default function Preset() {
       console.log("hhhhhhhhhhh");
       console.log(presetList);
     }
-
-    // if (temperatureThreshold[0].min > 0 && temperatureThreshold[0].max < 10)
-    //   console.log("aaaaaaaaaaaaaaaaaaaa");
-    // console.log(temperatureThreshold);
   };
 
   useEffect(() => {
@@ -107,24 +98,10 @@ export default function Preset() {
       <div className="md:flex md:flex-col md:items-center lg:flex-row lg:items-start">
         <div className=" md:w-4/5 lg:w-3/5 lg:border-r-stone-400 lg:border-r-2 lg:content-center ">
           <div className="flex flex-col items-center">
-            {/* <div className="flex justify-start items-baseline ml-10  mt-5 md:mt-10 md:mb-5 lg:ml-0 lg:mt-0 ">
-              <h2 className="font-semibold  mr-4 mb-4 text-lg  lg:text-left lg:ml-0 ">
-                Preset Name
-              </h2>
-              <input
-                type="text"
-                name="presetName"
-                id=""
-                className="w-1/2 sm:w-72 py-1 bg-[#EFEFEF] rounded-lg"
-                onChange={handleNameChange}
-                value={preset?.name}
-              />
-            </div> */}
-            {/*  */}
             <div className="flex my-5">
               <div className="grid  grid-cols-2  lg:gap-10">
                 <div className="flex justify-center sm:justify-start lg:justify-start items-center">
-                  <h2 className=" font-semibold text-lg  ">Preset Name</h2>
+                  <h1 className=" font-semibold text-lg  ">Preset Name</h1>
 
                   <div className="w-1/2 ">
                     <input
@@ -132,6 +109,7 @@ export default function Preset() {
                       name="min"
                       id=""
                       className="py-1 w-full bg-[#EFEFEF] rounded-lg"
+                      data-testid="name-input"
                     />
                   </div>
                 </div>
