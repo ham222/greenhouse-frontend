@@ -23,9 +23,11 @@ const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 export default function Watering() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+
   const [intervalModalOpen, setIntervalModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [durationModalOpen, setDurationModalOpen] = useState(false);
+
   const [intervals, setIntervals] = useState<Interval[]>([]);
   const [toUpdate, setToUpdate] = useState<Interval>(
     new Interval(-1, "00:00:00", "01:00:00", 0)
@@ -146,7 +148,7 @@ export default function Watering() {
       <div className="m-3">
         <div className="text-center text-xl my-7 items-center justify-center lg:mb-4 lg:justify-left sm:flex font-bold">
           Watering Schedule
-          <div className="hidden ml-5 sm:block">
+          <div data-testid="add-button" className="hidden ml-5 sm:block">
             <IconButton
               onClick={() => setIntervalModalOpen(true)}
               icon={<IoIosAdd className="text-white w-full h-full" />}
@@ -218,6 +220,7 @@ export default function Watering() {
         )}
       </div>
       <CreateIntervalModal
+        data-testid="create-modal"
         onAdd={addInverval}
         open={intervalModalOpen}
         onClose={() => setIntervalModalOpen(false)}
