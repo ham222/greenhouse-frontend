@@ -27,7 +27,6 @@ module.exports = [
         type: "middleware", // variant of type "middleware"
         options: {
           middleware: (req, res) => {
-            console.log(req.body);
             state.state = req.body.state;
             duration.duration = req.body.duration;
             res.status(201);
