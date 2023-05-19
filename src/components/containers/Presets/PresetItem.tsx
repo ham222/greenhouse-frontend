@@ -10,12 +10,10 @@ let PresetItem = ({ presetName, onClick }: PresetItemProps): JSX.Element => {
         onClick={() => {
           onClick(presetName);
         }}
-        className="bg-[#ECFFAE]  w-4/5 
-        py-4 rounded-3xl   ease-in-out duration-300 my-3 cursor-pointer hover:scale-105 hover:shadow-xl"
+        className="
+        w-full p-4 max-w-[100vw] ease-in-out duration-300 border-b border-slate-200 border-collapse cursor-pointer"
       >
-        <p className="text-dark font-semibold text-2xl text-center ">
-          {presetName}
-        </p>
+        <p className="text-dark text-sm truncate text-center ">{presetName}</p>
       </div>
     </>
   );
