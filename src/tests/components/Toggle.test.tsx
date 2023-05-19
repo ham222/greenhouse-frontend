@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Toggle from "src/components/UI/Toggle";
-import "@testing-library/jest-dom";
 
 describe("Toggle", () => {
   let mockUpdateValue: jest.Mock;
@@ -25,7 +24,7 @@ describe("Toggle", () => {
     const toggle = screen.getByRole("switch");
     expect(toggle).toBeInTheDocument();
     expect(toggle).toBeChecked();
-    expect(toggle).toHaveClass("bg-[#BFFA00]");
+    expect(toggle).toHaveClass("bg-neon");
   });
 
   it.each([false, true])("updates value correctly when set to %p", (value) => {

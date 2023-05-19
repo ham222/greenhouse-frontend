@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import MiniDaySwitch from "src/components/UI/MiniDaySwitch";
 import { WeekDay } from "src/domain/WeekDay";
-import "@testing-library/jest-dom";
 
 describe("MiniDayPicker", () => {
   let mockUpdateValue: jest.Mock;
@@ -24,7 +23,7 @@ describe("MiniDayPicker", () => {
     );
 
     expect(screen.getByText(day.charAt(0))).toBeInTheDocument();
-    expect(screen.getByText(day.charAt(0))).toHaveClass("bg-[#F2F4F5]");
+    expect(screen.getByText(day.charAt(0))).toHaveClass("bg-neutral-50");
   });
 
   it("renders correctly when on", () => {
@@ -38,7 +37,7 @@ describe("MiniDayPicker", () => {
     );
 
     expect(screen.getByText(day.charAt(0))).toBeInTheDocument();
-    expect(screen.getByText(day.charAt(0))).toHaveClass("bg-[#202329]");
+    expect(screen.getByText(day.charAt(0))).toHaveClass("bg-dark");
     expect(screen.getByText(day.charAt(0))).toHaveClass("text-white");
   });
 
