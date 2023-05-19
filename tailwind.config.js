@@ -19,5 +19,5 @@ module.exports = {
       sora: ["Sora", "sans-serif"],
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")({ nocompatible: true })],
 };
