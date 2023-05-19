@@ -76,7 +76,6 @@ export default function Watering() {
 
   const openUpdateIntervalModal = (updateId: number) => {
     const toUpdate = intervals.find((interval) => interval.id === updateId);
-    console.log(toUpdate);
     if (toUpdate === undefined) return;
     setToUpdate(toUpdate);
     setUpdateModalOpen(true);
