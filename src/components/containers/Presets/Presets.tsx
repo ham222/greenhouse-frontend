@@ -23,7 +23,7 @@ export default function Presets() {
 
   const presetList = presetListResponse.data ?? [];
 
-  const defaultPreset: Preset = new Preset("", [
+  const defaultPreset: Preset = new Preset(1, "", [
     new Threshold("Temperature", parseFloat(""), parseFloat("")),
     new Threshold("Humidity", parseFloat(""), parseFloat("")),
     new Threshold("Co2", parseFloat(""), parseFloat("")),
@@ -40,7 +40,7 @@ export default function Presets() {
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
   const updateThreshold = (threshold: Threshold) => {
-    const newPreset = new Preset(preset.name, preset.thresholds);
+    const newPreset = new Preset(preset.id, preset.name, preset.thresholds);
     const id = newPreset.thresholds.findIndex(
       ({ type }) => threshold.type === type
     );
@@ -69,7 +69,11 @@ export default function Presets() {
   };
 
   const handleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const newPreset = new Preset(evt.target.value, preset.thresholds);
+    const newPreset = new Preset(
+      preset.id,
+      evt.target.value,
+      preset.thresholds
+    );
     setPreset(newPreset);
   };
 
@@ -184,7 +188,7 @@ export default function Presets() {
             All Presets
           </div>
           <div className="flex ring-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-300 scrollbar-thumb-rounded-md ring-neutral-100 rounded-lg max-h-[50vh] overflow-y-auto gap-2 flex-col items-center">
-            {presetList.map((item: any) => (
+            {presetList.map((item: Preset) => (
               <PresetItem
                 onClick={changeCurrentPreset}
                 key={item.id}

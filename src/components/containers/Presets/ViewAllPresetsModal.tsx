@@ -47,7 +47,7 @@ export default function ViewAllPresetsModal({
                 onPresetClick(name);
                 onClose();
               }}
-              key={item.name}
+              key={item.id}
               presetName={item.name}
             ></PresetItem>
           ))}
