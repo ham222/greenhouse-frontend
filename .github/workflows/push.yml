@@ -9,7 +9,7 @@ jobs:
     name: Prettify code
     uses: ./.github/workflows/prettify.yml
   cypress_test:
-    # needs: [prettify]
+    needs: [prettify]
     name: Cypress Test
     uses: ./.github/workflows/cypress_test.yml
   jest_test:
