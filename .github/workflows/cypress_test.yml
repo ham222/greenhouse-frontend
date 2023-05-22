@@ -20,3 +20,4 @@ jobs:
           command: npx cypress run
           browser: chrome
           start: npm start, npm run mocks
+          wait-on: 127.0.0.1:3100
