@@ -20,7 +20,7 @@ export default function Presets() {
 
   const [title, setTitle] = useState("Create new");
   const presetListResponse = useGet<Preset[]>(`${API_URL}/preset`, refresh);
-
+  const [updating, setUpdating] = useState(false);
   const presetList = presetListResponse.data ?? [];
 
   const defaultPreset: Preset = new Preset(
@@ -39,6 +39,7 @@ export default function Presets() {
       presetList.find(({ name }) => name === newPresetName) ?? defaultPreset;
     setPreset(newPreset);
     setTitle(newPresetName);
+    setUpdating(true);
   };
 
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
@@ -84,17 +85,41 @@ export default function Presets() {
   if (presetListResponse.error != null) {
     displayNetworkError(presetListResponse.error.message);
   }
+
   const onSave = () => {
+    if (!ValidatePreset()) {
+      return;
+    }
+
+    addPreset();
+  };
+  const onUpdate = async () => {
+    if (!ValidatePreset()) {
+      return;
+    }
+    try {
+      let url = `${API_URL}/preset/${preset.id}`;
+      await axios.put(url, preset);
+      doRefresh();
+      displayNetworkError("Succesfully saved!");
+    } catch (error) {
+      console.error(error);
+      const axiosError = error as AxiosError;
+      displayNetworkError(axiosError.message);
+    }
+  };
+
+  const ValidatePreset = (): boolean => {
     if (preset.name === "") {
       displayNetworkError(`Preset name cannot be empty`);
-      return;
+      return false;
     }
 
     for (let i = 0; i < preset.thresholds.length; i++) {
       let t = preset.thresholds[i];
       if (Number.isNaN(t.max) || Number.isNaN(t.min)) {
         displayNetworkError(`Min and max fields must be filled`);
-        return;
+        return false;
       }
     }
     for (let i = 0; i < preset.thresholds.length; i++) {
@@ -104,11 +129,10 @@ export default function Presets() {
           `Min value in ${t.type} cannot be bigger than max value`
         );
 
-        return;
+        return false;
       }
     }
-
-    addPreset();
+    return true;
   };
 
   return (
@@ -155,10 +179,14 @@ export default function Presets() {
               <button
                 className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
                 onClick={() => {
-                  onSave();
+                  if (updating) {
+                    onUpdate();
+                  } else {
+                    onSave();
+                  }
                 }}
               >
-                Save
+                {updating ? "Update" : "Save"}
               </button>
             </div>
           </div>
@@ -176,6 +204,7 @@ export default function Presets() {
             <ViewAllPresetsModal
               onPresetClick={changeCurrentPreset}
               onCreateNewClick={() => {
+                setUpdating(false);
                 setPreset(defaultPreset);
                 setTitle("Create new");
               }}
@@ -205,6 +234,7 @@ export default function Presets() {
             onClick={() => {
               setPreset(defaultPreset);
               setTitle("Create new ");
+              setUpdating(false);
             }}
           >
             Create new Preset
