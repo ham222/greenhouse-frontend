@@ -43,7 +43,7 @@ export default function Watering() {
       let url = `${API_URL}/watering-system/toggle`;
       await axios.post(url, {
         state: isOn,
-        duration: Duration.fromObject({ minutes: duration }).as("milliseconds"),
+        duration: Duration.fromObject({ minutes: duration }).as("minutes"),
       });
     } catch (error) {
       const axiosError = error as AxiosError;
