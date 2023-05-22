@@ -23,11 +23,15 @@ export default function Presets() {
 
   const presetList = presetListResponse.data ?? [];
 
-  const defaultPreset: Preset = new Preset("", [
-    new Threshold("Temperature", parseFloat(""), parseFloat("")),
-    new Threshold("Humidity", parseFloat(""), parseFloat("")),
-    new Threshold("Co2", parseFloat(""), parseFloat("")),
-  ]);
+  const defaultPreset: Preset = new Preset(
+    "",
+    [
+      new Threshold("Temperature", parseFloat(""), parseFloat("")),
+      new Threshold("Humidity", parseFloat(""), parseFloat("")),
+      new Threshold("Co2", parseFloat(""), parseFloat("")),
+    ],
+    -1
+  );
   const [preset, setPreset] = useState<Preset>(defaultPreset);
 
   const changeCurrentPreset = (newPresetName: string) => {
@@ -69,14 +73,17 @@ export default function Presets() {
   };
 
   const handleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const newPreset = new Preset(evt.target.value, preset.thresholds);
+    const newPreset = new Preset(
+      evt.target.value,
+      preset.thresholds,
+      preset.id
+    );
     setPreset(newPreset);
   };
 
   if (presetListResponse.error != null) {
     displayNetworkError(presetListResponse.error.message);
   }
-
   const onSave = () => {
     if (preset.name === "") {
       displayNetworkError(`Preset name cannot be empty`);
