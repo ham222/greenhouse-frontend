@@ -22,8 +22,6 @@ let ThresholdBox = ({
   };
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(limit);
-    console.log(threshold);
     const value =
       Math.round(parseFloat(evt.target.value) * Math.pow(10, limit.round)) /
       Math.pow(10, limit.round);
