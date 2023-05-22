@@ -36,13 +36,13 @@ describe("watering on desktop", () => {
   it("runs watering for 50 minutes", () => {
     cy.intercept("GET", "**/watering-system/toggle").as("getToggle");
 
+    cy.getBySel("water-toggle").click();
+
     cy.wait("@getToggle").then((interception) => {
       expect(interception)
         .to.have.property("request")
         .and.have.property("method", "GET");
     });
-
-    cy.getBySel("water-toggle").click();
 
     cy.getBySel("watering-modal")
       .find('input[type="number"]')
