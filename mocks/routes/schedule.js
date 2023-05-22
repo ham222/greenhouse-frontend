@@ -53,14 +53,13 @@ module.exports = [
         type: "middleware", // variant of type "middleware"
         options: {
           middleware: (req, res) => {
-            schedule = schedule.concat(
-              req.body.map((interval) => {
-                interval.id = idCount++;
-                return interval;
-              })
-            );
+            const n = req.body.map((interval) => {
+              interval.id = idCount++;
+              return interval;
+            });
+            schedule = schedule.concat(n);
             res.status(201);
-            res.send(schedule);
+            res.send(n);
           },
         },
       },
