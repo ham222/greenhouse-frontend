@@ -16,10 +16,16 @@ let ThresholdBox = ({
   let limit: Limit;
 
   if (limitMap.has(threshold.type)) {
-    limit = limitMap.get(threshold.type) ?? { min: -9999, max: 9999, round: 0 };
+    limit = limitMap.get(threshold.type.toLowerCase()) ?? {
+      min: -9999,
+      max: 9999,
+      round: 0,
+    };
   }
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(limit);
+    console.log(threshold);
     const value =
       Math.round(parseFloat(evt.target.value) * Math.pow(10, limit.round)) /
       Math.pow(10, limit.round);
