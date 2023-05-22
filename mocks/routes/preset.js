@@ -71,12 +71,11 @@ module.exports = [
         options: {
           middleware: (req, res) => {
             for (let i = 0; i < presets.length; i++) {
-              if(presets[i].name===req.body.name){
+              if (presets[i].name === req.body.name) {
                 res.status(400);
                 res.send();
                 return;
               }
-              
             }
             req.body.id = idCount++;
             presets.push(req.body);
@@ -129,6 +128,7 @@ module.exports = [
                 presets.splice(index, 1);
                 res.status(200);
                 res.send(req.params.id);
+                return;
               }
             });
             res.status(404);

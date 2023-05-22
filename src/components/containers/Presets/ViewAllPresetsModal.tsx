@@ -8,6 +8,7 @@ interface ViewAllPresetsModalProps {
   presets: any;
   onPresetClick: (value: string) => void;
   onCreateNewClick(): void;
+  onDeletePreset: (id: number) => void;
 }
 
 export default function ViewAllPresetsModal({
@@ -16,6 +17,7 @@ export default function ViewAllPresetsModal({
   presets,
   onPresetClick,
   onCreateNewClick,
+  onDeletePreset,
 }: ViewAllPresetsModalProps) {
   useEffect(() => {
     function handleResize() {
@@ -43,11 +45,13 @@ export default function ViewAllPresetsModal({
           </button>
           {presets.map((item: any) => (
             <PresetItem
-              onClick={(name) => {
+              onPresetClick={(name) => {
                 onPresetClick(name);
                 onClose();
               }}
+              onDeletePreset={onDeletePreset}
               key={item.id}
+              presetId={item.id}
               presetName={item.name}
             ></PresetItem>
           ))}

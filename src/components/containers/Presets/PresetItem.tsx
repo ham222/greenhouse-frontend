@@ -1,21 +1,35 @@
 import { GrFormClose } from "react-icons/gr";
 interface PresetItemProps {
   presetName: string;
-  onClick: (name: string) => void;
+  presetId: number;
+  onPresetClick: (name: string) => void;
+  onDeletePreset: (id: number) => void;
 }
 
-let PresetItem = ({ presetName, onClick }: PresetItemProps): JSX.Element => {
+let PresetItem = ({
+  presetName,
+  presetId,
+  onPresetClick,
+  onDeletePreset,
+}: PresetItemProps): JSX.Element => {
   return (
     <>
       <div
         onClick={() => {
-          onClick(presetName);
+          onPresetClick(presetName);
         }}
         className="
         w-full p-4 max-w-[100vw] ease-in-out duration-300 border-b border-slate-200 border-collapse cursor-pointer flex justify-center"
       >
         <p className="text-dark text-sm truncate text-center ">{presetName}</p>
-        <GrFormClose className="text-red-500"></GrFormClose>
+
+        <GrFormClose
+          className="text-red-500"
+          onClick={(evt) => {
+            evt.stopPropagation();
+            onDeletePreset(presetId);
+          }}
+        ></GrFormClose>
       </div>
     </>
   );

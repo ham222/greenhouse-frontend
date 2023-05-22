@@ -37,6 +37,16 @@ export default function Presets() {
     setTitle(newPresetName);
   };
 
+  const deletePreset = async (presetId: number) => {
+    console.log("JOJKA" + presetId);
+    try {
+      const response = await axios.delete(`${API_URL}/${presetId}`);
+      console.log(response.data); // Handle the response data as needed
+    } catch (error) {
+      console.error("Error deleting preset:", error);
+    }
+  };
+
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
   const updateThreshold = (threshold: Threshold) => {
@@ -176,6 +186,7 @@ export default function Presets() {
                 setPreset(defaultPreset);
                 setTitle("Create new");
               }}
+              onDeletePreset={deletePreset}
               open={allPresetsModalOpen}
               onClose={() => setAllPresetsModalOpen(false)}
               presets={presetList}
@@ -190,7 +201,9 @@ export default function Presets() {
           <div className="flex ring-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-300 scrollbar-thumb-rounded-md ring-neutral-100 rounded-lg max-h-[50vh] overflow-y-auto gap-2 flex-col items-center">
             {presetList.map((item: Preset) => (
               <PresetItem
-                onClick={changeCurrentPreset}
+                onPresetClick={changeCurrentPreset}
+                presetId={item.id}
+                onDeletePreset={deletePreset}
                 key={item.id}
                 presetName={item.name}
               ></PresetItem>

@@ -54,12 +54,14 @@ export default function Status() {
   const [co2, setCo2] = useState<number | null>(null);
   const [date, setDate] = useState<number | null>(null);
 
-  const co2Response = useGet<Measurement[]>(`${API_URL}/co2?current`);
+  const co2Response = useGet<Measurement[]>(`${API_URL}/co2?current=true`);
 
-  const humidityResponse = useGet<Measurement[]>(`${API_URL}/humidity?current`);
+  const humidityResponse = useGet<Measurement[]>(
+    `${API_URL}/humidity?current=true`
+  );
 
   const temperatureResponse = useGet<Measurement[]>(
-    `${API_URL}/temperature?current`
+    `${API_URL}/temperature?current=true`
   );
 
   if (co2Response.error != null) {
