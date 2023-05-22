@@ -45,7 +45,7 @@ export default function Presets() {
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
   const updateThreshold = (threshold: Threshold) => {
-    const newPreset = new Preset(preset.name, preset.thresholds);
+    const newPreset = new Preset(preset.name, preset.thresholds, preset.id);
     const id = newPreset.thresholds.findIndex(
       ({ type }) => threshold.type === type
     );
