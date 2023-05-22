@@ -71,12 +71,11 @@ module.exports = [
         options: {
           middleware: (req, res) => {
             for (let i = 0; i < presets.length; i++) {
-              if(presets[i].name===req.body.name){
+              if (presets[i].name === req.body.name) {
                 res.status(400);
                 res.send();
                 return;
               }
-              
             }
             req.body.id = idCount++;
             presets.push(req.body);
@@ -148,15 +147,16 @@ module.exports = [
         type: "middleware", // variant of type "middleware"
         options: {
           middleware: (req, res) => {
-            presets.forEach((p) => {
-              if (p.id === req.params.id) {
-                p = req.body;
-                res.status(200);
-                res.send(p);
-              }
-            });
-            res.status(404);
-            res.send();
+            const idToUpdate = parseInt(req.params.id);
+            const index = presets.findIndex(
+              (preset) => preset.id === idToUpdate
+            );
+            if (index !== -1) {
+              presets[index] = req.body;
+              res.sendStatus(200);
+            } else {
+              res.status(404).send("Preset not found");
+            }
           },
         },
       },
