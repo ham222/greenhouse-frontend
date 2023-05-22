@@ -8,8 +8,15 @@ jobs:
       - name: Checkout GitCode
         uses: actions/checkout@v3
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.15.0
+          cache: npm
+
       - name: Run Cypress Test
         uses: cypress-io/github-action@v4
         with:
           command: npx cypress run
           browser: chrome
+          start: npm start, npm run mocks
