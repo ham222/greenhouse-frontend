@@ -1,6 +1,7 @@
 import ModalSmallScreen from "src/components/UI/ModalSmallScreen";
 import PresetItem from "./PresetItem";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import DeleteModal from "src/components/UI/DeleteModal";
 
 interface ViewAllPresetsModalProps {
   open: boolean;
@@ -19,6 +20,7 @@ export default function ViewAllPresetsModal({
   onCreateNewClick,
   onDeletePreset,
 }: ViewAllPresetsModalProps) {
+  let showAlert: boolean = false;
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth >= 1024) onClose();
@@ -29,9 +31,16 @@ export default function ViewAllPresetsModal({
     return () => window.removeEventListener("resize", handleResize);
   }, [onClose]);
 
+  const [openState, setOpenState] = useState(false);
+
   return (
     <>
-      <ModalSmallScreen title={"Choose a preset"} open={open} onClose={onClose}>
+      <ModalSmallScreen
+        title={"Choose a preset"}
+        open={open}
+        onClose={onClose}
+        showAlert={showAlert}
+      >
         <div className="justify-end flex flex-col gaitems-center">
           <button
             className="bg-dark w-full order-last text-white font-semibold
@@ -49,13 +58,17 @@ export default function ViewAllPresetsModal({
                 onPresetClick(name);
                 onClose();
               }}
-              onDeletePreset={onDeletePreset}
+              onDeletePreset={(id) => {
+                onDeletePreset(id);
+                setOpenState(true);
+              }}
               key={item.id}
               presetId={item.id}
               presetName={item.name}
             ></PresetItem>
           ))}
         </div>
+        <DeleteModal open={openState}></DeleteModal>
       </ModalSmallScreen>
     </>
   );

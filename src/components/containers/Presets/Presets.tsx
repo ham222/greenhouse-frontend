@@ -42,7 +42,8 @@ export default function Presets() {
     console.log("JOJKA" + presetId);
     try {
       const response = await axios.delete(`${API_URL}/preset/${presetId}`);
-      displayNetworkError("Preset deleted");
+      // displayNetworkError("Preset deleted");
+
       doRefresh();
     } catch (error) {
       console.error("Error deleting preset:", error);
@@ -72,7 +73,7 @@ export default function Presets() {
       let url = `${API_URL}/preset`;
       await axios.post(url, preset);
       doRefresh();
-      displayNetworkError("Succesfully saved!");
+      displayNetworkError("Successfully saved");
     } catch (error) {
       console.error(error);
       const axiosError = error as AxiosError;
@@ -122,6 +123,8 @@ export default function Presets() {
 
   return (
     <div className="m-2">
+      {/* <Toastik> </Toastik> */}
+
       <div className="lg:grid lg:grid-cols-10">
         <div className="lg:col-span-7 order-last">
           <h1 className="text-center text-2xl font-semibold my-8">
