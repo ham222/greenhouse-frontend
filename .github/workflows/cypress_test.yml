@@ -30,7 +30,6 @@ jobs:
       - name: Wait for React App and Mock Server
         run: |
           npx wait-on http://127.0.0.1:3000
-          npx wait-on http://127.0.0.1:3100
 
       - name: Run Cypress Test
         uses: cypress-io/github-action@v4
