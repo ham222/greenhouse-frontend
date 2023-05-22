@@ -30,18 +30,20 @@ export default function Presets() {
   ]);
   const [preset, setPreset] = useState<Preset>(defaultPreset);
 
-  const changeCurrentPreset = (newPresetName: string) => {
+  const changeCurrentPreset = (presetId: number) => {
+    console.log(presetId);
     const newPreset =
-      presetList.find(({ name }) => name === newPresetName) ?? defaultPreset;
+      presetList.find(({ id }) => id === presetId) ?? defaultPreset;
     setPreset(newPreset);
-    setTitle(newPresetName);
+    setTitle(newPreset.name);
   };
 
   const deletePreset = async (presetId: number) => {
     console.log("JOJKA" + presetId);
     try {
-      const response = await axios.delete(`${API_URL}/${presetId}`);
-      console.log(response.data); // Handle the response data as needed
+      const response = await axios.delete(`${API_URL}/preset/${presetId}`);
+      displayNetworkError("Preset deleted");
+      doRefresh();
     } catch (error) {
       console.error("Error deleting preset:", error);
     }
@@ -203,7 +205,10 @@ export default function Presets() {
               <PresetItem
                 onPresetClick={changeCurrentPreset}
                 presetId={item.id}
-                onDeletePreset={deletePreset}
+                onDeletePreset={(id) => {
+                  deletePreset(id);
+                  changeCurrentPreset(1);
+                }}
                 key={item.id}
                 presetName={item.name}
               ></PresetItem>

@@ -6,7 +6,7 @@ interface ViewAllPresetsModalProps {
   open: boolean;
   onClose: () => void;
   presets: any;
-  onPresetClick: (value: string) => void;
+  onPresetClick: (id: number) => void;
   onCreateNewClick(): void;
   onDeletePreset: (id: number) => void;
 }

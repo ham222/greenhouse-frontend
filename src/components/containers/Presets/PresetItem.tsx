@@ -2,7 +2,7 @@ import { GrFormClose } from "react-icons/gr";
 interface PresetItemProps {
   presetName: string;
   presetId: number;
-  onPresetClick: (name: string) => void;
+  onPresetClick: (id: number) => void;
   onDeletePreset: (id: number) => void;
 }
 
@@ -16,7 +16,7 @@ let PresetItem = ({
     <>
       <div
         onClick={() => {
-          onPresetClick(presetName);
+          onPresetClick(presetId);
         }}
         className="
         w-full p-4 max-w-[100vw] ease-in-out duration-300 border-b border-slate-200 border-collapse cursor-pointer flex justify-center"
