@@ -180,9 +180,7 @@ export default function Presets() {
               <button
                 className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
                 disabled={
-                  presetList.find((p) => p.name === currentPreset.name)
-                    ? true
-                    : false
+                  presetList.find((p) => p.name === preset.name) ? false : true
                 }
                 onClick={() => {
                   setPresetAsCurrrent();
