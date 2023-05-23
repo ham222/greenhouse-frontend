@@ -28,11 +28,6 @@ function useFetch<Type>(
         const data = response?.data;
         setData(data);
       } catch (error: any) {
-        if ((error as AxiosError) !== undefined) {
-          if (error.status() === 403) {
-            navigate("/login");
-          }
-        }
         setError(error);
       } finally {
         setLoading(false);
