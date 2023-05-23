@@ -42,7 +42,7 @@ export default function Presets() {
 
   const deletePreset = async (presetId: number) => {
     try {
-      const response = await axios.delete(`${API_URL}/preset/${presetId}`);
+      await axios.delete(`${API_URL}/preset/${presetId}`);
 
       doRefresh();
     } catch (error) {
