@@ -21,6 +21,9 @@ export default function ViewAllPresetsModal({
   onDeletePreset,
 }: ViewAllPresetsModalProps) {
   let showAlert: boolean = false;
+  const [openState, setOpenState] = useState(false);
+  const [deleteId, setDeleteId] = useState(0);
+
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth >= 1024) onClose();
@@ -31,8 +34,6 @@ export default function ViewAllPresetsModal({
     return () => window.removeEventListener("resize", handleResize);
   }, [onClose]);
 
-  const [openState, setOpenState] = useState(false);
-
   return (
     <>
       <ModalSmallScreen
@@ -41,7 +42,7 @@ export default function ViewAllPresetsModal({
         onClose={onClose}
         showAlert={showAlert}
       >
-        <div className="justify-end flex flex-col gaitems-center">
+        <div className="justify-end flex flex-col gaitems-center ">
           <button
             className="bg-dark w-full order-last text-white font-semibold
         p-3 rounded-lg mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200"
@@ -59,8 +60,8 @@ export default function ViewAllPresetsModal({
                 onClose();
               }}
               onDeletePreset={(id) => {
-                onDeletePreset(id);
                 setOpenState(true);
+                setDeleteId(id);
               }}
               key={item.id}
               presetId={item.id}
@@ -70,6 +71,7 @@ export default function ViewAllPresetsModal({
         </div>
         <DeleteModal
           open={openState}
+          onConfirmDelete={() => onDeletePreset(deleteId)}
           onClose={() => setOpenState(false)}
         ></DeleteModal>
       </ModalSmallScreen>

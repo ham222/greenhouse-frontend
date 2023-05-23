@@ -4,10 +4,15 @@ import { TbAlertTriangle } from "react-icons/tb";
 
 interface DeleteProps {
   open: boolean;
+  onConfirmDelete: () => void;
   onClose: () => void;
 }
 
-export default function DeleteModal({ open, onClose }: DeleteProps) {
+export default function DeleteModal({
+  open,
+  onConfirmDelete,
+  onClose,
+}: DeleteProps) {
   const cancelButtonRef = useRef(null);
 
   console.log(open + " and " + open);
@@ -68,7 +73,10 @@ export default function DeleteModal({ open, onClose }: DeleteProps) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                    onClick={onClose}
+                    onClick={() => {
+                      onClose();
+                      onConfirmDelete();
+                    }}
                   >
                     Delete
                   </button>
