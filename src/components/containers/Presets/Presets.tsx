@@ -113,6 +113,7 @@ export default function Presets() {
     try {
       let url = `${API_URL}/preset/${preset.id}`;
       await axios.put(url, preset);
+      setTitle(preset.name);
       doRefresh();
       displayNetworkError("Succesfully saved!");
     } catch (error) {
