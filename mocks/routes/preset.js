@@ -47,7 +47,7 @@ let presets = [
 module.exports = [
   {
     id: "get-presets", // id of the route
-    url: "/api/preset", // url in path-to-regexp format
+    url: "/preset", // url in path-to-regexp format
     method: "GET", // HTTP method
     variants: [
       {
@@ -62,7 +62,7 @@ module.exports = [
   },
   {
     id: "add-presets", // route id
-    url: "/api/preset", // url in express format
+    url: "/preset", // url in express format
     method: "POST", // HTTP method
     variants: [
       {
@@ -88,7 +88,7 @@ module.exports = [
   },
   {
     id: "get-one-preset", // route id
-    url: "/api/preset/:id", // url in express format
+    url: "/preset/:id", // url in express format
     method: "GET", // HTTP method
     variants: [
       {
@@ -113,7 +113,7 @@ module.exports = [
   },
   {
     id: "delete-one-preset", // route id
-    url: "/api/preset/:id", // url in express format
+    url: "/preset/:id", // url in express format
     method: "DELETE", // HTTP method
     variants: [
       {
@@ -138,7 +138,7 @@ module.exports = [
   },
   {
     id: "update-one-preset", // route id
-    url: "/api/preset/:id", // url in express format
+    url: "/preset/:id", // url in express format
     method: "PUT", // HTTP method
     variants: [
       {
@@ -146,15 +146,16 @@ module.exports = [
         type: "middleware", // variant of type "middleware"
         options: {
           middleware: (req, res) => {
-            presets.forEach((p) => {
-              if (p.id === req.params.id) {
-                p = req.body;
-                res.status(200);
-                res.send(p);
-              }
-            });
-            res.status(404);
-            res.send();
+            const idToUpdate = parseInt(req.params.id);
+            const index = presets.findIndex(
+              (preset) => preset.id === idToUpdate
+            );
+            if (index !== -1) {
+              presets[index] = req.body;
+              res.sendStatus(200);
+            } else {
+              res.status(404).send("Preset not found");
+            }
           },
         },
       },

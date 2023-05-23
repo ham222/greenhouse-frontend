@@ -3,7 +3,7 @@ let email = {email:"example@via.dk"}
 module.exports = [
     {
     id: "get-email", // id of the route
-    url: "/api/email", // url in path-to-regexp format
+    url: "/email", // url in path-to-regexp format
     method: "GET", // HTTP method
     variants: [
       {
@@ -18,7 +18,7 @@ module.exports = [
     },
     {
         id: "change-email", // route id
-        url: "/api/email", // url in express format
+        url: "/email", // url in express format
         method: "POST", // HTTP method
         variants: [
           {

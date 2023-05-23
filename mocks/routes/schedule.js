@@ -28,7 +28,7 @@ let schedule = [
 module.exports = [
   {
     id: "get-schedule", // id of the route
-    url: "/api/schedule", // url in path-to-regexp format
+    url: "/schedule", // url in path-to-regexp format
     method: "GET", // HTTP method
     variants: [
       {
@@ -45,7 +45,7 @@ module.exports = [
   },
   {
     id: "set-schedule", // route id
-    url: "/api/schedule", // url in express format
+    url: "/schedule", // url in express format
     method: "POST", // HTTP method
     variants: [
       {
@@ -53,14 +53,13 @@ module.exports = [
         type: "middleware", // variant of type "middleware"
         options: {
           middleware: (req, res) => {
-            schedule = schedule.concat(
-              req.body.map((interval) => {
-                interval.id = idCount++;
-                return interval;
-              })
-            );
+            const n = req.body.map((interval) => {
+              interval.id = idCount++;
+              return interval;
+            });
+            schedule = schedule.concat(n);
             res.status(201);
-            res.send(schedule);
+            res.send(n);
           },
         },
       },
@@ -68,7 +67,7 @@ module.exports = [
   },
   {
     id: "delete-schedule", // route id
-    url: "/api/schedule/:id", // url in express format
+    url: "/schedule/:id", // url in express format
     method: "DELETE", // HTTP method
     variants: [
       {
@@ -93,7 +92,7 @@ module.exports = [
   },
   {
     id: "update-schedule", // route id
-    url: "/api/schedule/:id", // url in express format
+    url: "/schedule/:id", // url in express format
     method: "PUT", // HTTP method
     variants: [
       {
