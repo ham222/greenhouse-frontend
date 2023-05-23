@@ -40,11 +40,15 @@ export default function Presets() {
     setTitle(newPreset.name);
     setUpdating(true);
   };
-
+  const resetPresetToDefault = () => {
+    setPreset(defaultPreset);
+    setTitle("Create new");
+    setUpdating(false);
+  };
   const deletePreset = async (presetId: number) => {
     try {
       await axios.delete(`${API_URL}/preset/${presetId}`);
-
+      resetPresetToDefault();
       doRefresh();
     } catch (error) {
       console.error("Error deleting preset:", error);
@@ -260,7 +264,7 @@ export default function Presets() {
         open={openDeleteModal}
         onConfirmDelete={() => {
           deletePreset(deleteId);
-          changeCurrentPreset(1);
+          resetPresetToDefault();
         }}
         onClose={() => setOpenDeleteModal(false)}
       ></DeleteModal>
