@@ -68,7 +68,10 @@ export default function ViewAllPresetsModal({
             ></PresetItem>
           ))}
         </div>
-        <DeleteModal open={openState}></DeleteModal>
+        <DeleteModal
+          open={openState}
+          onClose={() => setOpenState(false)}
+        ></DeleteModal>
       </ModalSmallScreen>
     </>
   );
