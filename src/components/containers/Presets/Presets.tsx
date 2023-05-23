@@ -26,7 +26,7 @@ export default function Presets() {
   const [updating, setUpdating] = useState(false);
   const presetList = presetListResponse.data ?? [];
 
-  const defaultPreset: Preset = new Preset(1, "", [
+  const defaultPreset: Preset = new Preset("", [
     new Threshold("Temperature", parseFloat(""), parseFloat("")),
     new Threshold("Humidity", parseFloat(""), parseFloat("")),
     new Threshold("Co2", parseFloat(""), parseFloat("")),
@@ -54,7 +54,7 @@ export default function Presets() {
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
   const updateThreshold = (threshold: Threshold) => {
-    const newPreset = new Preset(preset.id, preset.name, preset.thresholds);
+    const newPreset = new Preset(preset.name, preset.thresholds, preset.id);
     const id = newPreset.thresholds.findIndex(
       ({ type }) => threshold.type === type
     );
@@ -84,9 +84,9 @@ export default function Presets() {
 
   const handleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const newPreset = new Preset(
-      preset.id,
       evt.target.value,
-      preset.thresholds
+      preset.thresholds,
+      preset.id
     );
     setPreset(newPreset);
   };

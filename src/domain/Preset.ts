@@ -1,13 +1,13 @@
 import Threshold from "./Threshold";
 
 export default class Preset {
-  id: number;
   name: string;
   thresholds: Threshold[];
+  id: number;
 
-  constructor(id: number = -1, name: string, thresholds: Threshold[]) {
-    this.id = id;
+  constructor(name: string, thresholds: Threshold[], id: number = -1) {
     this.name = name;
     this.thresholds = thresholds;
+    this.id = id;
   }
 }
