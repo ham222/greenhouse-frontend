@@ -1,7 +1,7 @@
 import ModalSmallScreen from "src/components/UI/ModalSmallScreen";
 import PresetItem from "./PresetItem";
 import { useEffect, useState } from "react";
-import DeleteModal from "src/components/UI/DeleteModal";
+import DeleteModal from "./DeleteModal";
 
 interface ViewAllPresetsModalProps {
   open: boolean;

@@ -9,7 +9,7 @@ import { useState } from "react";
 import { displayNetworkError } from "src/utils/errorToast";
 import { AxiosError } from "axios";
 import { useGet } from "src/hooks/useGet";
-import DeleteModal from "src/components/UI/DeleteModal";
+import DeleteModal from "./DeleteModal";
 
 export default function Presets() {
   const API_URL = process.env.REACT_APP_API_BASE_URL;
