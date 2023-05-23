@@ -43,16 +43,6 @@ export default function ViewAllPresetsModal({
         showAlert={showAlert}
       >
         <div className="justify-end flex flex-col gaitems-center ">
-          <button
-            className="bg-dark w-full order-last text-white font-semibold
-        p-3 rounded-lg mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200"
-            onClick={() => {
-              onCreateNewClick();
-              onClose();
-            }}
-          >
-            Create new Preset
-          </button>
           {presets.map((item: any) => (
             <PresetItem
               onPresetClick={(name) => {
@@ -68,6 +58,27 @@ export default function ViewAllPresetsModal({
               presetName={item.name}
             ></PresetItem>
           ))}
+          <div className="flex flex-col mx-5 sm:flex-row justify-center sm:gap-10">
+            <button
+              className="bg-dark w-full sm:w-1/3 order-last text-white font-semibold
+        p-3 rounded-xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200"
+              onClick={() => {
+                onCreateNewClick();
+                onClose();
+              }}
+            >
+              Create new Preset
+            </button>
+            <button
+              className="bg-zinc-300 w-full sm:w-1/3 order-last text-dark font-semibold
+        p-3 rounded-xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200"
+              onClick={() => {
+                onClose();
+              }}
+            >
+              Go Back
+            </button>
+          </div>
         </div>
         <DeleteModal
           open={openState}
