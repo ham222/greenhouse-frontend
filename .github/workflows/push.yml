@@ -8,11 +8,13 @@ jobs:
   prettify:
     name: Prettify code
     uses: ./.github/workflows/prettify.yml
+  cypress_test:
+    name: Cypress Test
+    uses: ./.github/workflows/cypress_test.yml
   jest_test:
-    needs: [prettify]
     name: Jest Test
     uses: ./.github/workflows/jest_test.yml
   build:
-    needs: [jest_test]
+    needs: [jest_test, cypress_test, prettify]
     name: Check if can be built
     uses: ./.github/workflows/build.yml
