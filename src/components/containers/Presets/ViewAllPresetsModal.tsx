@@ -70,9 +70,10 @@ export default function ViewAllPresetsModal({
               Create new Preset
             </button>
             <button
-              className="bg-zinc-300 w-full sm:w-1/3 order-last text-dark font-semibold
+              className="bg-neutral-300 w-full sm:w-1/3 order-last text-dark font-semibold
         p-3 rounded-xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200"
               onClick={() => {
+                onCreateNewClick();
                 onClose();
               }}
             >

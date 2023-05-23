@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState, useEffect } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { TbAlertTriangle } from "react-icons/tb";
 
@@ -14,8 +14,6 @@ export default function DeleteModal({
   onClose,
 }: DeleteProps) {
   const cancelButtonRef = useRef(null);
-
-  console.log(open + " and " + open);
 
   return (
     <Transition.Root show={open} as={Fragment}>

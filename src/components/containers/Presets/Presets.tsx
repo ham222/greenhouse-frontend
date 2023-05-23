@@ -34,7 +34,6 @@ export default function Presets() {
   const [preset, setPreset] = useState<Preset>(defaultPreset);
 
   const changeCurrentPreset = (presetId: number) => {
-    console.log(presetId);
     const newPreset =
       presetList.find(({ id }) => id === presetId) ?? defaultPreset;
     setPreset(newPreset);
@@ -42,10 +41,8 @@ export default function Presets() {
   };
 
   const deletePreset = async (presetId: number) => {
-    console.log("JOJKA" + presetId);
     try {
       const response = await axios.delete(`${API_URL}/preset/${presetId}`);
-      // displayNetworkError("Preset deleted");
 
       doRefresh();
     } catch (error) {
@@ -126,8 +123,6 @@ export default function Presets() {
 
   return (
     <div className="m-2">
-      {/* <Toastik> </Toastik> */}
-
       <div className="lg:grid lg:grid-cols-10">
         <div className="lg:col-span-7 order-last">
           <h1 className="text-center text-2xl font-semibold my-8">
