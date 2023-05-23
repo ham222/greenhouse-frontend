@@ -68,6 +68,18 @@ export default function Presets() {
     }
   };
 
+  const setPresetAsCurrrent = async () => {
+    try {
+      let url = `${API_URL}/current-preset`;
+      await axios.post(url, "current-preset");
+      doRefresh();
+      displayNetworkError("Successfully changed current preset!");
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      displayNetworkError(axiosError.message);
+    }
+  };
+
   const handleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const newPreset = new Preset(evt.target.value, preset.thresholds);
     setPreset(newPreset);
