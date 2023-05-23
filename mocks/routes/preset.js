@@ -47,7 +47,7 @@ let presets = [
 module.exports = [
   {
     id: "get-presets", // id of the route
-    url: "/api/preset", // url in path-to-regexp format
+    url: "/preset", // url in path-to-regexp format
     method: "GET", // HTTP method
     variants: [
       {
@@ -62,7 +62,7 @@ module.exports = [
   },
   {
     id: "add-presets", // route id
-    url: "/api/preset", // url in express format
+    url: "/preset", // url in express format
     method: "POST", // HTTP method
     variants: [
       {
@@ -89,7 +89,7 @@ module.exports = [
   },
   {
     id: "get-one-preset", // route id
-    url: "/api/preset/:id", // url in express format
+    url: "/preset/:id", // url in express format
     method: "GET", // HTTP method
     variants: [
       {
@@ -114,7 +114,7 @@ module.exports = [
   },
   {
     id: "delete-one-preset", // route id
-    url: "/api/preset/:id", // url in express format
+    url: "/preset/:id", // url in express format
     method: "DELETE", // HTTP method
     variants: [
       {
@@ -140,7 +140,7 @@ module.exports = [
   },
   {
     id: "update-one-preset", // route id
-    url: "/api/preset/:id", // url in express format
+    url: "/preset/:id", // url in express format
     method: "PUT", // HTTP method
     variants: [
       {

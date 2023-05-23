@@ -4,7 +4,7 @@ let duration = { duration: 0 };
 module.exports = [
   {
     id: "get-toggle", // id of the route
-    url: "/api/watering-system/toggle", // url in path-to-regexp format
+    url: "/watering-system/toggle", // url in path-to-regexp format
     method: "GET", // HTTP method
     variants: [
       {
@@ -19,7 +19,7 @@ module.exports = [
   },
   {
     id: "change-toggle", // route id
-    url: "/api/watering-system/toggle", // url in express format
+    url: "/watering-system/toggle", // url in express format
     method: "POST", // HTTP method
     variants: [
       {

@@ -43,7 +43,7 @@ export default function Watering() {
       let url = `${API_URL}/watering-system/toggle`;
       await axios.post(url, {
         state: isOn,
-        duration: Duration.fromObject({ minutes: duration }).as("milliseconds"),
+        duration: Duration.fromObject({ minutes: duration }).as("minutes"),
       });
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -126,7 +126,17 @@ export default function Watering() {
     try {
       let url = `${API_URL}/schedule`;
       const result = await axios.post(url, newIntervals);
-      setSchedule(result.data as IntervalDto[]);
+      const newSchedule = intervals.concat(
+        (result.data as IntervalDto[]).map((dto) => {
+          return new Interval(
+            dto.id,
+            dto.startTime,
+            dto.endTime,
+            dto.dayOfWeek
+          );
+        })
+      );
+      setIntervals(newSchedule);
     } catch (error) {
       const axiosError = error as AxiosError;
       displayNetworkError(axiosError.message);

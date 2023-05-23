@@ -6,8 +6,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Presets from "./components/containers/Presets/Presets";
 import Login from "./components/containers/Login/Login";
+import SessionHandler from "./utils/SessionHandler";
 
 function App() {
+  SessionHandler.init();
+
   return (
     <>
       <div className="App h-full">

@@ -19,7 +19,8 @@
       "add-presets:success",
       "get-one-preset:success",
       "delete-one-preset:success",
-      "update-one-preset:success"
+      "update-one-preset:success",
+      "login:success"
     ]
   }
 ]
