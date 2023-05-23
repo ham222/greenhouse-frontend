@@ -20,14 +20,22 @@ export default function Presets() {
 
   const [title, setTitle] = useState("Create new");
   const presetListResponse = useGet<Preset[]>(`${API_URL}/preset`, refresh);
+  const currentPresetResponse = useGet<Preset>(
+    `${API_URL}/current-preset`,
+    refresh
+  );
 
   const presetList = presetListResponse.data ?? [];
 
-  const defaultPreset: Preset = new Preset("", [
-    new Threshold("Temperature", parseFloat(""), parseFloat("")),
-    new Threshold("Humidity", parseFloat(""), parseFloat("")),
-    new Threshold("Co2", parseFloat(""), parseFloat("")),
-  ]);
+  const currentPreset =
+    presetList.find(({ name }) => name === currentPresetResponse.data?.name) ??
+    new Preset("", [
+      new Threshold("Temperature", parseFloat(""), parseFloat("")),
+      new Threshold("Humidity", parseFloat(""), parseFloat("")),
+      new Threshold("Co2", parseFloat(""), parseFloat("")),
+    ]);
+
+  const defaultPreset: Preset = currentPreset;
   const [preset, setPreset] = useState<Preset>(defaultPreset);
 
   const changeCurrentPreset = (newPresetName: string) => {
@@ -69,6 +77,10 @@ export default function Presets() {
   };
 
   const setPresetAsCurrrent = async () => {
+    if (preset.name === currentPreset.name) {
+      displayNetworkError("This preset is already applied!");
+      return;
+    }
     try {
       let url = `${API_URL}/current-preset`;
       await axios.post(url, preset);
@@ -121,7 +133,7 @@ export default function Presets() {
       <div className="lg:grid lg:grid-cols-10">
         <div className="lg:col-span-7 order-last">
           <h1 className="text-center text-2xl font-semibold my-8">
-            {title} Preset
+            {title.includes("preset") ? title : title + " preset"}
           </h1>
           <div className="flex flex-col items-center">
             <div className="flex my-5">
@@ -167,11 +179,16 @@ export default function Presets() {
               </button>
               <button
                 className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
+                disabled={
+                  presetList.find((p) => p.name === currentPreset.name)
+                    ? true
+                    : false
+                }
                 onClick={() => {
                   setPresetAsCurrrent();
                 }}
               >
-                Set as current
+                {preset.name === currentPreset.name ? "Applied" : "Apply"}
               </button>
             </div>
           </div>
