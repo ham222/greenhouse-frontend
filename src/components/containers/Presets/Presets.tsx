@@ -9,10 +9,13 @@ import { useState } from "react";
 import { displayNetworkError } from "src/utils/errorToast";
 import { AxiosError } from "axios";
 import { useGet } from "src/hooks/useGet";
+import DeleteModal from "src/components/UI/DeleteModal";
 
 export default function Presets() {
   const API_URL = process.env.REACT_APP_API_BASE_URL;
   const [refresh, setRefresh] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(0);
 
   const doRefresh = () => {
     setRefresh(!refresh);
@@ -209,8 +212,8 @@ export default function Presets() {
                 onPresetClick={changeCurrentPreset}
                 presetId={item.id}
                 onDeletePreset={(id) => {
-                  deletePreset(id);
-                  changeCurrentPreset(1);
+                  setOpenDeleteModal(true);
+                  setDeleteId(id);
                 }}
                 key={item.id}
                 presetName={item.name}
@@ -229,6 +232,14 @@ export default function Presets() {
           </button>
         </div>
       </div>
+      <DeleteModal
+        open={openDeleteModal}
+        onConfirmDelete={() => {
+          deletePreset(deleteId);
+          changeCurrentPreset(1);
+        }}
+        onClose={() => setOpenDeleteModal(false)}
+      ></DeleteModal>
     </div>
   );
 }
