@@ -50,7 +50,12 @@ export default function Presets() {
     setUpdating(true);
   };
   const resetPresetToDefault = () => {
-    setPreset(defaultPreset);
+    const clear = new Preset("", [
+      new Threshold("Temperature", parseFloat(""), parseFloat("")),
+      new Threshold("Humidity", parseFloat(""), parseFloat("")),
+      new Threshold("Co2", parseFloat(""), parseFloat("")),
+    ]);
+    setPreset(clear);
     setTitle("Create new");
     setUpdating(false);
   };
@@ -257,7 +262,7 @@ export default function Presets() {
               onPresetClick={changeCurrentPreset}
               onCreateNewClick={() => {
                 setUpdating(false);
-                setPreset(defaultPreset);
+                resetPresetToDefault();
                 setTitle("Create new");
               }}
               onDeletePreset={deletePreset}
@@ -290,7 +295,7 @@ export default function Presets() {
             className="bg-dark mt-4 w-full text-white font-semibold
             py-4 rounded-xl text-lg ease-in-out duration-300 hover:shadow-xl"
             onClick={() => {
-              setPreset(defaultPreset);
+              resetPresetToDefault();
               setTitle("Create new ");
               setUpdating(false);
             }}
