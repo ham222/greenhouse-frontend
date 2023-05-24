@@ -17,20 +17,18 @@ export default function Presets() {
   const [refresh, setRefresh] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
+  const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
-  const doRefresh = () => {
-    setRefresh(!refresh);
-  };
-
-  const [title, setTitle] = useState("Create new");
-  const presetListResponse = useGet<Preset[]>(`${API_URL}/preset`, refresh);
   const [updating, setUpdating] = useState(false);
+  const [title, setTitle] = useState("Create new");
+
+  const presetListResponse = useGet<Preset[]>(`${API_URL}/preset`, refresh);
+  const presetList = presetListResponse.data ?? [];
+
   const currentPresetResponse = useGet<Preset>(
     `${API_URL}/current-preset`,
     refresh
   );
-
-  const presetList = presetListResponse.data ?? [];
 
   const currentPreset =
     presetList.find(({ name }) => name === currentPresetResponse.data?.name) ??
@@ -43,6 +41,14 @@ export default function Presets() {
   const defaultPreset: Preset = currentPreset;
   const [preset, setPreset] = useState<Preset>(defaultPreset);
 
+  if (presetListResponse.error != null) {
+    displayNetworkError(presetListResponse.error.message);
+  }
+
+  const doRefresh = () => {
+    setRefresh(!refresh);
+  };
+
   const changeCurrentPreset = (presetId: number) => {
     const newPreset =
       presetList.find(({ id }) => id === presetId) ?? defaultPreset;
@@ -50,6 +56,7 @@ export default function Presets() {
     setTitle(newPreset.name);
     setUpdating(true);
   };
+
   const resetPresetToDefault = () => {
     const clear = new Preset("", [
       new Threshold("Temperature", parseFloat(""), parseFloat("")),
@@ -60,6 +67,7 @@ export default function Presets() {
     setTitle("Create new");
     setUpdating(false);
   };
+
   const deletePreset = async (presetId: number) => {
     try {
       await axios.delete(`${API_URL}/preset/${presetId}`);
@@ -69,8 +77,6 @@ export default function Presets() {
       console.error("Error deleting preset:", error);
     }
   };
-
-  const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
   const updateThreshold = (threshold: Threshold) => {
     const newPreset = new Preset(preset.name, preset.thresholds, preset.id);
@@ -125,10 +131,6 @@ export default function Presets() {
     );
     setPreset(newPreset);
   };
-
-  if (presetListResponse.error != null) {
-    displayNetworkError(presetListResponse.error.message);
-  }
 
   const onSave = () => {
     if (!validatePreset(preset)) {
@@ -270,7 +272,7 @@ export default function Presets() {
             py-4 rounded-xl text-lg ease-in-out duration-300 hover:shadow-xl"
             onClick={() => {
               resetPresetToDefault();
-              setTitle("Create new ");
+              setTitle("Create new");
               setUpdating(false);
             }}
           >
