@@ -9,10 +9,13 @@ import { useState } from "react";
 import { displayNetworkError } from "src/utils/errorToast";
 import { AxiosError } from "axios";
 import { useGet } from "src/hooks/useGet";
+import DeleteModal from "./DeleteModal";
 
 export default function Presets() {
   const API_URL = process.env.REACT_APP_API_BASE_URL;
   const [refresh, setRefresh] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(0);
 
   const doRefresh = () => {
     setRefresh(!refresh);
@@ -20,6 +23,7 @@ export default function Presets() {
 
   const [title, setTitle] = useState("Create new");
   const presetListResponse = useGet<Preset[]>(`${API_URL}/preset`, refresh);
+  const [updating, setUpdating] = useState(false);
   const currentPresetResponse = useGet<Preset>(
     `${API_URL}/current-preset`,
     refresh
@@ -38,17 +42,32 @@ export default function Presets() {
   const defaultPreset: Preset = currentPreset;
   const [preset, setPreset] = useState<Preset>(defaultPreset);
 
-  const changeCurrentPreset = (newPresetName: string) => {
+  const changeCurrentPreset = (presetId: number) => {
     const newPreset =
-      presetList.find(({ name }) => name === newPresetName) ?? defaultPreset;
+      presetList.find(({ id }) => id === presetId) ?? defaultPreset;
     setPreset(newPreset);
-    setTitle(newPresetName);
+    setTitle(newPreset.name);
+    setUpdating(true);
+  };
+  const resetPresetToDefault = () => {
+    setPreset(defaultPreset);
+    setTitle("Create new");
+    setUpdating(false);
+  };
+  const deletePreset = async (presetId: number) => {
+    try {
+      await axios.delete(`${API_URL}/preset/${presetId}`);
+      resetPresetToDefault();
+      doRefresh();
+    } catch (error) {
+      console.error("Error deleting preset:", error);
+    }
   };
 
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
   const updateThreshold = (threshold: Threshold) => {
-    const newPreset = new Preset(preset.name, preset.thresholds);
+    const newPreset = new Preset(preset.name, preset.thresholds, preset.id);
     const id = newPreset.thresholds.findIndex(
       ({ type }) => threshold.type === type
     );
@@ -68,7 +87,7 @@ export default function Presets() {
       let url = `${API_URL}/preset`;
       await axios.post(url, preset);
       doRefresh();
-      displayNetworkError("Succesfully saved!");
+      displayNetworkError("Successfully saved");
     } catch (error) {
       console.error(error);
       const axiosError = error as AxiosError;
@@ -93,7 +112,11 @@ export default function Presets() {
   };
 
   const handleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const newPreset = new Preset(evt.target.value, preset.thresholds);
+    const newPreset = new Preset(
+      evt.target.value,
+      preset.thresholds,
+      preset.id
+    );
     setPreset(newPreset);
   };
 
@@ -102,16 +125,40 @@ export default function Presets() {
   }
 
   const onSave = () => {
+    if (!ValidatePreset()) {
+      return;
+    }
+
+    addPreset();
+  };
+  const onUpdate = async () => {
+    if (!ValidatePreset()) {
+      return;
+    }
+    try {
+      let url = `${API_URL}/preset/${preset.id}`;
+      await axios.put(url, preset);
+      setTitle(preset.name);
+      doRefresh();
+      displayNetworkError("Succesfully saved!");
+    } catch (error) {
+      console.error(error);
+      const axiosError = error as AxiosError;
+      displayNetworkError(axiosError.message);
+    }
+  };
+
+  const ValidatePreset = (): boolean => {
     if (preset.name === "") {
       displayNetworkError(`Preset name cannot be empty`);
-      return;
+      return false;
     }
 
     for (let i = 0; i < preset.thresholds.length; i++) {
       let t = preset.thresholds[i];
       if (Number.isNaN(t.max) || Number.isNaN(t.min)) {
         displayNetworkError(`Min and max fields must be filled`);
-        return;
+        return false;
       }
     }
     for (let i = 0; i < preset.thresholds.length; i++) {
@@ -121,11 +168,10 @@ export default function Presets() {
           `Min value in ${t.type} cannot be bigger than max value`
         );
 
-        return;
+        return false;
       }
     }
-
-    addPreset();
+    return true;
   };
 
   return (
@@ -172,10 +218,25 @@ export default function Presets() {
               <button
                 className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
                 onClick={() => {
-                  onSave();
+                  if (updating) {
+                    onUpdate();
+                  } else {
+                    onSave();
+                  }
                 }}
               >
-                Save
+                {updating ? "Update" : "Save"}
+              </button>
+              <button
+                className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
+                disabled={
+                  presetList.find((p) => p.name === preset.name) ? false : true
+                }
+                onClick={() => {
+                  setPresetAsCurrrent();
+                }}
+              >
+                {preset.name === currentPreset.name ? "Applied" : "Apply"}
               </button>
               <button
                 className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
@@ -204,9 +265,11 @@ export default function Presets() {
             <ViewAllPresetsModal
               onPresetClick={changeCurrentPreset}
               onCreateNewClick={() => {
+                setUpdating(false);
                 setPreset(defaultPreset);
                 setTitle("Create new");
               }}
+              onDeletePreset={deletePreset}
               open={allPresetsModalOpen}
               onClose={() => setAllPresetsModalOpen(false)}
               presets={presetList}
@@ -219,9 +282,14 @@ export default function Presets() {
             All Presets
           </div>
           <div className="flex ring-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-300 scrollbar-thumb-rounded-md ring-neutral-100 rounded-lg max-h-[50vh] overflow-y-auto gap-2 flex-col items-center">
-            {presetList.map((item: any) => (
+            {presetList.map((item: Preset) => (
               <PresetItem
-                onClick={changeCurrentPreset}
+                onPresetClick={changeCurrentPreset}
+                presetId={item.id}
+                onDeletePreset={(id) => {
+                  setOpenDeleteModal(true);
+                  setDeleteId(id);
+                }}
                 key={item.id}
                 presetName={item.name}
               ></PresetItem>
@@ -233,12 +301,21 @@ export default function Presets() {
             onClick={() => {
               setPreset(defaultPreset);
               setTitle("Create new ");
+              setUpdating(false);
             }}
           >
             Create new Preset
           </button>
         </div>
       </div>
+      <DeleteModal
+        open={openDeleteModal}
+        onConfirmDelete={() => {
+          deletePreset(deleteId);
+          resetPresetToDefault();
+        }}
+        onClose={() => setOpenDeleteModal(false)}
+      ></DeleteModal>
     </div>
   );
 }

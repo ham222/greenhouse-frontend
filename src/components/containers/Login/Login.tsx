@@ -1,9 +1,13 @@
 import { FaCarrot } from "react-icons/fa";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import SessionHandler from "src/utils/SessionHandler";
 
 export default function Login() {
   const API_URL = process.env.REACT_APP_API_BASE_URL;
 
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -11,9 +15,18 @@ export default function Login() {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    alert(` Email: ${formData.email}, Password: ${formData.password}`);
+    try {
+      const response = await axios.post(API_URL + "/login", {
+        ...formData,
+      });
+      const { token } = response.data;
+      SessionHandler.login(token);
+      navigate("/");
+    } catch (error) {
+      alert("Login failed: " + error);
+    }
   };
 
   return (
