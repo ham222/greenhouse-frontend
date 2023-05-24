@@ -31,7 +31,7 @@ export default function Presets() {
   );
 
   const currentPreset =
-    presetList.find(({ name }) => name === currentPresetResponse.data?.name) ??
+    presetList.find(({ id }) => id === currentPresetResponse.data?.id) ??
     new Preset("", [
       new Threshold("Temperature", parseFloat(""), parseFloat("")),
       new Threshold("Humidity", parseFloat(""), parseFloat("")),
