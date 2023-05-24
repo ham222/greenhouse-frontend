@@ -10,6 +10,7 @@ import { displayNetworkError } from "src/utils/errorToast";
 import { AxiosError } from "axios";
 import { useGet } from "src/hooks/useGet";
 import DeleteModal from "./DeleteModal";
+import validatePreset from "src/utils/validatePreset";
 
 export default function Presets() {
   const API_URL = process.env.REACT_APP_API_BASE_URL;
@@ -130,14 +131,14 @@ export default function Presets() {
   }
 
   const onSave = () => {
-    if (!ValidatePreset()) {
+    if (!validatePreset(preset)) {
       return;
     }
 
     addPreset();
   };
   const onUpdate = async () => {
-    if (!ValidatePreset()) {
+    if (!validatePreset(preset)) {
       return;
     }
     try {
@@ -151,32 +152,6 @@ export default function Presets() {
       const axiosError = error as AxiosError;
       displayNetworkError(axiosError.message);
     }
-  };
-
-  const ValidatePreset = (): boolean => {
-    if (preset.name === "") {
-      displayNetworkError(`Preset name cannot be empty`);
-      return false;
-    }
-
-    for (let i = 0; i < preset.thresholds.length; i++) {
-      let t = preset.thresholds[i];
-      if (Number.isNaN(t.max) || Number.isNaN(t.min)) {
-        displayNetworkError(`Min and max fields must be filled`);
-        return false;
-      }
-    }
-    for (let i = 0; i < preset.thresholds.length; i++) {
-      let t = preset.thresholds[i];
-      if (t.max < t.min) {
-        displayNetworkError(
-          `Min value in ${t.type} cannot be bigger than max value`
-        );
-
-        return false;
-      }
-    }
-    return true;
   };
 
   return (
