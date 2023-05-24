@@ -205,7 +205,7 @@ export default function Presets() {
               ))}
             </div>
 
-            <div className="flex justify-evenly w-full">
+            <div className="flex justify-center gap-10 w-full">
               <button
                 className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
                 onClick={() => {
