@@ -4,10 +4,9 @@ import ViewAllPresetsModal from "./ViewAllPresetsModal";
 import Preset from "src/domain/Preset";
 import Threshold from "src/domain/Threshold";
 import PresetItem from "./PresetItem";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { displayNetworkError } from "src/utils/errorToast";
-import { AxiosError } from "axios";
 import { useGet } from "src/hooks/useGet";
 
 export default function Presets() {
