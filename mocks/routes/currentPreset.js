@@ -1,5 +1,5 @@
 let currentPreset = {
-  id: 1,
+  id: 0,
   name: "default preset",
   thresholds: [
     {
