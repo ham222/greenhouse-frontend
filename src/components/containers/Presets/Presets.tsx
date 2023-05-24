@@ -143,6 +143,15 @@ export default function Presets() {
     if (!validatePreset(preset)) {
       return;
     }
+    for (let i = 0; i < presetList.length; i++) {
+      if (
+        presetList[i].name === preset.name &&
+        presetList[i].id !== preset.id
+      ) {
+        displayNetworkError("Preset names cannot be the same");
+        return;
+      }
+    }
     try {
       let url = `${API_URL}/preset/${preset.id}`;
       await axios.put(url, preset);
