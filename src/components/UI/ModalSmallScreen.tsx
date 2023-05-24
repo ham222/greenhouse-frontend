@@ -15,7 +15,12 @@ export default function ModalSmallScreen({
 }: ModalProps) {
   return (
     <Transition appear show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-[1]" onClose={onClose}>
+      <Dialog
+        as="div"
+        className="relative z-[1]"
+        onClose={onClose}
+        data-testid="modal-small-screen"
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
