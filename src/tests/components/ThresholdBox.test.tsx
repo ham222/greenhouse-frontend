@@ -70,6 +70,28 @@ describe("ThresholdBox", () => {
     });
   });
 
+  it("should handle default NaN value", () => {
+    render(<ThresholdBox threshold={threshold} updateValue={updateValue} />);
+
+    const minInput = screen.getByTestId("min-input");
+    const maxInput = screen.getByTestId("max-input");
+
+    fireEvent.change(minInput, { target: { value: NaN } });
+    fireEvent.change(maxInput, { target: { value: NaN } });
+
+    expect(updateValue).toHaveBeenCalledTimes(2);
+    expect(updateValue).toHaveBeenNthCalledWith(1, {
+      type: "type",
+      min: NaN,
+      max: 10,
+    });
+    expect(updateValue).toHaveBeenNthCalledWith(2, {
+      type: "type",
+      min: 0,
+      max: NaN,
+    });
+  });
+
   it("should update temperature threshold value within limit boundaries", () => {
     const threshold = new Threshold("temperature", 0, 10);
 

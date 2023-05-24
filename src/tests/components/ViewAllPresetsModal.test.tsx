@@ -181,4 +181,25 @@ describe("ViewAllPresetsModal", () => {
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  it("does not call the onClose callback when the viewport width is resized to be smaller than 1024", () => {
+    const onClose = jest.fn();
+
+    global.innerWidth = 800;
+
+    render(
+      <ViewAllPresetsModal
+        open={true}
+        onClose={onClose}
+        presets={[]}
+        onPresetClick={() => {}}
+        onCreateNewClick={() => {}}
+        onDeletePreset={() => {}}
+      />
+    );
+
+    fireEvent(window, new Event("resize"));
+
+    expect(onClose).not.toHaveBeenCalled();
+  });
 });
