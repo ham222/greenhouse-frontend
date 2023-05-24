@@ -4,7 +4,7 @@ import WateringStatus from "./WateringStatus";
 import { DateTime } from "luxon";
 import { useGet } from "src/hooks/useGet";
 import Measurement from "src/domain/Measurement";
-import { displayNetworkError } from "src/utils/errorToast";
+import { displayToast } from "src/utils/displayToast";
 import LineChart from "../Status/LineChart";
 import { WiThermometer } from "react-icons/wi";
 import { BsWater } from "react-icons/bs";
@@ -25,16 +25,16 @@ export default function Status() {
   );
 
   if (getToggleResponse.error != null) {
-    displayNetworkError(getToggleResponse.error.message);
+    displayToast(getToggleResponse.error.message);
   }
   if (co2ChartResponse.error != null) {
-    displayNetworkError(co2ChartResponse.error.message);
+    displayToast(co2ChartResponse.error.message);
   }
   if (humidityChartResponse.error != null) {
-    displayNetworkError(humidityChartResponse.error.message);
+    displayToast(humidityChartResponse.error.message);
   }
   if (temperatureChartResponse.error != null) {
-    displayNetworkError(temperatureChartResponse.error.message);
+    displayToast(temperatureChartResponse.error.message);
   }
   const presetResponse = useGet<Preset>(`${API_URL}/current-preset`);
 
@@ -65,13 +65,13 @@ export default function Status() {
   );
 
   if (co2Response.error != null) {
-    displayNetworkError(co2Response.error.message);
+    displayToast(co2Response.error.message);
   }
   if (humidityResponse.error != null) {
-    displayNetworkError(humidityResponse.error.message);
+    displayToast(humidityResponse.error.message);
   }
   if (temperatureResponse.error != null) {
-    displayNetworkError(temperatureResponse.error.message);
+    displayToast(temperatureResponse.error.message);
   }
 
   useEffect(() => {
