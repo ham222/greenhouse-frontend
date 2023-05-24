@@ -23,13 +23,22 @@ export default function Presets() {
   const [title, setTitle] = useState("Create new");
   const presetListResponse = useGet<Preset[]>(`${API_URL}/preset`, refresh);
   const [updating, setUpdating] = useState(false);
+  const currentPresetResponse = useGet<Preset>(
+    `${API_URL}/current-preset`,
+    refresh
+  );
+
   const presetList = presetListResponse.data ?? [];
 
-  const defaultPreset: Preset = new Preset("", [
-    new Threshold("Temperature", parseFloat(""), parseFloat("")),
-    new Threshold("Humidity", parseFloat(""), parseFloat("")),
-    new Threshold("Co2", parseFloat(""), parseFloat("")),
-  ]);
+  const currentPreset =
+    presetList.find(({ name }) => name === currentPresetResponse.data?.name) ??
+    new Preset("", [
+      new Threshold("Temperature", parseFloat(""), parseFloat("")),
+      new Threshold("Humidity", parseFloat(""), parseFloat("")),
+      new Threshold("Co2", parseFloat(""), parseFloat("")),
+    ]);
+
+  const defaultPreset: Preset = currentPreset;
   const [preset, setPreset] = useState<Preset>(defaultPreset);
 
   const changeCurrentPreset = (presetId: number) => {
@@ -80,6 +89,22 @@ export default function Presets() {
       displayNetworkError("Successfully saved");
     } catch (error) {
       console.error(error);
+      const axiosError = error as AxiosError;
+      displayNetworkError(axiosError.message);
+    }
+  };
+
+  const setPresetAsCurrrent = async () => {
+    if (preset.name === currentPreset.name) {
+      displayNetworkError("This preset is already applied!");
+      return;
+    }
+    try {
+      let url = `${API_URL}/current-preset`;
+      await axios.post(url, preset);
+      doRefresh();
+      displayNetworkError("Successfully changed current preset!");
+    } catch (error) {
       const axiosError = error as AxiosError;
       displayNetworkError(axiosError.message);
     }
@@ -153,7 +178,7 @@ export default function Presets() {
       <div className="lg:grid lg:grid-cols-10">
         <div className="lg:col-span-7 order-last">
           <h1 className="text-center text-2xl font-semibold my-8">
-            {title} Preset
+            {title.includes("preset") ? title : title + " preset"}
           </h1>
           <div className="flex flex-col items-center">
             <div className="flex my-5">
@@ -189,7 +214,7 @@ export default function Presets() {
               ))}
             </div>
 
-            <div className="flex justify-center w-full">
+            <div className="flex justify-evenly w-full">
               <button
                 className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
                 onClick={() => {
@@ -201,6 +226,17 @@ export default function Presets() {
                 }}
               >
                 {updating ? "Update" : "Save"}
+              </button>
+              <button
+                className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200 disabled:bg-neutral-400"
+                disabled={
+                  presetList.find((p) => p.name === preset.name) ? false : true
+                }
+                onClick={() => {
+                  setPresetAsCurrrent();
+                }}
+              >
+                {preset.name === currentPreset.name ? "Applied" : "Apply"}
               </button>
             </div>
           </div>
