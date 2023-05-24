@@ -19,7 +19,8 @@ export default function Presets() {
   const [deleteId, setDeleteId] = useState(0);
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
-  const [updating, setUpdating] = useState(false);
+  const [notCreatingNew, setNotCreatingNew] = useState(false);
+  const [editing, setEditing] = useState(true);
   const [title, setTitle] = useState("Create new");
 
   const presetListResponse = useGet<Preset[]>(`${API_URL}/preset`, refresh);
@@ -54,7 +55,8 @@ export default function Presets() {
       presetList.find(({ id }) => id === presetId) ?? defaultPreset;
     setPreset(newPreset);
     setTitle(newPreset.name);
-    setUpdating(true);
+    setNotCreatingNew(true);
+    setEditing(false);
   };
 
   const resetPresetToDefault = () => {
@@ -65,7 +67,8 @@ export default function Presets() {
     ]);
     setPreset(clear);
     setTitle("Create new");
-    setUpdating(false);
+    setNotCreatingNew(false);
+    setEditing(true);
   };
 
   const deletePreset = async (presetId: number) => {
@@ -187,6 +190,7 @@ export default function Presets() {
                       id="presetName"
                       name="presetName"
                       type="text"
+                      disabled={!editing}
                       onChange={handleNameChange}
                       value={preset.name}
                       className="block pl-3 w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-neon sm:text-sm sm:leading-6"
@@ -200,6 +204,7 @@ export default function Presets() {
                 <ThresholdBox
                   updateValue={updateThreshold}
                   threshold={threshold}
+                  editing={!editing}
                   key={threshold.type}
                 ></ThresholdBox>
               ))}
@@ -209,14 +214,18 @@ export default function Presets() {
               <button
                 className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
                 onClick={() => {
-                  if (updating) {
-                    onUpdate();
+                  if (notCreatingNew) {
+                    if (editing) {
+                      setEditing(false);
+                    } else {
+                      setEditing(true);
+                    }
                   } else {
                     onSave();
                   }
                 }}
               >
-                {updating ? "Update" : "Save"}
+                {notCreatingNew ? (editing ? "Cancel" : "Update") : "Save"}
               </button>
               <button
                 className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200 disabled:bg-neutral-400"
@@ -225,10 +234,19 @@ export default function Presets() {
                   preset.id === currentPreset.id
                 }
                 onClick={() => {
-                  setPresetAsCurrrent();
+                  if (notCreatingNew && editing) {
+                    onUpdate();
+                    setEditing(false);
+                  } else {
+                    setPresetAsCurrrent();
+                  }
                 }}
               >
-                {preset.id === currentPreset.id ? "Applied" : "Apply"}
+                {notCreatingNew && editing
+                  ? "Save"
+                  : preset.id === currentPreset.id
+                  ? "Applied"
+                  : "Apply"}
               </button>
             </div>
           </div>
@@ -246,7 +264,7 @@ export default function Presets() {
             <ViewAllPresetsModal
               onPresetClick={changeCurrentPreset}
               onCreateNewClick={() => {
-                setUpdating(false);
+                setNotCreatingNew(false);
                 resetPresetToDefault();
                 setTitle("Create new");
               }}
@@ -282,7 +300,7 @@ export default function Presets() {
             onClick={() => {
               resetPresetToDefault();
               setTitle("Create new");
-              setUpdating(false);
+              setNotCreatingNew(false);
             }}
           >
             Create new Preset
