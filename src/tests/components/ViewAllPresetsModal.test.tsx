@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import ViewAllPresetsModal from "src/components/containers/Presets/ViewAllPresetsModal";
 
 class ResizeObserver {
@@ -58,5 +58,62 @@ describe("ViewAllPresetsModal", () => {
     );
 
     expect(screen.getAllByTestId("preset-item")).toHaveLength(2);
+  });
+
+  it("calls the onPresetClick callback when a preset item is clicked", () => {
+    const onPresetClick = jest.fn();
+
+    render(
+      <ViewAllPresetsModal
+        open={true}
+        onClose={() => {}}
+        presets={[{ id: 1, name: "Preset 1" }]}
+        onPresetClick={onPresetClick}
+        onCreateNewClick={() => {}}
+        onDeletePreset={() => {}}
+      />
+    );
+
+    fireEvent.click(screen.getByTestId("preset-item"));
+
+    expect(onPresetClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls the onCreateNewClick callback when 'Create new Preset' button is clicked", () => {
+    const onCreateNewClick = jest.fn();
+
+    render(
+      <ViewAllPresetsModal
+        open={true}
+        onClose={() => {}}
+        presets={[]}
+        onPresetClick={() => {}}
+        onCreateNewClick={onCreateNewClick}
+        onDeletePreset={() => {}}
+      />
+    );
+
+    fireEvent.click(screen.getByText("Create new Preset"));
+
+    expect(onCreateNewClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls the onClose callback when 'Go Back' button is clicked", () => {
+    const onClose = jest.fn();
+
+    render(
+      <ViewAllPresetsModal
+        open={true}
+        onClose={onClose}
+        presets={[]}
+        onPresetClick={() => {}}
+        onCreateNewClick={() => {}}
+        onDeletePreset={() => {}}
+      />
+    );
+
+    fireEvent.click(screen.getByText("Go Back"));
+
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });
