@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { BiHomeAlt } from "react-icons/bi";
-import { BsCalendar2Date } from "react-icons/bs";
+import { BsCalendar2Date, BsGear } from "react-icons/bs";
 import { FaCarrot } from "react-icons/fa";
 
 export default function Navbar() {
@@ -22,6 +22,12 @@ export default function Navbar() {
         <div className="flex flex-col items-center justify-items-center md:mt-12 text-neutral-400 hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
           <FaCarrot className="text-4xl mb-1 md:mb-2"></FaCarrot>
           <p>Presets</p>
+        </div>
+      </NavLink>
+      <NavLink to="/settings">
+        <div className="flex flex-col items-center justify-items-center md:mt-12 text-neutral-400 hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
+          <BsGear className="text-4xl mb-1 md:mb-2"></BsGear>
+          <p>Settings</p>
         </div>
       </NavLink>
     </nav>

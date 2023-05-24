@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Presets from "./components/containers/Presets/Presets";
 import Login from "./components/containers/Login/Login";
+import Settings from "./components/containers/Settings/Settings";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/watering" element={<Watering />} />
             <Route path="/presets" element={<Presets />} />
+            <Route path="/settings" element={<Settings />} />
           </Routes>
         </div>
         <Navbar />
