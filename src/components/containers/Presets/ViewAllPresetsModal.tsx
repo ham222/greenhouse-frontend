@@ -29,7 +29,7 @@ export default function ViewAllPresetsModal({
 
   return (
     <>
-      <ModalSmallScreen title={"Choose a preset"} open={open} onClose={onClose}>
+      <ModalSmallScreen open={open} onClose={onClose}>
         <div className="justify-end flex flex-col gaitems-center">
           <button
             className="bg-dark w-full order-last text-white font-semibold

@@ -5,14 +5,12 @@ interface ModalProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  title: string;
 }
 
-export default function ModallgallScreen({
+export default function ModalSmallScreen({
   open,
   onClose,
   children,
-  title,
 }: ModalProps) {
   return (
     <Transition appear show={open} as={Fragment}>
