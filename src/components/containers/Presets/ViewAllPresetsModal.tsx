@@ -36,11 +36,7 @@ export default function ViewAllPresetsModal({
 
   return (
     <>
-      <ModalSmallScreen
-        open={open}
-        onClose={onClose}
-        showAlert={showAlert}
-      >
+      <ModalSmallScreen open={open} onClose={onClose} showAlert={showAlert}>
         <div className="justify-end flex flex-col gaitems-center ">
           {presets.map((item: any) => (
             <PresetItem
