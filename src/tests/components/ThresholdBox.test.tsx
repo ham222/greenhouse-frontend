@@ -163,4 +163,19 @@ describe("ThresholdBox", () => {
       max: 100,
     });
   });
+
+  it("should handle NaN input value and change it to an empty string", () => {
+    render(
+      <ThresholdBox
+        threshold={{ type: "test", min: NaN, max: NaN }}
+        updateValue={updateValue}
+      />
+    );
+
+    const minInput = screen.getByTestId("min-input") as HTMLInputElement;
+    const maxInput = screen.getByTestId("max-input") as HTMLInputElement;
+
+    expect(minInput.value).toBe("");
+    expect(maxInput.value).toBe("");
+  });
 });
