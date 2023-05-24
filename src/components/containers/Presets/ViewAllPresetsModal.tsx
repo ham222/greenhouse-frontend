@@ -1,13 +1,15 @@
 import ModalSmallScreen from "src/components/UI/ModalSmallScreen";
 import PresetItem from "./PresetItem";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import DeleteModal from "./DeleteModal";
 
 interface ViewAllPresetsModalProps {
   open: boolean;
   onClose: () => void;
   presets: any;
-  onPresetClick: (value: string) => void;
+  onPresetClick: (id: number) => void;
   onCreateNewClick(): void;
+  onDeletePreset: (id: number) => void;
 }
 
 export default function ViewAllPresetsModal({
@@ -16,7 +18,12 @@ export default function ViewAllPresetsModal({
   presets,
   onPresetClick,
   onCreateNewClick,
+  onDeletePreset,
 }: ViewAllPresetsModalProps) {
+  let showAlert: boolean = false;
+  const [openState, setOpenState] = useState(false);
+  const [deleteId, setDeleteId] = useState(0);
+
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth >= 1024) onClose();
@@ -29,29 +36,55 @@ export default function ViewAllPresetsModal({
 
   return (
     <>
-      <ModalSmallScreen open={open} onClose={onClose}>
-        <div className="justify-end flex flex-col gaitems-center">
-          <button
-            className="bg-dark w-full order-last text-white font-semibold
-        p-3 rounded-lg mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200"
-            onClick={() => {
-              onCreateNewClick();
-              onClose();
-            }}
-          >
-            Create new Preset
-          </button>
+      <ModalSmallScreen
+        title={"Choose a preset"}
+        open={open}
+        onClose={onClose}
+        showAlert={showAlert}
+      >
+        <div className="justify-end flex flex-col gaitems-center ">
           {presets.map((item: any) => (
             <PresetItem
-              onClick={(name) => {
+              onPresetClick={(name) => {
                 onPresetClick(name);
                 onClose();
               }}
-              key={item.name}
+              onDeletePreset={(id) => {
+                setOpenState(true);
+                setDeleteId(id);
+              }}
+              key={item.id}
+              presetId={item.id}
               presetName={item.name}
             ></PresetItem>
           ))}
+          <div className="flex flex-col mx-5 sm:flex-row justify-center sm:gap-10">
+            <button
+              className="bg-dark w-full sm:w-1/3 order-last text-white font-semibold
+        p-3 rounded-xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200"
+              onClick={() => {
+                onCreateNewClick();
+                onClose();
+              }}
+            >
+              Create new Preset
+            </button>
+            <button
+              className="bg-neutral-300 w-full sm:w-1/3 order-last text-dark font-semibold
+        p-3 rounded-xl mt-3 mb-4 text-lg hover:bg-slate-700 ease-in-out duration-200"
+              onClick={() => {
+                onClose();
+              }}
+            >
+              Go Back
+            </button>
+          </div>
         </div>
+        <DeleteModal
+          open={openState}
+          onConfirmDelete={() => onDeletePreset(deleteId)}
+          onClose={() => setOpenState(false)}
+        ></DeleteModal>
       </ModalSmallScreen>
     </>
   );

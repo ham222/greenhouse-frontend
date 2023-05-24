@@ -5,6 +5,8 @@ interface ModalProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  title: string;
+  showAlert: boolean;
 }
 
 export default function ModalSmallScreen({
@@ -14,7 +16,7 @@ export default function ModalSmallScreen({
 }: ModalProps) {
   return (
     <Transition appear show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={onClose}>
+      <Dialog as="div" className="relative z-[1]" onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -27,7 +29,7 @@ export default function ModalSmallScreen({
           <div className="fixed inset-0 lg:hidden bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0 z-[1] overflow-y-auto">
           <div className="flex items-start justify-center text-center lg:items-center lg:p-0">
             <Transition.Child
               as={Fragment}

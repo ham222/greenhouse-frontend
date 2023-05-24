@@ -121,17 +121,16 @@ module.exports = [
         type: "middleware", // variant of type "middleware"
         options: {
           middleware: (req, res) => {
-            let index = -1;
-            presets.forEach((p) => {
-              if (p.id === req.params.id) {
-                index = presets.indexOf(p);
-                presets.splice(index, 1);
-                res.status(200);
-                res.send(req.params.id);
-              }
-            });
-            res.status(404);
-            res.send();
+            const idToDelete = parseInt(req.params.id);
+            const index = presets.findIndex(
+              (interval) => interval.id === idToDelete
+            );
+            if (index !== -1) {
+              presets.splice(index, 1);
+              res.status(200).send();
+            } else {
+              res.status(404).send("Interval not found");
+            }
           },
         },
       },

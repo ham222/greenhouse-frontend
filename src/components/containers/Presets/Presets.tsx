@@ -8,10 +8,13 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { displayNetworkError } from "src/utils/errorToast";
 import { useGet } from "src/hooks/useGet";
+import DeleteModal from "./DeleteModal";
 
 export default function Presets() {
   const API_URL = process.env.REACT_APP_API_BASE_URL;
   const [refresh, setRefresh] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(0);
 
   const doRefresh = () => {
     setRefresh(!refresh);
@@ -22,23 +25,33 @@ export default function Presets() {
   const [updating, setUpdating] = useState(false);
   const presetList = presetListResponse.data ?? [];
 
-  const defaultPreset: Preset = new Preset(
-    "",
-    [
-      new Threshold("Temperature", parseFloat(""), parseFloat("")),
-      new Threshold("Humidity", parseFloat(""), parseFloat("")),
-      new Threshold("Co2", parseFloat(""), parseFloat("")),
-    ],
-    -1
-  );
+  const defaultPreset: Preset = new Preset("", [
+    new Threshold("Temperature", parseFloat(""), parseFloat("")),
+    new Threshold("Humidity", parseFloat(""), parseFloat("")),
+    new Threshold("Co2", parseFloat(""), parseFloat("")),
+  ]);
   const [preset, setPreset] = useState<Preset>(defaultPreset);
 
-  const changeCurrentPreset = (newPresetName: string) => {
+  const changeCurrentPreset = (presetId: number) => {
     const newPreset =
-      presetList.find(({ name }) => name === newPresetName) ?? defaultPreset;
+      presetList.find(({ id }) => id === presetId) ?? defaultPreset;
     setPreset(newPreset);
-    setTitle(newPresetName);
+    setTitle(newPreset.name);
     setUpdating(true);
+  };
+  const resetPresetToDefault = () => {
+    setPreset(defaultPreset);
+    setTitle("Create new");
+    setUpdating(false);
+  };
+  const deletePreset = async (presetId: number) => {
+    try {
+      await axios.delete(`${API_URL}/preset/${presetId}`);
+      resetPresetToDefault();
+      doRefresh();
+    } catch (error) {
+      console.error("Error deleting preset:", error);
+    }
   };
 
   const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
@@ -64,7 +77,7 @@ export default function Presets() {
       let url = `${API_URL}/preset`;
       await axios.post(url, preset);
       doRefresh();
-      displayNetworkError("Succesfully saved!");
+      displayNetworkError("Successfully saved");
     } catch (error) {
       console.error(error);
       const axiosError = error as AxiosError;
@@ -99,6 +112,7 @@ export default function Presets() {
     try {
       let url = `${API_URL}/preset/${preset.id}`;
       await axios.put(url, preset);
+      setTitle(preset.name);
       doRefresh();
       displayNetworkError("Succesfully saved!");
     } catch (error) {
@@ -208,6 +222,7 @@ export default function Presets() {
                 setPreset(defaultPreset);
                 setTitle("Create new");
               }}
+              onDeletePreset={deletePreset}
               open={allPresetsModalOpen}
               onClose={() => setAllPresetsModalOpen(false)}
               presets={presetList}
@@ -220,9 +235,14 @@ export default function Presets() {
             All Presets
           </div>
           <div className="flex ring-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-300 scrollbar-thumb-rounded-md ring-neutral-100 rounded-lg max-h-[50vh] overflow-y-auto gap-2 flex-col items-center">
-            {presetList.map((item: any) => (
+            {presetList.map((item: Preset) => (
               <PresetItem
-                onClick={changeCurrentPreset}
+                onPresetClick={changeCurrentPreset}
+                presetId={item.id}
+                onDeletePreset={(id) => {
+                  setOpenDeleteModal(true);
+                  setDeleteId(id);
+                }}
                 key={item.id}
                 presetName={item.name}
               ></PresetItem>
@@ -241,6 +261,14 @@ export default function Presets() {
           </button>
         </div>
       </div>
+      <DeleteModal
+        open={openDeleteModal}
+        onConfirmDelete={() => {
+          deletePreset(deleteId);
+          resetPresetToDefault();
+        }}
+        onClose={() => setOpenDeleteModal(false)}
+      ></DeleteModal>
     </div>
   );
 }
