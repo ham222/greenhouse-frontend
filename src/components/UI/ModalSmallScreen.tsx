@@ -5,7 +5,6 @@ interface ModalProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  title: string;
   showAlert: boolean;
 }
 
