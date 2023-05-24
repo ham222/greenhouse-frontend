@@ -177,28 +177,26 @@ export default function Watering() {
 
         {isMobile ? (
           <Tab.Group>
-            <div className="overflow-hidden h-20">
-              <Tab.List className="flex min-w-full justify-between flex-shrink-0 gap-4 overflow-x-scroll overflow-y-hidden">
-                {WeekDays.map((day) => (
-                  <Tab key={day} as={Fragment}>
-                    {({ selected }) => (
-                      <div
-                        className={[
-                          "font-semibold flex-grow focus:outline-0 cursor-pointer text-center w-14 flex justify-center items-center h-16 my-4 py-4 px-2 flex-shrink-0 rounded-lg",
-                          selected
-                            ? "bg-dark text-white"
-                            : groupedIntervals[day].length > 0
-                            ? "bg-accent"
-                            : "bg-slate-100",
-                        ].join(" ")}
-                      >
-                        {day.substring(0, 3)}
-                      </div>
-                    )}
-                  </Tab>
-                ))}
-              </Tab.List>
-            </div>
+            <Tab.List className="flex min-w-full scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-300 scrollbar-thumb-rounded-md justify-between flex-shrink-0 gap-4 overflow-x-scroll overflow-y-hidden">
+              {WeekDays.map((day) => (
+                <Tab key={day} as={Fragment}>
+                  {({ selected }) => (
+                    <div
+                      className={[
+                        "font-semibold flex-grow focus:outline-0 cursor-pointer text-center w-14 flex justify-center items-center h-16 my-4 py-4 px-2 flex-shrink-0 rounded-lg",
+                        selected
+                          ? "bg-dark text-white"
+                          : groupedIntervals[day].length > 0
+                          ? "bg-accent"
+                          : "bg-slate-100",
+                      ].join(" ")}
+                    >
+                      {day.substring(0, 3)}
+                    </div>
+                  )}
+                </Tab>
+              ))}
+            </Tab.List>
             <div className="font-semibold mt-10 mb-2">Timeline</div>
             <div className="mt-3">
               <IconButton
