@@ -9,7 +9,6 @@ import Login from "./components/containers/Login/Login";
 import Settings from "./components/containers/Settings/Settings";
 import SessionHandler from "./utils/SessionHandler";
 
-
 function App() {
   SessionHandler.init();
 
