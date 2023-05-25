@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios, { AxiosError, Method } from "axios";
+import { useNavigate } from "react-router-dom";
 
 function useFetch<Type>(
   url: string,
@@ -14,6 +15,7 @@ function useFetch<Type>(
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<Type | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
+  const navigate = useNavigate();
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
@@ -33,7 +35,7 @@ function useFetch<Type>(
     };
 
     fetchData();
-  }, [url, method, body, dependency]);
+  }, [url, method, body, navigate, dependency]);
 
   return { loading, error, data };
 }

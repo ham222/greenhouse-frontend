@@ -47,7 +47,7 @@ let presets = [
 module.exports = [
   {
     id: "get-presets", // id of the route
-    url: "/api/preset", // url in path-to-regexp format
+    url: "/preset", // url in path-to-regexp format
     method: "GET", // HTTP method
     variants: [
       {
@@ -62,7 +62,7 @@ module.exports = [
   },
   {
     id: "add-presets", // route id
-    url: "/api/preset", // url in express format
+    url: "/preset", // url in express format
     method: "POST", // HTTP method
     variants: [
       {
@@ -71,12 +71,11 @@ module.exports = [
         options: {
           middleware: (req, res) => {
             for (let i = 0; i < presets.length; i++) {
-              if(presets[i].name===req.body.name){
+              if (presets[i].name === req.body.name) {
                 res.status(400);
                 res.send();
                 return;
               }
-              
             }
             req.body.id = idCount++;
             presets.push(req.body);
@@ -89,7 +88,7 @@ module.exports = [
   },
   {
     id: "get-one-preset", // route id
-    url: "/api/preset/:id", // url in express format
+    url: "/preset/:id", // url in express format
     method: "GET", // HTTP method
     variants: [
       {
@@ -114,7 +113,7 @@ module.exports = [
   },
   {
     id: "delete-one-preset", // route id
-    url: "/api/preset/:id", // url in express format
+    url: "/preset/:id", // url in express format
     method: "DELETE", // HTTP method
     variants: [
       {
@@ -122,17 +121,16 @@ module.exports = [
         type: "middleware", // variant of type "middleware"
         options: {
           middleware: (req, res) => {
-            let index = -1;
-            presets.forEach((p) => {
-              if (p.id === req.params.id) {
-                index = presets.indexOf(p);
-                presets.splice(index, 1);
-                res.status(200);
-                res.send(req.params.id);
-              }
-            });
-            res.status(404);
-            res.send();
+            const idToDelete = parseInt(req.params.id);
+            const index = presets.findIndex(
+              (interval) => interval.id === idToDelete
+            );
+            if (index !== -1) {
+              presets.splice(index, 1);
+              res.status(200).send();
+            } else {
+              res.status(404).send("Interval not found");
+            }
           },
         },
       },
@@ -140,7 +138,7 @@ module.exports = [
   },
   {
     id: "update-one-preset", // route id
-    url: "/api/preset/:id", // url in express format
+    url: "/preset/:id", // url in express format
     method: "PUT", // HTTP method
     variants: [
       {
@@ -148,15 +146,16 @@ module.exports = [
         type: "middleware", // variant of type "middleware"
         options: {
           middleware: (req, res) => {
-            presets.forEach((p) => {
-              if (p.id === req.params.id) {
-                p = req.body;
-                res.status(200);
-                res.send(p);
-              }
-            });
-            res.status(404);
-            res.send();
+            const idToUpdate = parseInt(req.params.id);
+            const index = presets.findIndex(
+              (preset) => preset.id === idToUpdate
+            );
+            if (index !== -1) {
+              presets[index] = req.body;
+              res.sendStatus(200);
+            } else {
+              res.status(404).send("Preset not found");
+            }
           },
         },
       },

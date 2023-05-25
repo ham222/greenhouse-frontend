@@ -6,7 +6,7 @@ interface Props {
 }
 export default function PresetStatus({ preset }: Props) {
   if (preset == null) {
-    preset = { name: "No preset", thresholds: [] };
+    preset = { id: -1, name: "No preset", thresholds: [] };
   }
   return (
     <Link to="/presets">

@@ -23,7 +23,7 @@ let currentPreset = {
 module.exports = [
   {
     id: "get-current-preset", // id of the route
-    url: "/api/current-preset", // url in path-to-regexp format
+    url: "/current-preset", // url in path-to-regexp format
     method: "GET", // HTTP method
     variants: [
       {
@@ -38,7 +38,7 @@ module.exports = [
   },
   {
     id: "set-current-preset", // route id
-    url: "/api/current-preset", // url in express format
+    url: "/current-preset", // url in express format
     method: "POST", // HTTP method
     variants: [
       {
@@ -46,7 +46,9 @@ module.exports = [
         type: "middleware", // variant of type "middleware"
         options: {
           middleware: (req, res) => {
-            currentPreset = req.body.preset;
+            currentPreset.id = req.body.id;
+            currentPreset.name = req.body.name;
+            currentPreset.thresholds = req.body.thresholds;
             res.status(201);
             res.send(currentPreset);
           },
