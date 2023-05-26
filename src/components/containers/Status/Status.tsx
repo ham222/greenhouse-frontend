@@ -14,7 +14,9 @@ const API_URL = process.env.REACT_APP_API_BASE_URL;
 export default function Status() {
   const co2ChartResponse = useGet<Measurement[]>(`${API_URL}/measurements/co2`);
 
-  const humidityChartResponse = useGet<Measurement[]>(`${API_URL}/measurements/humidity`);
+  const humidityChartResponse = useGet<Measurement[]>(
+    `${API_URL}/measurements/humidity`
+  );
 
   const temperatureChartResponse = useGet<Measurement[]>(
     `${API_URL}/measurements/temperature`
@@ -54,7 +56,9 @@ export default function Status() {
   const [co2, setCo2] = useState<number | null>(null);
   const [date, setDate] = useState<number | null>(null);
 
-  const co2Response = useGet<Measurement[]>(`${API_URL}/measurements/co2?current=true`);
+  const co2Response = useGet<Measurement[]>(
+    `${API_URL}/measurements/co2?current=true`
+  );
 
   const humidityResponse = useGet<Measurement[]>(
     `${API_URL}/measurements/humidity?current=true`
