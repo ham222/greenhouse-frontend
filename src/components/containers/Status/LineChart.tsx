@@ -119,7 +119,7 @@ export default function LineChart({
       width: 3,
     },
     labels: measurements.map(({ timestamp }) =>
-      new Date(timestamp).toLocaleString()
+      new Date(timestamp).toISOString()
     ),
     xaxis: {
       type: "datetime",
