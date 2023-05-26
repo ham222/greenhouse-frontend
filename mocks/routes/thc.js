@@ -17,7 +17,7 @@ function generateRandomValues({ valueMin, valueMax, startTimestamp, round }) {
 module.exports = [
   {
     id: "get-temperature", // route id
-    url: "/temperature", // url in express format
+    url: "/measurements/temperature", // url in express format
     method: "GET", // HTTP method
     variants: [
       {
@@ -60,7 +60,7 @@ module.exports = [
   },
   {
     id: "get-co2", // route id
-    url: "/co2", // url in express format
+    url: "/measurements/co2", // url in express format
     method: "GET", // HTTP method
     variants: [
       {
@@ -103,7 +103,7 @@ module.exports = [
   },
   {
     id: "get-humidity",
-    url: "/humidity",
+    url: "/measurements/humidity",
     method: "GET",
     variants: [
       {
