@@ -106,7 +106,7 @@ export default function Presets() {
     }
     try {
       let url = `${API_URL}/current-preset`;
-      await axios.post(url, preset);
+      await axios.post(url, { Id: preset.id });
       doRefresh();
       displayNetworkError("Successfully changed current preset!");
     } catch (error) {
