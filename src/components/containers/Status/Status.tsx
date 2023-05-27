@@ -82,10 +82,10 @@ export default function Status() {
     let mounted = true;
     if (mounted && temperatureResponse.data != null) {
       setTemperature(temperatureResponse.data[0].value);
+      setDate(temperatureResponse.data[0].timestamp);
     }
     if (mounted && co2Response.data != null) {
       setCo2(co2Response.data[0].value);
-      setDate(co2Response.data[0].timestamp);
     }
     if (mounted && humidityResponse.data != null) {
       setHumidity(humidityResponse.data[0].value);
