@@ -149,12 +149,12 @@ export default function LineChart({
         </div>
         <div>
           <Dropdown
-            title={"Interval"}
             onSelect={(option) =>
               setTimeScope(
                 timeScopes.find(({ name }) => name === option) ?? timeScopes[0]
               )
             }
+            selected={timeScope.name}
             options={timeScopes.map(({ name }) => name)}
           />
         </div>
