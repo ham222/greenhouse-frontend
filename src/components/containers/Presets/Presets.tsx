@@ -6,32 +6,33 @@ import Threshold from "src/domain/Threshold";
 import PresetItem from "./PresetItem";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { displayNetworkError } from "src/utils/errorToast";
+import { displayToast } from "src/utils/displayToast";
 import { useGet } from "src/hooks/useGet";
 import DeleteModal from "./DeleteModal";
+import validatePreset from "src/utils/validatePreset";
+import _ from "lodash";
 
 export default function Presets() {
   const API_URL = process.env.REACT_APP_API_BASE_URL;
   const [refresh, setRefresh] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
+  const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
-  const doRefresh = () => {
-    setRefresh(!refresh);
-  };
-
+  const [notCreatingNew, setNotCreatingNew] = useState(false);
+  const [editing, setEditing] = useState(true);
   const [title, setTitle] = useState("Create new");
+
   const presetListResponse = useGet<Preset[]>(`${API_URL}/preset`, refresh);
-  const [updating, setUpdating] = useState(false);
+  const presetList = presetListResponse.data ?? [];
+
   const currentPresetResponse = useGet<Preset>(
     `${API_URL}/current-preset`,
     refresh
   );
 
-  const presetList = presetListResponse.data ?? [];
-
   const currentPreset =
-    presetList.find(({ name }) => name === currentPresetResponse.data?.name) ??
+    presetList.find(({ id }) => id === currentPresetResponse.data?.id) ??
     new Preset("", [
       new Threshold("Temperature", parseFloat(""), parseFloat("")),
       new Threshold("Humidity", parseFloat(""), parseFloat("")),
@@ -40,14 +41,26 @@ export default function Presets() {
 
   const defaultPreset: Preset = currentPreset;
   const [preset, setPreset] = useState<Preset>(defaultPreset);
+  const [presetBeingUpdated, setPresetBeingUpdated] =
+    useState<Preset>(defaultPreset);
+
+  if (presetListResponse.error != null) {
+    displayToast(presetListResponse.error.message);
+  }
+
+  const doRefresh = () => {
+    setRefresh(!refresh);
+  };
 
   const changeCurrentPreset = (presetId: number) => {
     const newPreset =
       presetList.find(({ id }) => id === presetId) ?? defaultPreset;
     setPreset(newPreset);
     setTitle(newPreset.name);
-    setUpdating(true);
+    setNotCreatingNew(true);
+    setEditing(false);
   };
+
   const resetPresetToDefault = () => {
     const clear = new Preset("", [
       new Threshold("Temperature", parseFloat(""), parseFloat("")),
@@ -56,8 +69,10 @@ export default function Presets() {
     ]);
     setPreset(clear);
     setTitle("Create new");
-    setUpdating(false);
+    setNotCreatingNew(false);
+    setEditing(true);
   };
+
   const deletePreset = async (presetId: number) => {
     try {
       await axios.delete(`${API_URL}/preset/${presetId}`);
@@ -67,8 +82,6 @@ export default function Presets() {
       console.error("Error deleting preset:", error);
     }
   };
-
-  const [allPresetsModalOpen, setAllPresetsModalOpen] = useState(false);
 
   const updateThreshold = (threshold: Threshold) => {
     const newPreset = new Preset(preset.name, preset.thresholds, preset.id);
@@ -83,7 +96,7 @@ export default function Presets() {
   const addPreset = async () => {
     for (let i = 0; i < presetList.length; i++) {
       if (presetList[i].name === preset.name) {
-        displayNetworkError("Preset names cannot be the same");
+        displayToast("Preset names cannot be the same");
         return;
       }
     }
@@ -91,27 +104,27 @@ export default function Presets() {
       let url = `${API_URL}/preset`;
       await axios.post(url, preset);
       doRefresh();
-      displayNetworkError("Successfully saved");
+      displayToast("Successfully saved");
     } catch (error) {
       console.error(error);
       const axiosError = error as AxiosError;
-      displayNetworkError(axiosError.message);
+      displayToast(axiosError.message);
     }
   };
 
   const setPresetAsCurrrent = async () => {
     if (preset.name === currentPreset.name) {
-      displayNetworkError("This preset is already applied!");
+      displayToast("This preset is already applied!");
       return;
     }
     try {
       let url = `${API_URL}/current-preset`;
       await axios.post(url, { Id: preset.id });
       doRefresh();
-      displayNetworkError("Successfully changed current preset!");
+      displayToast("Successfully changed current preset!");
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayNetworkError(axiosError.message);
+      displayToast(axiosError.message);
     }
   };
 
@@ -124,58 +137,48 @@ export default function Presets() {
     setPreset(newPreset);
   };
 
-  if (presetListResponse.error != null) {
-    displayNetworkError(presetListResponse.error.message);
-  }
-
   const onSave = () => {
-    if (!ValidatePreset()) {
+    if (!validatePreset(preset)) {
       return;
     }
 
     addPreset();
   };
   const onUpdate = async () => {
-    if (!ValidatePreset()) {
+    if (!validatePreset(preset)) {
       return;
+    }
+    for (let i = 0; i < presetList.length; i++) {
+      if (
+        presetList[i].name === preset.name &&
+        presetList[i].id !== preset.id
+      ) {
+        displayToast("Preset names cannot be the same");
+        return;
+      }
     }
     try {
       let url = `${API_URL}/preset/${preset.id}`;
       await axios.put(url, preset);
       setTitle(preset.name);
       doRefresh();
-      displayNetworkError("Succesfully saved!");
+      setEditing(false);
+      displayToast("Succesfully saved!");
     } catch (error) {
       console.error(error);
       const axiosError = error as AxiosError;
-      displayNetworkError(axiosError.message);
+      displayToast(axiosError.message);
     }
   };
 
-  const ValidatePreset = (): boolean => {
-    if (preset.name === "") {
-      displayNetworkError(`Preset name cannot be empty`);
-      return false;
+  const disableSaveApplyButton = (): boolean => {
+    if (notCreatingNew && editing) {
+      return _.isEqual(preset, presetBeingUpdated);
     }
-
-    for (let i = 0; i < preset.thresholds.length; i++) {
-      let t = preset.thresholds[i];
-      if (Number.isNaN(t.max) || Number.isNaN(t.min)) {
-        displayNetworkError(`Min and max fields must be filled`);
-        return false;
-      }
-    }
-    for (let i = 0; i < preset.thresholds.length; i++) {
-      let t = preset.thresholds[i];
-      if (t.max < t.min) {
-        displayNetworkError(
-          `Min value in ${t.type} cannot be bigger than max value`
-        );
-
-        return false;
-      }
-    }
-    return true;
+    return (
+      (presetList.find((p) => p.id === preset.id) ? false : true) ||
+      preset.id === currentPreset.id
+    );
   };
 
   return (
@@ -200,6 +203,7 @@ export default function Presets() {
                       id="presetName"
                       name="presetName"
                       type="text"
+                      disabled={!editing}
                       onChange={handleNameChange}
                       value={preset.name}
                       data-testid="preset-name"
@@ -214,37 +218,66 @@ export default function Presets() {
                 <ThresholdBox
                   updateValue={updateThreshold}
                   threshold={threshold}
+                  editing={!editing}
                   key={threshold.type}
                 ></ThresholdBox>
               ))}
             </div>
 
-            <div className="flex justify-evenly w-full">
-              <button
-                className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
-                onClick={() => {
-                  if (updating) {
-                    onUpdate();
-                  } else {
-                    onSave();
-                  }
-                }}
-              >
-                {updating ? "Update" : "Save"}
-              </button>
-              <button
-                className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200 disabled:bg-neutral-400"
-                disabled={
-                  (presetList.find((p) => p.name === preset.name)
-                    ? false
-                    : true) || preset.name === currentPreset.name
-                }
-                onClick={() => {
-                  setPresetAsCurrrent();
-                }}
-              >
-                {preset.name === currentPreset.name ? "Applied" : "Apply"}
-              </button>
+            <div className="flex justify-center gap-10 w-full">
+              {!editing && (
+                <button
+                  className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
+                  onClick={() => {
+                    const newPreset = _.cloneDeep(preset);
+                    setPresetBeingUpdated(newPreset);
+                    setEditing(true);
+                  }}
+                >
+                  {"Update"}
+                </button>
+              )}
+              {editing && notCreatingNew && (
+                <button
+                  className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
+                  onClick={() => {
+                    setPreset(presetBeingUpdated);
+                    setEditing(false);
+                  }}
+                >
+                  {"Cancel"}
+                </button>
+              )}
+              {editing && (
+                <button
+                  className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
+                  onClick={() => {
+                    if (notCreatingNew) {
+                      onUpdate();
+                    } else {
+                      onSave();
+                    }
+                  }}
+                >
+                  {"Save"}
+                </button>
+              )}
+              {!editing && (
+                <button
+                  className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200 disabled:bg-neutral-400"
+                  disabled={disableSaveApplyButton()}
+                  onClick={() => {
+                    if (notCreatingNew && editing) {
+                      onUpdate();
+                      setEditing(false);
+                    } else {
+                      setPresetAsCurrrent();
+                    }
+                  }}
+                >
+                  {preset.id === currentPreset.id ? "Applied" : "Apply"}
+                </button>
+              )}
             </div>
           </div>
 
@@ -261,7 +294,7 @@ export default function Presets() {
             <ViewAllPresetsModal
               onPresetClick={changeCurrentPreset}
               onCreateNewClick={() => {
-                setUpdating(false);
+                setNotCreatingNew(false);
                 resetPresetToDefault();
                 setTitle("Create new");
               }}
@@ -296,8 +329,8 @@ export default function Presets() {
             py-4 rounded-xl text-lg ease-in-out duration-300 hover:shadow-xl"
             onClick={() => {
               resetPresetToDefault();
-              setTitle("Create new ");
-              setUpdating(false);
+              setTitle("Create new");
+              setNotCreatingNew(false);
             }}
           >
             Create new Preset
