@@ -11,6 +11,7 @@ import { AxiosError } from "axios";
 import { useGet } from "src/hooks/useGet";
 import DeleteModal from "./DeleteModal";
 import validatePreset from "src/utils/validatePreset";
+import _ from "lodash";
 
 export default function Presets() {
   const API_URL = process.env.REACT_APP_API_BASE_URL;
@@ -41,6 +42,8 @@ export default function Presets() {
 
   const defaultPreset: Preset = currentPreset;
   const [preset, setPreset] = useState<Preset>(defaultPreset);
+  const [presetBeingUpdated, setPresetBeingUpdated] =
+    useState<Preset>(defaultPreset);
 
   if (presetListResponse.error != null) {
     displayToast(presetListResponse.error.message);
@@ -160,12 +163,23 @@ export default function Presets() {
       await axios.put(url, preset);
       setTitle(preset.name);
       doRefresh();
+      setEditing(false);
       displayToast("Succesfully saved!");
     } catch (error) {
       console.error(error);
       const axiosError = error as AxiosError;
       displayToast(axiosError.message);
     }
+  };
+
+  const disableSaveApplyButton = (): boolean => {
+    if (notCreatingNew && editing) {
+      return _.isEqual(preset, presetBeingUpdated);
+    }
+    return (
+      (presetList.find((p) => p.id === preset.id) ? false : true) ||
+      preset.id === currentPreset.id
+    );
   };
 
   return (
@@ -211,43 +225,59 @@ export default function Presets() {
             </div>
 
             <div className="flex justify-center gap-10 w-full">
-              <button
-                className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
-                onClick={() => {
-                  if (notCreatingNew) {
-                    if (editing) {
+              {!editing && (
+                <button
+                  className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
+                  onClick={() => {
+                    const newPreset = _.cloneDeep(preset);
+                    setPresetBeingUpdated(newPreset);
+                    setEditing(true);
+                  }}
+                >
+                  {"Update"}
+                </button>
+              )}
+              {editing && notCreatingNew && (
+                <button
+                  className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
+                  onClick={() => {
+                    setPreset(presetBeingUpdated);
+                    setEditing(false);
+                  }}
+                >
+                  {"Cancel"}
+                </button>
+              )}
+              {editing && (
+                <button
+                  className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200"
+                  onClick={() => {
+                    if (notCreatingNew) {
+                      onUpdate();
+                    } else {
+                      onSave();
+                    }
+                  }}
+                >
+                  {"Save"}
+                </button>
+              )}
+              {!editing && (
+                <button
+                  className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200 disabled:bg-neutral-400"
+                  disabled={disableSaveApplyButton()}
+                  onClick={() => {
+                    if (notCreatingNew && editing) {
+                      onUpdate();
                       setEditing(false);
                     } else {
-                      setEditing(true);
+                      setPresetAsCurrrent();
                     }
-                  } else {
-                    onSave();
-                  }
-                }}
-              >
-                {notCreatingNew ? (editing ? "Cancel" : "Update") : "Save"}
-              </button>
-              <button
-                className="bg-dark hover:bg-dark-light text-xl px-7 py-1.5 text-white rounded-lg ease-in-out duration-200 disabled:bg-neutral-400"
-                disabled={
-                  (presetList.find((p) => p.id === preset.id) ? false : true) ||
-                  preset.id === currentPreset.id
-                }
-                onClick={() => {
-                  if (notCreatingNew && editing) {
-                    onUpdate();
-                    setEditing(false);
-                  } else {
-                    setPresetAsCurrrent();
-                  }
-                }}
-              >
-                {notCreatingNew && editing
-                  ? "Save"
-                  : preset.id === currentPreset.id
-                  ? "Applied"
-                  : "Apply"}
-              </button>
+                  }}
+                >
+                  {preset.id === currentPreset.id ? "Applied" : "Apply"}
+                </button>
+              )}
             </div>
           </div>
 
