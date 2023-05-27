@@ -29,12 +29,17 @@
 declare namespace Cypress {
   interface Chainable {
     getBySel(selector: string, ...args: any[]): Chainable<any>;
+    containsSel(selector: string, ...args: any[]): Chainable<any>;
     login(): Chainable<any>;
   }
 }
 
 Cypress.Commands.add("getBySel", (selector: string, ...args: any[]) => {
   return cy.get(`[data-testid=${selector}]`, ...args);
+});
+
+Cypress.Commands.add("containsSel", (selector: string, ...args: any[]) => {
+  return cy.contains(`[data-testid=${selector}]`, ...args);
 });
 
 //This will only work for mock login, as mocks server does not check for the validity of the authorization header
