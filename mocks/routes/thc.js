@@ -1,14 +1,14 @@
-const startTimestamp = Date.now() - 30000000000;
+const startTimestamp = Math.floor(Date.now() / 1000) - 30000000;
 
 function generateRandomValues({ valueMin, valueMax, startTimestamp, round }) {
   const objects = [];
   const valueRange = valueMax - valueMin;
-  const now = new Date().getTime();
+  const now = Math.floor(new Date().getTime() / 1000);
 
-  for (let timestamp = startTimestamp; timestamp <= now; timestamp += 300000) {
+  for (let timestamp = startTimestamp; timestamp <= now; timestamp += 300) {
     const value = Math.random() * valueRange + valueMin;
     const rounded = parseFloat(value.toFixed(round));
-    objects.push({ timestamp: timestamp, value: rounded });
+    objects.push({ date: timestamp, value: rounded });
   }
 
   return objects;

@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Presets from "./components/containers/Presets/Presets";
 import Login from "./components/containers/Login/Login";
 import SessionHandler from "./utils/SessionHandler";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   SessionHandler.init();
@@ -17,10 +18,31 @@ function App() {
         <div className="overflow-auto h-full pb-24 md:pb-0 md:ml-[6rem] 2xl:ml-[8rem]">
           <ToastContainer position="top-center" />
           <Routes>
-            <Route path="/" element={<Status />} />
+            <Route
+              path="/"
+              element={
+                <RequireAuth>
+                  <Status />
+                </RequireAuth>
+              }
+            />
             <Route path="/login" element={<Login />} />
-            <Route path="/watering" element={<Watering />} />
-            <Route path="/presets" element={<Presets />} />
+            <Route
+              path="/watering"
+              element={
+                <RequireAuth>
+                  <Watering />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/presets"
+              element={
+                <RequireAuth>
+                  <Presets />
+                </RequireAuth>
+              }
+            />
           </Routes>
         </div>
         <Navbar />

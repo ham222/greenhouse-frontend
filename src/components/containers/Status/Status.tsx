@@ -3,22 +3,22 @@ import { useEffect, useState } from "react";
 import WateringStatus from "./WateringStatus";
 import { DateTime } from "luxon";
 import { useGet } from "src/hooks/useGet";
-import Measurement from "src/domain/Measurement";
 import { displayToast } from "src/utils/displayToast";
 import LineChart from "../Status/LineChart";
 import { WiThermometer } from "react-icons/wi";
 import { BsWater } from "react-icons/bs";
 import PresetStatus from "./PresetStatus";
 import Preset from "src/domain/Preset";
+import { useMeasurements } from "src/hooks/useMeasurements";
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 export default function Status() {
-  const co2ChartResponse = useGet<Measurement[]>(`${API_URL}/measurements/co2`);
+  const co2ChartResponse = useMeasurements(`${API_URL}/measurements/co2`);
 
-  const humidityChartResponse = useGet<Measurement[]>(
+  const humidityChartResponse = useMeasurements(
     `${API_URL}/measurements/humidity`
   );
 
-  const temperatureChartResponse = useGet<Measurement[]>(
+  const temperatureChartResponse = useMeasurements(
     `${API_URL}/measurements/temperature`
   );
 
@@ -56,15 +56,15 @@ export default function Status() {
   const [co2, setCo2] = useState<number | null>(null);
   const [date, setDate] = useState<number | null>(null);
 
-  const co2Response = useGet<Measurement[]>(
+  const co2Response = useMeasurements(
     `${API_URL}/measurements/co2?current=true`
   );
 
-  const humidityResponse = useGet<Measurement[]>(
+  const humidityResponse = useMeasurements(
     `${API_URL}/measurements/humidity?current=true`
   );
 
-  const temperatureResponse = useGet<Measurement[]>(
+  const temperatureResponse = useMeasurements(
     `${API_URL}/measurements/temperature?current=true`
   );
 
@@ -82,10 +82,10 @@ export default function Status() {
     let mounted = true;
     if (mounted && temperatureResponse.data != null) {
       setTemperature(temperatureResponse.data[0].value);
+      setDate(temperatureResponse.data[0].timestamp);
     }
     if (mounted && co2Response.data != null) {
       setCo2(co2Response.data[0].value);
-      setDate(co2Response.data[0].timestamp);
     }
     if (mounted && humidityResponse.data != null) {
       setHumidity(humidityResponse.data[0].value);

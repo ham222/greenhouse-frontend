@@ -46,9 +46,7 @@ module.exports = [
         type: "middleware", // variant of type "middleware"
         options: {
           middleware: (req, res) => {
-            currentPreset.id = req.body.id;
-            currentPreset.name = req.body.name;
-            currentPreset.thresholds = req.body.thresholds;
+            currentPreset.id = req.body.Id;
             res.status(201);
             res.send(currentPreset);
           },
