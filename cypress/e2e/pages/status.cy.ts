@@ -8,29 +8,19 @@ describe("watering page", () => {
 
   it("visits", () => {});
 
-  it("should render CurrentValBox", () => {
-    cy.intercept("GET", "**").as("get");
-
+  it("renders CurrentValBox", () => {
     cy.getBySel("current-val-box").should("be.visible");
-
-    cy.wait("@get").then(() => {
-      cy.getBySel("current-val-box")
-        .invoke("text")
-        .then((text) => {
-          console.log(text);
-        });
-    });
   });
 
-  it("should render WateringStatus", () => {
+  it("renders WateringStatus", () => {
     cy.getBySel("watering-status").should("be.visible");
   });
 
-  it("should render PresetStatus", () => {
+  it("renders PresetStatus", () => {
     cy.getBySel("preset-status").should("be.visible");
   });
 
-  it("should render LineChart for CO2, Temperature and Humidity", () => {
+  it("renders LineChart for CO2, Temperature and Humidity", () => {
     cy.getBySel("line-chart-co2").scrollIntoView();
     cy.getBySel("line-chart-co2").should("be.visible");
 
@@ -39,5 +29,30 @@ describe("watering page", () => {
 
     cy.getBySel("line-chart-humidity").scrollIntoView();
     cy.getBySel("line-chart-humidity").should("be.visible");
+  });
+
+  it("navigates to watering when WateringStatus clicked", () => {
+    cy.getBySel("watering-status").click();
+    cy.url().should("include", "/watering");
+  });
+
+  it("navigates to presets when PresetStatus clicked", () => {
+    cy.getBySel("preset-status").click();
+    cy.url().should("include", "/presets");
+  });
+
+  it("navigates to presets when PresetStatus clicked", () => {
+    cy.getBySel("preset-status").click();
+    cy.url().should("include", "/presets");
+  });
+
+  it("displayes current data after loading", () => {
+    cy.containsSel("current-humidity", /\d+%/);
+
+    cy.containsSel("current-co2", /\d+ ppm/);
+
+    cy.containsSel("current-temperature", /\d+(?:.\d+)?°C/);
+
+    cy.containsSel("current-watering-status", /Water System: (ON|OFF)/);
   });
 });
