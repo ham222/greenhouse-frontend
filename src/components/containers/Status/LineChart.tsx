@@ -50,11 +50,16 @@ export default function LineChart({
 
   const [timeScope, setTimeScope] = useState(timeScopes[0]);
 
-  const cutOffTimestamp = DateTime.now().minus(timeScope.scope).toMillis();
-
   if (measurements == null) {
     measurements = [];
   }
+
+  const lastReading = DateTime.fromMillis(
+    measurements[measurements.length - 1]?.timestamp ??
+      DateTime.now().toMillis()
+  );
+
+  const cutOffTimestamp = lastReading.minus(timeScope.scope).toMillis();
 
   measurements = measurements.filter(
     ({ timestamp }) => timestamp >= cutOffTimestamp
@@ -98,6 +103,14 @@ export default function LineChart({
         enabled: false,
       },
     },
+
+    tooltip: {
+      enabled: true,
+      x: {
+        show: true,
+        format: "dd/MM, HH:mm ",
+      },
+    },
     colors: ["#555555", "#00c91b", "#c91b00"],
 
     theme: {
@@ -124,6 +137,7 @@ export default function LineChart({
     xaxis: {
       type: "datetime",
       labels: {
+        datetimeUTC: false,
         datetimeFormatter: {
           year: "yyyy",
           month: "MMM 'yy",
