@@ -7,12 +7,16 @@ function classNames(...classes: string[]): string {
 }
 
 interface DropdownProps {
-  title: string;
   options: string[];
+  selected: string;
   onSelect: (option: string) => void;
 }
 
-export default function Dropdown({ title, options, onSelect }: DropdownProps) {
+export default function Dropdown({
+  options,
+  onSelect,
+  selected,
+}: DropdownProps) {
   const select = (value: string) => {
     onSelect(value);
   };
@@ -21,7 +25,7 @@ export default function Dropdown({ title, options, onSelect }: DropdownProps) {
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5  px-3 py-2 text-sm rounded-md text-gray-900 hover:bg-white hover:bg-opacity-30">
-          {title}
+          {selected}
           <AiOutlineDown
             className="-mr-1 h-5 w-5 text-gray-400"
             aria-hidden="true"
