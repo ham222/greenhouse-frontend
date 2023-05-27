@@ -25,7 +25,9 @@ export default function WateringStatus({
           />
         </div>
         <div className="mt-3 flex text-white flex-col justify-between ">
-          <div data-testid="current-watering-status" className="font-bold">Water System: {status}</div>
+          <div data-testid="current-watering-status" className="font-bold">
+            Water System: {status}
+          </div>
           <div className="text-xs mt-2">
             Next watering in:
             <span className="font-bold whitespace-nowrap">
