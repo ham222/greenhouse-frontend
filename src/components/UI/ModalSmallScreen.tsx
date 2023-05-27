@@ -5,19 +5,22 @@ interface ModalProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  title: string;
   showAlert: boolean;
 }
 
-export default function ModallgallScreen({
+export default function ModalSmallScreen({
   open,
   onClose,
   children,
-  title,
 }: ModalProps) {
   return (
     <Transition appear show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-[1]" onClose={onClose}>
+      <Dialog
+        as="div"
+        className="relative z-[1]"
+        onClose={onClose}
+        data-testid="modal-small-screen"
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

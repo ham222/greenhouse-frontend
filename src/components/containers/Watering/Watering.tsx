@@ -1,6 +1,5 @@
 import IconButton from "src/components/UI/IconButton";
 import { IoIosAdd } from "react-icons/io";
-import WaterToggle from "./WaterToggle";
 import WaterRuntime from "./WaterRuntime";
 import { Duration } from "luxon";
 import CreateIntervalModal from "./CreateIntervalModal";
@@ -157,40 +156,47 @@ export default function Watering() {
       <div className="m-3">
         <div className="text-center text-xl my-7 items-center justify-center lg:mb-4 lg:justify-left sm:flex font-bold">
           Watering Schedule
-          <div data-testid="add-button" className="hidden ml-5 sm:block">
-            <IconButton
-              onClick={() => setIntervalModalOpen(true)}
-              icon={<IoIosAdd className="text-white w-full h-full" />}
-            />
-          </div>
         </div>
-
-        <WaterToggle updateValue={() => setDurationModalOpen(true)} />
+        <div className="flex gap-2 justify-end">
+          <button
+            onClick={() => setIntervalModalOpen(true)}
+            data-testid="add-button"
+            className="bg-dark hidden sm:block hover:bg-dark-light py-4 px-4 text-white items-center rounded-lg font-semibold"
+          >
+            Add Watering Time
+          </button>
+          <button
+            data-testid="water-toggle"
+            onClick={() => setDurationModalOpen(true)}
+          >
+            <div className="bg-dark hover:bg-dark-light max-sm:justify-between max-sm:w-full rounded-lg text-white flex items-center py-4 px-4 font-semibold">
+              <div className="whitespace-nowrap">Manual Start</div>
+            </div>
+          </button>
+        </div>
 
         {isMobile ? (
           <Tab.Group>
-            <div className="overflow-hidden h-20">
-              <Tab.List className="flex min-w-full justify-between flex-shrink-0 gap-4 overflow-x-scroll overflow-y-hidden">
-                {WeekDays.map((day) => (
-                  <Tab key={day} as={Fragment}>
-                    {({ selected }) => (
-                      <div
-                        className={[
-                          "font-semibold flex-grow focus:outline-0 cursor-pointer text-center w-14 flex justify-center items-center h-16 my-4 py-4 px-2 flex-shrink-0 rounded-lg",
-                          selected
-                            ? "bg-dark text-white"
-                            : groupedIntervals[day].length > 0
-                            ? "bg-accent"
-                            : "bg-slate-100",
-                        ].join(" ")}
-                      >
-                        {day.substring(0, 3)}
-                      </div>
-                    )}
-                  </Tab>
-                ))}
-              </Tab.List>
-            </div>
+            <Tab.List className="flex min-w-full scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-300 scrollbar-thumb-rounded-md justify-between flex-shrink-0 gap-4 overflow-x-scroll overflow-y-hidden">
+              {WeekDays.map((day) => (
+                <Tab key={day} as={Fragment}>
+                  {({ selected }) => (
+                    <div
+                      className={[
+                        "font-semibold flex-grow focus:outline-0 cursor-pointer text-center w-14 flex justify-center items-center h-16 my-4 py-4 px-2 flex-shrink-0 rounded-lg",
+                        selected
+                          ? "bg-dark text-white"
+                          : groupedIntervals[day].length > 0
+                          ? "bg-accent"
+                          : "bg-slate-100",
+                      ].join(" ")}
+                    >
+                      {day.substring(0, 3)}
+                    </div>
+                  )}
+                </Tab>
+              ))}
+            </Tab.List>
             <div className="font-semibold mt-10 mb-2">Timeline</div>
             <div className="mt-3">
               <IconButton

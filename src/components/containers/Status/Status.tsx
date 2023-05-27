@@ -12,12 +12,14 @@ import PresetStatus from "./PresetStatus";
 import Preset from "src/domain/Preset";
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 export default function Status() {
-  const co2ChartResponse = useGet<Measurement[]>(`${API_URL}/co2`);
+  const co2ChartResponse = useGet<Measurement[]>(`${API_URL}/measurements/co2`);
 
-  const humidityChartResponse = useGet<Measurement[]>(`${API_URL}/humidity`);
+  const humidityChartResponse = useGet<Measurement[]>(
+    `${API_URL}/measurements/humidity`
+  );
 
   const temperatureChartResponse = useGet<Measurement[]>(
-    `${API_URL}/temperature`
+    `${API_URL}/measurements/temperature`
   );
 
   const getToggleResponse = useGet<{ state: boolean }>(
@@ -54,14 +56,16 @@ export default function Status() {
   const [co2, setCo2] = useState<number | null>(null);
   const [date, setDate] = useState<number | null>(null);
 
-  const co2Response = useGet<Measurement[]>(`${API_URL}/co2?current=true`);
+  const co2Response = useGet<Measurement[]>(
+    `${API_URL}/measurements/co2?current=true`
+  );
 
   const humidityResponse = useGet<Measurement[]>(
-    `${API_URL}/humidity?current=true`
+    `${API_URL}/measurements/humidity?current=true`
   );
 
   const temperatureResponse = useGet<Measurement[]>(
-    `${API_URL}/temperature?current=true`
+    `${API_URL}/measurements/temperature?current=true`
   );
 
   if (co2Response.error != null) {

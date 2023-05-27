@@ -4,10 +4,9 @@ import ViewAllPresetsModal from "./ViewAllPresetsModal";
 import Preset from "src/domain/Preset";
 import Threshold from "src/domain/Threshold";
 import PresetItem from "./PresetItem";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { displayToast } from "src/utils/displayToast";
-import { AxiosError } from "axios";
 import { useGet } from "src/hooks/useGet";
 import DeleteModal from "./DeleteModal";
 import validatePreset from "src/utils/validatePreset";
@@ -207,6 +206,7 @@ export default function Presets() {
                       disabled={!editing}
                       onChange={handleNameChange}
                       value={preset.name}
+                      data-testid="preset-name"
                       className="block pl-3 w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-neon sm:text-sm sm:leading-6"
                     />
                   </div>
