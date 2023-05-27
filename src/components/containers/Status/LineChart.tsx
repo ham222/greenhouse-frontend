@@ -136,6 +136,7 @@ export default function LineChart({
   };
   return (
     <div
+      data-testid={`line-chart-${type}`}
       style={{ backgroundColor: bgColor }}
       className="bg-accent p-2 font-sora shadow-sm max-sm:w-auto rounded-xl"
     >

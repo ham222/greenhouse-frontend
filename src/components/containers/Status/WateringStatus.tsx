@@ -16,7 +16,7 @@ export default function WateringStatus({
   const status = isOnline ? "ON" : "OFF";
 
   return (
-    <Link to="/watering">
+    <Link data-testid="watering-status" to="/watering">
       <div className="p-3 rounded-lg hover:bg-dark-light duration-150 cursor-pointer bg-dark">
         <div>
           <RectIcon

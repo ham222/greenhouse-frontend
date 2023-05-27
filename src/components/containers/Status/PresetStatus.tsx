@@ -9,7 +9,7 @@ export default function PresetStatus({ preset }: Props) {
     preset = { id: -1, name: "No preset", thresholds: [] };
   }
   return (
-    <Link to="/presets">
+    <Link data-testid="preset-status" to="/presets">
       <div className="group rounded-lg">
         <div className="flex flex-col p-3 rounded-t-lg duration-150 cursor-pointer group-hover:bg-slate-600 bg-slate-800">
           <div className="flex gap-3 items-center">
