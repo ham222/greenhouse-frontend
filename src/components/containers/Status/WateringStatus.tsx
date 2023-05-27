@@ -16,7 +16,7 @@ export default function WateringStatus({
   const status = isOnline ? "ON" : "OFF";
 
   return (
-    <Link to="/watering">
+    <Link data-testid="watering-status" to="/watering">
       <div className="p-3 rounded-lg hover:bg-dark-light duration-150 cursor-pointer bg-dark">
         <div>
           <RectIcon
@@ -25,7 +25,9 @@ export default function WateringStatus({
           />
         </div>
         <div className="mt-3 flex text-white flex-col justify-between ">
-          <div className="font-bold">Water System: {status}</div>
+          <div data-testid="current-watering-status" className="font-bold">
+            Water System: {status}
+          </div>
           <div className="text-xs mt-2">
             Next watering in:
             <span className="font-bold whitespace-nowrap">

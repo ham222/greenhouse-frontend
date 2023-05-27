@@ -2,6 +2,7 @@
 
 describe("watering on desktop", () => {
   beforeEach(() => {
+    cy.login();
     cy.visit("http://localhost:3000/#/watering");
   });
 
