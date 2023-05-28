@@ -16,7 +16,7 @@ jobs:
           cache: npm
 
       - name: Update .env variable
-        run: sed -i 's|REACT_APP_API_BASE_URL=.*|REACT_APP_API_BASE_URL=https://healthy-wares-386912.ey.r.appspot.com|' .env
+        run: sed -i 's|REACT_APP_API_BASE_URL=.*|REACT_APP_API_BASE_URL=https://carbon-facet-388108.ew.r.appspot.com|' .env
 
       - name: Install dependencies
         run: npm ci
