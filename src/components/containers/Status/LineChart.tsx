@@ -60,7 +60,6 @@ export default function LineChart({
   );
 
   const cutOffTimestamp = lastReading.minus(timeScope.scope).toMillis();
-
   measurements = measurements.filter(
     ({ timestamp }) => timestamp >= cutOffTimestamp
   );
