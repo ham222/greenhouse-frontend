@@ -33,38 +33,28 @@ export default function Navbar() {
           <p>Settings</p>
         </div>
       </NavLink>
-      <div
-        onClick={() => {
-          SessionHandler.logout();
-          navigate("/login");
-        }}
-      >
-        <div className="flex flex-col items-center justify-items-center md:mt-12 text-neutral-400 hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
-          <p>Log out</p>
-          <NavLink to="/login">
-            <div
-              onClick={() => {
-                if (SessionHandler.isLoggedIn()) SessionHandler.logout();
-                navigate("/login");
-              }}
-            >
-              <div className="flex flex-col items-center justify-items-center md:mt-12 text-neutral-400 hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
-                {SessionHandler.isLoggedIn() ? (
-                  <>
-                    <BiLogOut className="text-4xl mb-1 md:mb-2" />
-                    <p>Log out</p>
-                  </>
-                ) : (
-                  <>
-                    <BiLogIn className="text-4xl mb-1 md:mb-2" />
-                    <p>Log in</p>
-                  </>
-                )}
-              </div>
-            </div>
-          </NavLink>
+      <NavLink to="/login">
+        <div
+          onClick={() => {
+            if (SessionHandler.isLoggedIn()) SessionHandler.logout();
+            navigate("/login");
+          }}
+        >
+          <div className="flex flex-col items-center justify-items-center md:mt-12 text-neutral-400 hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
+            {SessionHandler.isLoggedIn() ? (
+              <>
+                <BiLogOut className="text-4xl mb-1 md:mb-2" />
+                <p>Log out</p>
+              </>
+            ) : (
+              <>
+                <BiLogIn className="text-4xl mb-1 md:mb-2" />
+                <p>Log in</p>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </NavLink>
     </nav>
   );
 }
