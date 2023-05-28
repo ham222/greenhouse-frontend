@@ -28,13 +28,14 @@ function App() {
               }
             />
             <Route path="/login" element={<Login />} />
-            <Route path="/settings"
+            <Route
+              path="/settings"
               element={
                 <RequireAuth>
                   <Settings />
                 </RequireAuth>
-              } 
-             />
+              }
+            />
             <Route
               path="/watering"
               element={
