@@ -7,6 +7,7 @@ function useMeasurements(url: string, dependency?: boolean) {
   const measurements =
     data?.map((dto) => new Measurement(dto.value, dto.date * 1000)) ?? null;
 
+  measurements?.sort((a, b) => a.timestamp - b.timestamp);
   return { data: measurements, loading, error };
 }
 
