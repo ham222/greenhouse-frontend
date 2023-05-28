@@ -5,7 +5,7 @@ let credentials = {
 module.exports = [
   {
     id: "login", // route id
-    url: "/login", // url in express format
+    url: "/auth/login", // url in express format
     method: "POST", // HTTP method
     variants: [
       {
