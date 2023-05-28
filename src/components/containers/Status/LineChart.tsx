@@ -27,6 +27,8 @@ export default function LineChart({
   minThreshold,
   maxThreshold,
 }: LineChartProps) {
+  const [max, setMax] = useState(true);
+  const [min, setMin] = useState(true);
   const timeScopes = [
     new TimeScope("last hour", Duration.fromObject({ hours: 1 })),
     new TimeScope("6 hours", Duration.fromObject({ hours: 6 })),
@@ -47,6 +49,21 @@ export default function LineChart({
       Duration.fromObject({ days: 1 })
     ),
   ];
+
+  const minAnnotation: YAxisAnnotations = {
+    id: "min",
+    y: minThreshold,
+    y2: Number.MIN_SAFE_INTEGER,
+    opacity: 0.15,
+    fillColor: "#0000FF",
+  };
+  const maxAnnotation: YAxisAnnotations = {
+    id: "max-1",
+    y: maxThreshold,
+    y2: 50000,
+    opacity: 0.15,
+    fillColor: "#FF0000",
+  };
 
   const [timeScope, setTimeScope] = useState(timeScopes[0]);
 
@@ -70,7 +87,7 @@ export default function LineChart({
       timeScope.averageTo.toMillis()
     );
   }
-
+  const annotations = [min ? minAnnotation : {}, max ? maxAnnotation : {}];
   const series = [
     {
       name: capitalize(type),
@@ -80,7 +97,7 @@ export default function LineChart({
       ? [
           {
             name: "max",
-            data: measurements.map((measurements) => maxThreshold),
+            data: measurements.map(() => maxThreshold),
           },
         ]
       : []),
@@ -88,12 +105,11 @@ export default function LineChart({
       ? [
           {
             name: "min",
-            data: measurements.map((measurements) => minThreshold),
+            data: measurements.map(() => minThreshold),
           },
         ]
       : []),
   ];
-
   const options: ApexCharts.ApexOptions = {
     chart: {
       fontFamily: "Sora",
@@ -101,6 +117,22 @@ export default function LineChart({
       zoom: {
         enabled: false,
       },
+      events: {
+        legendClick: function (chart, seriesIndex, config) {
+          switch (seriesIndex) {
+            case 1:
+              setMax(!max);
+              break;
+            case 2:
+              setMin(!min);
+              break;
+          }
+        },
+      },
+    },
+
+    annotations: {
+      yaxis: annotations,
     },
 
     tooltip: {
@@ -110,7 +142,7 @@ export default function LineChart({
         format: "dd/MM, HH:mm ",
       },
     },
-    colors: ["#555555", "#00c91b", "#c91b00"],
+    colors: ["#555555", "#FF0000", "#0000FF"],
 
     theme: {
       mode: "light",
