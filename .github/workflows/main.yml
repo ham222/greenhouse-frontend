@@ -2,10 +2,18 @@ name: Deploy
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   build_and_deploy:
     name: Deploy to Github Pages
     uses: ./.github/workflows/deploy.yml
-    
+  add_version_tag:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Increment version and push tag
+        uses: anothrNick/github-tag-action@1.61.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
