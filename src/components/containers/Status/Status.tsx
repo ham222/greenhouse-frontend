@@ -41,15 +41,15 @@ export default function Status() {
   const presetResponse = useGet<Preset>(`${API_URL}/current-preset`);
 
   const co2Thresholds = presetResponse.data?.thresholds?.find(
-    ({ type }) => type === "co2"
+    ({ type }) => type.toLowerCase() === "co2"
   );
 
   const humidityThresholds = presetResponse.data?.thresholds.find(
-    ({ type }) => type === "humidity"
+    ({ type }) => type.toLowerCase() === "humidity"
   );
 
   const temperatureThresholds = presetResponse.data?.thresholds.find(
-    ({ type }) => type === "temperature"
+    ({ type }) => type.toLowerCase() === "temperature"
   );
   const [temperature, setTemperature] = useState<number | null>(null);
   const [humidity, setHumidity] = useState<number | null>(null);
