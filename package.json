@@ -40,8 +40,8 @@
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
       "!src/index.tsx",
-      "!src/reportWebVitals.tsx",
-      "!src/hooks"
+      "!src/reportWebVitals.ts",
+      "!src/hooks/*.{ts,tsx}"
     ]
   },
   "scripts": {
