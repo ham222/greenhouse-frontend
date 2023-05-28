@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Presets from "./components/containers/Presets/Presets";
 import Login from "./components/containers/Login/Login";
+import Settings from "./components/containers/Settings/Settings";
 import SessionHandler from "./utils/SessionHandler";
 import RequireAuth from "./components/RequireAuth";
 
@@ -27,6 +28,14 @@ function App() {
               }
             />
             <Route path="/login" element={<Login />} />
+            <Route
+              path="/settings"
+              element={
+                <RequireAuth>
+                  <Settings />
+                </RequireAuth>
+              }
+            />
             <Route
               path="/watering"
               element={
