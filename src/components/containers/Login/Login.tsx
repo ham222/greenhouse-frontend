@@ -18,10 +18,10 @@ export default function Login() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post(API_URL + "/login", {
+      const response = await axios.post(API_URL + "/auth/login", {
         ...formData,
       });
-      const { token } = response.data;
+      const token = response.data;
       SessionHandler.login(token);
       navigate("/");
     } catch (error) {
@@ -47,7 +47,7 @@ export default function Login() {
           <form
             onSubmit={handleSubmit}
             className="space-y-6"
-            action={API_URL + "/login"}
+            action={API_URL + "/auth/login"}
             method="POST"
           >
             <div>

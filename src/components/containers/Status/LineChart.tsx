@@ -50,12 +50,16 @@ export default function LineChart({
 
   const [timeScope, setTimeScope] = useState(timeScopes[0]);
 
-  const cutOffTimestamp = DateTime.now().minus(timeScope.scope).toMillis();
-
   if (measurements == null) {
     measurements = [];
   }
 
+  const lastReading = DateTime.fromMillis(
+    measurements[measurements.length - 1]?.timestamp ??
+      DateTime.now().toMillis()
+  );
+
+  const cutOffTimestamp = lastReading.minus(timeScope.scope).toMillis();
   measurements = measurements.filter(
     ({ timestamp }) => timestamp >= cutOffTimestamp
   );
@@ -98,6 +102,14 @@ export default function LineChart({
         enabled: false,
       },
     },
+
+    tooltip: {
+      enabled: true,
+      x: {
+        show: true,
+        format: "dd/MM, HH:mm ",
+      },
+    },
     colors: ["#555555", "#00c91b", "#c91b00"],
 
     theme: {
@@ -119,11 +131,12 @@ export default function LineChart({
       width: 3,
     },
     labels: measurements.map(({ timestamp }) =>
-      new Date(timestamp).toLocaleString()
+      new Date(timestamp).toISOString()
     ),
     xaxis: {
       type: "datetime",
       labels: {
+        datetimeUTC: false,
         datetimeFormatter: {
           year: "yyyy",
           month: "MMM 'yy",
@@ -136,6 +149,7 @@ export default function LineChart({
   };
   return (
     <div
+      data-testid={`line-chart-${type}`}
       style={{ backgroundColor: bgColor }}
       className="bg-accent p-2 font-sora shadow-sm max-sm:w-auto rounded-xl"
     >
@@ -148,12 +162,12 @@ export default function LineChart({
         </div>
         <div>
           <Dropdown
-            title={"Interval"}
             onSelect={(option) =>
               setTimeScope(
                 timeScopes.find(({ name }) => name === option) ?? timeScopes[0]
               )
             }
+            selected={timeScope.name}
             options={timeScopes.map(({ name }) => name)}
           />
         </div>

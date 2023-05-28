@@ -12,14 +12,26 @@ describe("ThresholdBox", () => {
   });
 
   it("should render the component correctly", () => {
-    render(<ThresholdBox threshold={threshold} updateValue={updateValue} />);
+    render(
+      <ThresholdBox
+        editing={true}
+        threshold={threshold}
+        updateValue={updateValue}
+      />
+    );
 
     expect(screen.getByTestId("min-input")).toBeInTheDocument();
     expect(screen.getByTestId("max-input")).toBeInTheDocument();
   });
 
   it("should render label component correctly", () => {
-    render(<ThresholdBox threshold={threshold} updateValue={updateValue} />);
+    render(
+      <ThresholdBox
+        editing={true}
+        threshold={threshold}
+        updateValue={updateValue}
+      />
+    );
 
     expect(
       screen.getByText(`${capitalize(threshold.type)}`)
@@ -27,7 +39,13 @@ describe("ThresholdBox", () => {
   });
 
   it("should update the threshold value on input change", () => {
-    render(<ThresholdBox threshold={threshold} updateValue={updateValue} />);
+    render(
+      <ThresholdBox
+        editing={true}
+        threshold={threshold}
+        updateValue={updateValue}
+      />
+    );
 
     const minInput = screen.getByTestId("min-input");
     const maxInput = screen.getByTestId("max-input");
@@ -49,7 +67,13 @@ describe("ThresholdBox", () => {
   });
 
   it("should handle empty input gracefully", () => {
-    render(<ThresholdBox threshold={threshold} updateValue={updateValue} />);
+    render(
+      <ThresholdBox
+        editing={true}
+        threshold={threshold}
+        updateValue={updateValue}
+      />
+    );
 
     const minInput = screen.getByTestId("min-input");
     const maxInput = screen.getByTestId("max-input");
@@ -71,7 +95,13 @@ describe("ThresholdBox", () => {
   });
 
   it("should handle default NaN value", () => {
-    render(<ThresholdBox threshold={threshold} updateValue={updateValue} />);
+    render(
+      <ThresholdBox
+        editing={true}
+        threshold={threshold}
+        updateValue={updateValue}
+      />
+    );
 
     const minInput = screen.getByTestId("min-input");
     const maxInput = screen.getByTestId("max-input");
@@ -95,7 +125,13 @@ describe("ThresholdBox", () => {
   it("should update temperature threshold value within limit boundaries", () => {
     const threshold = new Threshold("temperature", 0, 10);
 
-    render(<ThresholdBox threshold={threshold} updateValue={updateValue} />);
+    render(
+      <ThresholdBox
+        editing={true}
+        threshold={threshold}
+        updateValue={updateValue}
+      />
+    );
 
     const minInput = screen.getByTestId("min-input");
     const maxInput = screen.getByTestId("max-input");
@@ -119,7 +155,13 @@ describe("ThresholdBox", () => {
   it("should update co2 threshold value within limit boundaries", () => {
     const threshold = new Threshold("Co2", 0, 10);
 
-    render(<ThresholdBox threshold={threshold} updateValue={updateValue} />);
+    render(
+      <ThresholdBox
+        editing={true}
+        threshold={threshold}
+        updateValue={updateValue}
+      />
+    );
 
     const minInput = screen.getByTestId("min-input");
     const maxInput = screen.getByTestId("max-input");
@@ -143,7 +185,13 @@ describe("ThresholdBox", () => {
   it("should update humidity threshold value within limit boundaries", () => {
     const threshold = new Threshold("Humidity", 0, 10);
 
-    render(<ThresholdBox threshold={threshold} updateValue={updateValue} />);
+    render(
+      <ThresholdBox
+        editing={true}
+        threshold={threshold}
+        updateValue={updateValue}
+      />
+    );
 
     const minInput = screen.getByTestId("min-input");
     const maxInput = screen.getByTestId("max-input");
@@ -167,6 +215,7 @@ describe("ThresholdBox", () => {
   it("should handle NaN input value and change it to an empty string", () => {
     render(
       <ThresholdBox
+        editing={true}
         threshold={{ type: "test", min: NaN, max: NaN }}
         updateValue={updateValue}
       />

@@ -13,7 +13,7 @@ import RunWateringModal from "./RunWateringModal";
 import { useGet } from "src/hooks/useGet";
 import axios, { AxiosError } from "axios";
 import IntervalDto from "src/domain/IntervalDto";
-import { displayNetworkError } from "src/utils/errorToast";
+import { displayToast } from "src/utils/displayToast";
 import { CreateIntervalDto } from "src/domain/CreateIntervalDto";
 import { useMemo } from "react";
 import UpdateIntervalModal from "./UpdateIntervalModal";
@@ -46,7 +46,7 @@ export default function Watering() {
       });
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayNetworkError(axiosError.message);
+      displayToast(axiosError.message);
     }
   };
 
@@ -72,7 +72,7 @@ export default function Watering() {
   }, [intervalResponse.data]);
 
   if (intervalResponse.error != null) {
-    displayNetworkError(intervalResponse.error.message);
+    displayToast(intervalResponse.error.message);
   }
 
   const openUpdateIntervalModal = (updateId: number) => {
@@ -106,7 +106,7 @@ export default function Watering() {
       setIntervals(newIntervals);
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayNetworkError(axiosError.message);
+      displayToast(axiosError.message);
     }
   };
 
@@ -117,7 +117,7 @@ export default function Watering() {
       setIntervals(intervals.filter((interval) => interval.id !== id));
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayNetworkError(axiosError.message);
+      displayToast(axiosError.message);
     }
   };
 
@@ -138,7 +138,7 @@ export default function Watering() {
       setIntervals(newSchedule);
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayNetworkError(axiosError.message);
+      displayToast(axiosError.message);
     }
   };
   useEffect(() => {
