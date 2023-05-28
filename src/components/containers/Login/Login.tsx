@@ -21,7 +21,7 @@ export default function Login() {
       const response = await axios.post(API_URL + "/auth/login", {
         ...formData,
       });
-      const { token } = response.data;
+      const token = response.data;
       SessionHandler.login(token);
       navigate("/");
     } catch (error) {
