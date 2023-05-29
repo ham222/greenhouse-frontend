@@ -23,7 +23,9 @@ First of all, download the packages using the `npm i` command. Then, start the a
 
 2. Change the _REACT_APP_API_BASE_URL_ environmental variable in the _.env_ file to **<http://localhost:3100>** and save the file.
 
-3. Run `npm start`.
+3. Run `npm run mocks` and wait for the mock server to start
+
+4. Run `npm start`.
 
 # Branching strategy & pull requests
 
