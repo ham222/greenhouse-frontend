@@ -1,9 +1,6 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import axios, { AxiosResponse } from "axios";
+import { render } from "@testing-library/react";
 import { HashRouter } from "react-router-dom";
 import Presets from "src/components/containers/Presets/Presets";
-import Preset from "src/domain/Preset";
-import Threshold from "src/domain/Threshold";
 
 describe("Presets", () => {
   it("renders", () => {
