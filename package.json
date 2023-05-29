@@ -41,6 +41,9 @@
       "src/**/*.{ts,tsx}",
       "!src/index.tsx",
       "!src/reportWebVitals.ts",
+      "!src/components/containers/Watering/Watering.tsx",
+      "!src/components/containers/Presets/Presets.tsx",
+      "!src/components/containers/Status/Status.tsx",
       "!src/hooks/*.{ts,tsx}"
     ]
   },
