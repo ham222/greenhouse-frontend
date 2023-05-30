@@ -2,10 +2,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { BiHomeAlt, BiLogOut, BiLogIn } from "react-icons/bi";
 import { BsCalendar2Date, BsGear } from "react-icons/bs";
 import { FaCarrot } from "react-icons/fa";
-import SessionHandler from "src/utils/SessionHandler";
+import useSession from "./SessionProvider";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const session = useSession();
 
   return (
     <nav className="w-[auto] bg-neutral-50 h-20 flex  justify-around items-center fixed bottom-0 left-0 right-0 rounded-t-[1.25rem] md:w-[6rem] md:flex-col md:right-auto md:top-0 md:h-auto md:justify-start  md:rounded-tl-none md:rounded-r-[1.25rem] 2xl:w-[8rem]">
@@ -36,12 +37,12 @@ export default function Navbar() {
       <NavLink to="/login">
         <div
           onClick={() => {
-            if (SessionHandler.isLoggedIn()) SessionHandler.logout();
+            if (session.isLoggedIn()) session.logout();
             navigate("/login");
           }}
         >
           <div className="flex flex-col items-center justify-items-center md:mt-12 text-neutral-400 hover:text-[#21252A] cursor-pointer ease-in-out duration-300">
-            {SessionHandler.isLoggedIn() ? (
+            {session.isLoggedIn() ? (
               <>
                 <BiLogOut className="text-4xl mb-1 md:mb-2" />
                 <p>Log out</p>
