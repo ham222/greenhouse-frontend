@@ -4,7 +4,7 @@ import Status from "src/components/containers/Status/Status";
 import axios, { AxiosError } from "axios";
 import { useGet } from "src/hooks/useGet";
 import { useMeasurements } from "src/hooks/useMeasurements";
-import { displayToast } from "src/utils/displayToast";
+import { displayErrorToast } from "src/utils/displayToast";
 import Preset from "src/domain/Preset";
 
 jest.mock("src/hooks/useGet", () => ({
@@ -26,8 +26,8 @@ const mockUseGet = useGet as jest.MockedFunction<typeof useGet>;
 const mockUseMeasurements = useMeasurements as jest.MockedFunction<
   typeof useMeasurements
 >;
-const mockDisplayToast = displayToast as jest.MockedFunction<
-  typeof displayToast
+const mockDisplayToast = displayErrorToast as jest.MockedFunction<
+  typeof displayErrorToast
 >;
 
 jest.mock("react-apexcharts", () =>
