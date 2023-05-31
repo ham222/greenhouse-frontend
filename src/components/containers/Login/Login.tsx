@@ -69,7 +69,7 @@ export default function Login() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="block pl-3 w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-neon sm:text-sm sm:leading-6"
+                  className="block pl-3 w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 appearance-none focus:outline-dark placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-neon sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -91,7 +91,7 @@ export default function Login() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="block pl-3 w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-neon sm:text-sm sm:leading-6"
+                  className="block pl-3 w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 appearance-none focus:outline-dark focus:ring-2 focus:ring-inset focus:ring-neon sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
