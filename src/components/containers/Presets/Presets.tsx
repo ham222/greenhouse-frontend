@@ -6,7 +6,11 @@ import Threshold from "src/domain/Threshold";
 import PresetItem from "./PresetItem";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { displayToast } from "src/utils/displayToast";
+import {
+  displayErrorToast,
+  displaySuccessToast,
+  displayWarningToast,
+} from "src/utils/displayToast";
 import { useGet } from "src/hooks/useGet";
 import DeleteModal from "./DeleteModal";
 import validatePreset from "src/utils/validatePreset";
@@ -45,7 +49,7 @@ export default function Presets() {
     useState<Preset>(defaultPreset);
 
   if (presetListResponse.error != null) {
-    displayToast(presetListResponse.error.message);
+    displayErrorToast(presetListResponse.error.message);
   }
 
   const doRefresh = () => {
@@ -78,8 +82,10 @@ export default function Presets() {
       await axios.delete(`${API_URL}/preset/${presetId}`);
       resetPresetToDefault();
       doRefresh();
+      displaySuccessToast("Preset deleted successfully!");
     } catch (error) {
-      console.error("Error deleting preset:", error);
+      const axiosError = error as AxiosError;
+      displayErrorToast(axiosError.message);
     }
   };
 
@@ -96,7 +102,7 @@ export default function Presets() {
   const addPreset = async () => {
     for (let i = 0; i < presetList.length; i++) {
       if (presetList[i].name === preset.name) {
-        displayToast("Preset names cannot be the same");
+        displayWarningToast("Preset names cannot be the same");
         return;
       }
     }
@@ -104,27 +110,27 @@ export default function Presets() {
       let url = `${API_URL}/preset`;
       await axios.post(url, preset);
       doRefresh();
-      displayToast("Successfully saved");
+      displaySuccessToast("Successfully saved");
     } catch (error) {
       console.error(error);
       const axiosError = error as AxiosError;
-      displayToast(axiosError.message);
+      displayErrorToast(axiosError.message);
     }
   };
 
   const setPresetAsCurrrent = async () => {
     if (preset.name === currentPreset.name) {
-      displayToast("This preset is already applied!");
+      displayWarningToast("This preset is already applied!");
       return;
     }
     try {
       let url = `${API_URL}/current-preset`;
       await axios.post(url, { Id: preset.id });
       doRefresh();
-      displayToast("Successfully changed current preset!");
+      displaySuccessToast("Successfully changed current preset!");
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayToast(axiosError.message);
+      displayErrorToast(axiosError.message);
     }
   };
 
@@ -153,7 +159,7 @@ export default function Presets() {
         presetList[i].name === preset.name &&
         presetList[i].id !== preset.id
       ) {
-        displayToast("Preset names cannot be the same");
+        displayWarningToast("Preset names cannot be the same");
         return;
       }
     }
@@ -163,11 +169,11 @@ export default function Presets() {
       setTitle(preset.name);
       doRefresh();
       setEditing(false);
-      displayToast("Succesfully saved!");
+      displayErrorToast("Succesfully saved!");
     } catch (error) {
       console.error(error);
       const axiosError = error as AxiosError;
-      displayToast(axiosError.message);
+      displayErrorToast(axiosError.message);
     }
   };
 

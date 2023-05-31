@@ -3,7 +3,7 @@ import { EmailDto } from "src/domain/EmailDto";
 import { useState } from "react";
 import ChangeEmailModal from "./ChangeEmailModal";
 import axios, { AxiosError } from "axios";
-import { displayToast } from "src/utils/displayToast";
+import { displayErrorToast, displaySuccessToast } from "src/utils/displayToast";
 
 export default function Settings() {
   const API_URL = process.env.REACT_APP_API_BASE_URL;
@@ -31,9 +31,10 @@ export default function Settings() {
         email: email,
       });
       refreshEmail();
+      displaySuccessToast("Email updated successfully!");
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayToast(axiosError.message);
+      displayErrorToast(axiosError.message);
     }
   };
 
