@@ -117,7 +117,9 @@ export default function Watering() {
       let url = `${API_URL}/schedule/${id}`;
       await axios.delete(url);
       setIntervals(intervals.filter((interval) => interval.id !== id));
-      displaySuccessToast("Interval deleted successfully!");
+      displaySuccessToast(
+        "Interval deleted successfully! The watering schedule will be updated at midnight."
+      );
     } catch (error) {
       const axiosError = error as AxiosError;
       displayErrorToast(axiosError.message);
