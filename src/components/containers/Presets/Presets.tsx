@@ -112,7 +112,6 @@ export default function Presets() {
       doRefresh();
       displaySuccessToast("Successfully saved");
     } catch (error) {
-      console.error(error);
       const axiosError = error as AxiosError;
       displayErrorToast(axiosError.message);
     }
@@ -171,7 +170,6 @@ export default function Presets() {
       setEditing(false);
       displayErrorToast("Succesfully saved!");
     } catch (error) {
-      console.error(error);
       const axiosError = error as AxiosError;
       displayErrorToast(axiosError.message);
     }
