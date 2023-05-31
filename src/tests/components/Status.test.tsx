@@ -19,7 +19,7 @@ jest.mock("src/hooks/useMeasurements", () => ({
 
 jest.mock("src/utils/displayToast", () => ({
   __esModule: true,
-  displayToast: jest.fn(),
+  displayErrorToast: jest.fn(),
 }));
 
 const mockUseGet = useGet as jest.MockedFunction<typeof useGet>;
