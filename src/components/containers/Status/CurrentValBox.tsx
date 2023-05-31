@@ -13,7 +13,7 @@ let CurrentValBox = ({
   return (
     <div
       data-testid="current-val-box"
-      className="bg-[#bffa00] font-sora shadow-lg max-sm:w-auto grid rounded-xl grid-cols-9 grid-rows-5"
+      className="bg-neon font-sora shadow-lg max-sm:w-auto grid rounded-xl grid-cols-9 grid-rows-5"
     >
       <div
         data-testid="current-temperature"
