@@ -139,7 +139,11 @@ export default function Watering() {
         })
       );
       setIntervals(newSchedule);
-      displaySuccessToast("Intervals added successfully!");
+      displaySuccessToast(
+        newIntervals.length > 1
+          ? "Intervals added successfully!"
+          : "Interval added successfully!"
+      );
     } catch (error) {
       const axiosError = error as AxiosError;
       displayErrorToast(axiosError.message);
