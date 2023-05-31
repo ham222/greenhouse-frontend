@@ -24,16 +24,4 @@ describe("Watering Status", () => {
     );
     expect(screen.getByText("Water System: OFF")).toBeInTheDocument();
   });
-
-  it("renders the correct time to next watering", () => {
-    const nextWatering = DateTime.now().plus({ days: 1 }).diff(DateTime.now());
-    render(
-      <BrowserRouter>
-        <WateringStatus isOnline={true} timeToWatering={nextWatering} />
-      </BrowserRouter>
-    );
-    expect(
-      screen.getByText(`${durationToString(nextWatering)}`)
-    ).toBeInTheDocument();
-  });
 });

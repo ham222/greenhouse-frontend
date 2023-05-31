@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { HashRouter } from "react-router-dom";
 import Navbar from "src/components/Navbar";
-import { SessionProvider } from "src/components/SessionProvider";
 import SessionHandler from "./utils/SessionHandler";
+import { SessionProvider } from "src/components/SessionProvider";
 
 describe("Navbar", () => {
   it("renders", () => {
