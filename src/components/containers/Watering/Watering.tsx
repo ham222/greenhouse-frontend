@@ -104,6 +104,7 @@ export default function Watering() {
       );
 
       setIntervals(newIntervals);
+      displayToast("Interval updated successfully!");
     } catch (error) {
       const axiosError = error as AxiosError;
       displayToast(axiosError.message);
@@ -115,6 +116,7 @@ export default function Watering() {
       let url = `${API_URL}/schedule/${id}`;
       await axios.delete(url);
       setIntervals(intervals.filter((interval) => interval.id !== id));
+      displayToast("Interval deleted successfully!");
     } catch (error) {
       const axiosError = error as AxiosError;
       displayToast(axiosError.message);
@@ -136,6 +138,7 @@ export default function Watering() {
         })
       );
       setIntervals(newSchedule);
+      displayToast("Intervals added successfully!");
     } catch (error) {
       const axiosError = error as AxiosError;
       displayToast(axiosError.message);
@@ -198,7 +201,7 @@ export default function Watering() {
               ))}
             </Tab.List>
             <div className="font-semibold mt-10 mb-2">Timeline</div>
-            <div className="mt-3">
+            <div data-testid="add-button-mobile" className="mt-3">
               <IconButton
                 onClick={() => setIntervalModalOpen(true)}
                 icon={<IoIosAdd className="text-white w-full h-full" />}
