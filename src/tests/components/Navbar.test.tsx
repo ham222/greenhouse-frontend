@@ -1,7 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { HashRouter } from "react-router-dom";
 import Navbar from "src/components/Navbar";
-import SessionHandler from "src/utils/SessionHandler";
+import SessionHandler from "./utils/SessionHandler";
+import { SessionProvider } from "src/components/SessionProvider";
 
 describe("Navbar", () => {
   it("renders", () => {
@@ -26,7 +27,9 @@ describe("Navbar", () => {
 
     render(
       <HashRouter>
-        <Navbar />
+        <SessionProvider>
+          <Navbar />
+        </SessionProvider>
       </HashRouter>
     );
 
@@ -38,7 +41,9 @@ describe("Navbar", () => {
 
     render(
       <HashRouter>
-        <Navbar />
+        <SessionProvider>
+          <Navbar />
+        </SessionProvider>
       </HashRouter>
     );
 
@@ -50,7 +55,9 @@ describe("Navbar", () => {
   it("does not log in when clicked to log in", () => {
     render(
       <HashRouter>
-        <Navbar />
+        <SessionProvider>
+          <Navbar />
+        </SessionProvider>
       </HashRouter>
     );
 
