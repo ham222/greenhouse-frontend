@@ -74,6 +74,10 @@ export default function UpdateIntervalModal({
           </div>
         </div>
       </div>
+      <div className="px-4 py-2 text-gray-500 text-center">
+        Please note! <br />
+        The watering schedule will be updated at midnight.
+      </div>
       <div className="px-4 py-3 flex flex-row-reverse sm:px-6">
         <button
           type="button"

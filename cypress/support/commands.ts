@@ -31,6 +31,7 @@ declare namespace Cypress {
     getBySel(selector: string, ...args: any[]): Chainable<any>;
     containsSel(selector: string, ...args: any[]): Chainable<any>;
     login(): Chainable<any>;
+    remock(): Chainable<any>;
   }
 }
 
@@ -46,3 +47,7 @@ Cypress.Commands.add("containsSel", (selector: string, ...args: any[]) => {
 Cypress.Commands.add("login", () => {
   window.localStorage.setItem("token", "example_token");
 });
+
+Cypress.Commands.add("remock", () => {
+  cy.request("http://localhost:3100/reset")
+})

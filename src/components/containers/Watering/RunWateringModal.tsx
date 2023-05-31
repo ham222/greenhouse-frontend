@@ -2,7 +2,7 @@ import Modal from "src/components/UI/Modal";
 import { useState } from "react";
 import DurationPicker from "src/components/UI/DurationPicker";
 import { useGet } from "src/hooks/useGet";
-import { displayToast } from "src/utils/displayToast";
+import { displayErrorToast } from "src/utils/displayToast";
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 interface RunWateringModalProps {
@@ -24,7 +24,7 @@ export default function RunWateringModal({
   );
 
   if (getToggleResponse.error != null) {
-    displayToast(getToggleResponse.error.message);
+    displayErrorToast(getToggleResponse.error.message);
   }
   const isValid = (duration: number) => {
     return duration > 0 && Number.isInteger(duration);

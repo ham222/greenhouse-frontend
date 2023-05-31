@@ -2,7 +2,6 @@ import { AiOutlineCalendar } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import RectIcon from "src/components/UI/RectIcon";
 import { Duration } from "luxon";
-import durationToString from "src/utils/durationToString";
 
 interface WateringStatusProps {
   isOnline: boolean;
@@ -27,13 +26,6 @@ export default function WateringStatus({
         <div className="mt-3 flex text-white flex-col justify-between ">
           <div data-testid="current-watering-status" className="font-bold">
             Water System: {status}
-          </div>
-          <div className="text-xs mt-2">
-            Next watering in:
-            <span className="font-bold whitespace-nowrap">
-              {" "}
-              {durationToString(timeToWatering)}
-            </span>{" "}
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import WateringStatus from "./WateringStatus";
 import { DateTime } from "luxon";
 import { useGet } from "src/hooks/useGet";
-import { displayToast } from "src/utils/displayToast";
+import { displayErrorToast } from "src/utils/displayToast";
 import LineChart from "../Status/LineChart";
 import { WiThermometer } from "react-icons/wi";
 import { BsWater } from "react-icons/bs";
@@ -27,16 +27,16 @@ export default function Status() {
   );
 
   if (getToggleResponse.error != null) {
-    displayToast(getToggleResponse.error.message);
+    displayErrorToast(getToggleResponse.error.message);
   }
   if (co2ChartResponse.error != null) {
-    displayToast(co2ChartResponse.error.message);
+    displayErrorToast(co2ChartResponse.error.message);
   }
   if (humidityChartResponse.error != null) {
-    displayToast(humidityChartResponse.error.message);
+    displayErrorToast(humidityChartResponse.error.message);
   }
   if (temperatureChartResponse.error != null) {
-    displayToast(temperatureChartResponse.error.message);
+    displayErrorToast(temperatureChartResponse.error.message);
   }
   const presetResponse = useGet<Preset>(`${API_URL}/current-preset`);
 
@@ -69,25 +69,37 @@ export default function Status() {
   );
 
   if (co2Response.error != null) {
-    displayToast(co2Response.error.message);
+    displayErrorToast(co2Response.error.message);
   }
   if (humidityResponse.error != null) {
-    displayToast(humidityResponse.error.message);
+    displayErrorToast(humidityResponse.error.message);
   }
   if (temperatureResponse.error != null) {
-    displayToast(temperatureResponse.error.message);
+    displayErrorToast(temperatureResponse.error.message);
   }
 
   useEffect(() => {
     let mounted = true;
-    if (mounted && temperatureResponse.data != null) {
+    if (
+      mounted &&
+      temperatureResponse.data != null &&
+      temperatureResponse.data[0] !== undefined
+    ) {
       setTemperature(temperatureResponse.data[0].value);
       setDate(temperatureResponse.data[0].timestamp);
     }
-    if (mounted && co2Response.data != null) {
+    if (
+      mounted &&
+      co2Response.data != null &&
+      co2Response.data[0] !== undefined
+    ) {
       setCo2(co2Response.data[0].value);
     }
-    if (mounted && humidityResponse.data != null) {
+    if (
+      mounted &&
+      humidityResponse.data != null &&
+      humidityResponse.data[0] !== undefined
+    ) {
       setHumidity(humidityResponse.data[0].value);
     }
     return () => {

@@ -13,7 +13,7 @@ import RunWateringModal from "./RunWateringModal";
 import { useGet } from "src/hooks/useGet";
 import axios, { AxiosError } from "axios";
 import IntervalDto from "src/domain/IntervalDto";
-import { displayToast } from "src/utils/displayToast";
+import { displayErrorToast, displaySuccessToast } from "src/utils/displayToast";
 import { CreateIntervalDto } from "src/domain/CreateIntervalDto";
 import { useMemo } from "react";
 import UpdateIntervalModal from "./UpdateIntervalModal";
@@ -44,9 +44,10 @@ export default function Watering() {
         state: isOn,
         duration: Duration.fromObject({ minutes: duration }).as("minutes"),
       });
+      displaySuccessToast("Manual Watering initiated!");
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayToast(axiosError.message);
+      displayErrorToast(axiosError.message);
     }
   };
 
@@ -72,7 +73,7 @@ export default function Watering() {
   }, [intervalResponse.data]);
 
   if (intervalResponse.error != null) {
-    displayToast(intervalResponse.error.message);
+    displayErrorToast(intervalResponse.error.message);
   }
 
   const openUpdateIntervalModal = (updateId: number) => {
@@ -104,9 +105,10 @@ export default function Watering() {
       );
 
       setIntervals(newIntervals);
+      displaySuccessToast("Interval updated successfully!");
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayToast(axiosError.message);
+      displayErrorToast(axiosError.message);
     }
   };
 
@@ -115,9 +117,12 @@ export default function Watering() {
       let url = `${API_URL}/schedule/${id}`;
       await axios.delete(url);
       setIntervals(intervals.filter((interval) => interval.id !== id));
+      displaySuccessToast(
+        "Interval deleted successfully! The watering schedule will be updated at midnight."
+      );
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayToast(axiosError.message);
+      displayErrorToast(axiosError.message);
     }
   };
 
@@ -136,9 +141,14 @@ export default function Watering() {
         })
       );
       setIntervals(newSchedule);
+      displaySuccessToast(
+        newIntervals.length > 1
+          ? "Intervals added successfully!"
+          : "Interval added successfully!"
+      );
     } catch (error) {
       const axiosError = error as AxiosError;
-      displayToast(axiosError.message);
+      displayErrorToast(axiosError.message);
     }
   };
   useEffect(() => {
@@ -198,7 +208,7 @@ export default function Watering() {
               ))}
             </Tab.List>
             <div className="font-semibold mt-10 mb-2">Timeline</div>
-            <div className="mt-3">
+            <div data-testid="add-button-mobile" className="mt-3">
               <IconButton
                 onClick={() => setIntervalModalOpen(true)}
                 icon={<IoIosAdd className="text-white w-full h-full" />}

@@ -19,7 +19,11 @@ let CurrentValBox = ({
         data-testid="current-temperature"
         className="col-span-4 row-span-3 border-b border-black border-dashed text-4xl md:text-5xl lg:text-4xl xl:text-5xl font-bold flex justify-center items-center py-5"
       >
-        {temperature}°C
+        {temperature !== "" ? (
+          <>{temperature}°C</>
+        ) : (
+          <img alt="loading" src="spinner.svg" />
+        )}
       </div>
       <div className="col-span-5 row-span-3 border-b border-black border-dashed flex items-center justify-center">
         <div>
