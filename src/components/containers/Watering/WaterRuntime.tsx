@@ -61,10 +61,10 @@ export default function WaterRuntime({
         )}
       >
         <div className="m-2 flex sm:max-xl:flex-col gap-2 justify-between">
-          <div className="w-full h-full">
+          <div data-testid={id + "-runtime-update"} className="w-full h-full">
             <Button onClick={() => onUpdate(id)} text="Update" />
           </div>
-          <div className="w-full h-full">
+          <div data-testid={id + "-runtime-delete"} className="w-full h-full">
             <Button onClick={() => onDelete(id)} text="Delete" />
           </div>
         </div>
