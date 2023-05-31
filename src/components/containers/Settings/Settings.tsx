@@ -31,7 +31,7 @@ export default function Settings() {
         email: email,
       });
       refreshEmail();
-      displaySuccessToast("Email updated successfully!")
+      displaySuccessToast("Email updated successfully!");
     } catch (error) {
       const axiosError = error as AxiosError;
       displayErrorToast(axiosError.message);
