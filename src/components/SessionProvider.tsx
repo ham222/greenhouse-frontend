@@ -41,12 +41,10 @@ export function SessionProvider({ children }: SessionProviderProps) {
 
   const interceptor = axios.interceptors.response.use(
     (response: AxiosResponse) => {
-      console.log(response);
       return response;
     },
     (error: AxiosError) => {
       if (error.response?.status === 401) {
-        console.log(error);
         logout();
         navigate("/login");
       }

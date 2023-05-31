@@ -60,7 +60,7 @@ export default function LineChart({
   const maxAnnotation: YAxisAnnotations = {
     id: "max-1",
     y: maxThreshold,
-    y2: 50000,
+    y2: 5000,
     opacity: 0.15,
     fillColor: "#FF0000",
   };
