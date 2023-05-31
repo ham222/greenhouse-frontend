@@ -9,7 +9,7 @@ export default function Navbar() {
   const session = useSession();
 
   return (
-    <nav className="w-[auto] bg-neutral-100 h-20 flex  justify-around items-center fixed bottom-0 left-0 right-0 rounded-t-[1.25rem] md:w-[6rem] md:flex-col md:right-auto md:top-0 md:h-auto md:justify-start  md:rounded-tl-none md:rounded-r-[1.25rem] 2xl:w-[8rem]">
+    <nav className="w-[auto] bg-gray-100 h-20 flex  justify-around items-center fixed bottom-0 left-0 right-0 rounded-t-[1.25rem] md:w-[6rem] md:flex-col md:right-auto md:top-0 md:h-auto md:justify-start  md:rounded-tl-none md:rounded-r-[1.25rem] 2xl:w-[8rem]">
       <NavLink to="/">
         <div className="flex flex-col items-center justify-items-end md:mt-20 text-neutral-400 hover:text-dark cursor-pointer ease-in-out duration-300">
           <BiHomeAlt className="text-4xl justify-items-center mb-1 md:mb-2"></BiHomeAlt>
@@ -43,7 +43,7 @@ export default function Navbar() {
           }}
         >
           <div className="flex flex-col items-center justify-items-center md:mt-12 text-neutral-400 hover:text-dark cursor-pointer ease-in-out duration-300">
-            {SessionHandler.isLoggedIn() ? (
+            {session.isLoggedIn() ? (
               <>
                 <BiLogOut className="text-4xl mb-1 md:mb-2" />
                 <p>Log out</p>
