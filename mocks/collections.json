@@ -20,7 +20,8 @@
       "get-one-preset:success",
       "delete-one-preset:success",
       "update-one-preset:success",
-      "login:success"
+      "login:success",
+      "reset:success"
     ]
   }
 ]
