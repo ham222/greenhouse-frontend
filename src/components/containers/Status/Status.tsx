@@ -80,14 +80,26 @@ export default function Status() {
 
   useEffect(() => {
     let mounted = true;
-    if (mounted && temperatureResponse.data != null) {
+    if (
+      mounted &&
+      temperatureResponse.data != null &&
+      temperatureResponse.data[0] !== undefined
+    ) {
       setTemperature(temperatureResponse.data[0].value);
       setDate(temperatureResponse.data[0].timestamp);
     }
-    if (mounted && co2Response.data != null) {
+    if (
+      mounted &&
+      co2Response.data != null &&
+      co2Response.data[0] !== undefined
+    ) {
       setCo2(co2Response.data[0].value);
     }
-    if (mounted && humidityResponse.data != null) {
+    if (
+      mounted &&
+      humidityResponse.data != null &&
+      humidityResponse.data[0] !== undefined
+    ) {
       setHumidity(humidityResponse.data[0].value);
     }
     return () => {

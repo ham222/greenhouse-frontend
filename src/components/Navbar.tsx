@@ -36,6 +36,7 @@ export default function Navbar() {
       </NavLink>
       <NavLink to="/login">
         <div
+          data-testid="login-link"
           onClick={() => {
             if (session.isLoggedIn()) session.logout();
             navigate("/login");
